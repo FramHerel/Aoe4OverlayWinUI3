@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
         <TextBlock
                 x:Name="PageHeader"
-                Margin="36,24,36,0"
+                Margin="{StaticResource NavigationViewPageContentMargin}"
                 AutomationProperties.HeadingLevel="Level1"
                 Style="{StaticResource TitleTextBlockStyle}"
                 Text="Profile" />

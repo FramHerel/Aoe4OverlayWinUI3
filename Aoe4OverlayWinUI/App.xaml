@@ -10,6 +10,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
+                <ResourceDictionary>
+                    <Thickness x:Key="NavigationViewPageContentMargin">36,24,36,0</Thickness>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
@@ -31,8 +34,10 @@
             </ResourceDictionary.ThemeDictionaries>
             
             <!-- Other app resources here -->
-            
-            
+                <!--  These keys can be referenced to create a consistent layout across pages  -->
+
+
+
             <!--  Application-specific resources  -->
             <x:String x:Key="AppTitleName">Age of Empire IV Overlay by WinUI 3</x:String>
             

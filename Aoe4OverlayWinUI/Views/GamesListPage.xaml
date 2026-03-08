@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Aoe4OverlayWinUI.Views.GamesListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aoe4OverlayWinUI.Views"
+    xmlns:vm="using:Aoe4OverlayWinUI.ViewModels"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=vm:GamesListViewModel, IsDesignTimeCreatable=True}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+                x:Name="PageHeader"
+                Margin="{StaticResource NavigationViewPageContentMargin}"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Games List" />
+
+        <controls:DataGrid
+            x:Name="GamesDataGrid"
+            Margin="{StaticResource NavigationViewPageContentMargin}"
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            GridLinesVisibility="Horizontal"
+            ItemsSource="{x:Bind ViewModel.GameRecords, Mode=OneWay}"
+            IsReadOnly="True">
+            <controls:DataGrid.Resources>
+                <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+                <SolidColorBrush 
+                    x:Key="DataGridColumnHeaderBackgroundColor" 
+                    Color="Transparent" />
+            </controls:DataGrid.Resources>
+            <controls:DataGrid.Columns>
+
+                <!-- TODO: Replace column definitions to match real data. Consider adding Header values to Resources.resw. -->
+
+                <controls:DataGridTextColumn Header="Team1" Binding="{Binding Team1}" />
+                <controls:DataGridTextColumn Header="Team2" Binding="{Binding Team2}" />
+                <controls:DataGridTextColumn Header="Map" Binding="{Binding Map}" />
+                <controls:DataGridTextColumn Header="StartedTime" Binding="{Binding StartedTime}" />
+                <controls:DataGridTextColumn Header="Mode" Binding="{Binding Mode}" />
+                <controls:DataGridTextColumn Header="Result" Binding="{Binding Result}" />
+                <controls:DataGridTextColumn Header="DeltaRating" Binding="{Binding DeltaRating}" />
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+
+    </Grid>
+</Page>

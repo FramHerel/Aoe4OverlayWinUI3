@@ -18,17 +18,17 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Aoe4OverlayWinUI.Views
+namespace Aoe4OverlayWinUI.Views;
+
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class GamesListPage : Page
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class GamesListPage : Page
+    public ViewModels.GamesListViewModel ViewModel {  get; }= new ViewModels.GamesListViewModel();
+    public GamesListPage()
     {
-        public GamesListPage()
-        {
-            InitializeComponent();
-            DataContext = new GamesViewModel();
-        }
+
+        InitializeComponent();
     }
 }
