@@ -37,12 +37,12 @@
             ItemInvoked="RootNavigationView_ItemInvoked"
             IsBackButtonVisible="Collapsed">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Profile" Tag="Profile">
+                <NavigationViewItem x:Uid="Nav_Profile"  Tag="Profile">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE77B;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Games List" Tag="GamesList">
+                <NavigationViewItem x:Uid="Nav_GamesList" Tag="GamesList">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8FD;" />
                     </NavigationViewItem.Icon>

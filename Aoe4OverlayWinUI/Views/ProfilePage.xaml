@@ -15,10 +15,11 @@
             </Grid.RowDefinitions>
         <TextBlock
                 x:Name="PageHeader"
+                x:Uid="Profile_Header" 
                 Margin="{StaticResource NavigationViewPageContentMargin}"
                 AutomationProperties.HeadingLevel="Level1"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="Profile" />
+                />
 
     </Grid>
 </Page>

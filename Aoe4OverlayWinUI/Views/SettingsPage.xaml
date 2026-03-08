@@ -40,7 +40,7 @@
             Margin="36,24,36,0"
             AutomationProperties.HeadingLevel="Level1"
             Style="{StaticResource TitleTextBlockStyle}"
-            Text="Settings" />
+            x:Uid="Settings_Header"/>
         
         <ScrollView
             Grid.Row="1"
@@ -54,17 +54,17 @@
                     </StackPanel.ChildrenTransitions>
                     
                     <!-- Account -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Account" />
-                    <toolkit:SettingsCard Description="Binding your ID" Header="Search">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" x:Uid="Settings_Account_Header" />
+                    <toolkit:SettingsCard x:Uid="Settings_Account_SettingsCard">
                         <toolkit:SettingsCard.HeaderIcon>
                             <FontIcon Glyph="&#xE77B;" />
                         </toolkit:SettingsCard.HeaderIcon>
-                        <Button Content="Search" />
+                        <Button x:Uid="Settings_Account_SettingsCard_Button" />
                     </toolkit:SettingsCard>
                     
                     <!-- Overlay -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Overlay" />
-                    <toolkit:SettingsCard Description="Enable or disable overlay" Header="Overlay on">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" x:Uid="Settings_Overlay_Header" />
+                    <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsCard">
                         <toolkit:SettingsCard.HeaderIcon>
                             <FontIcon Glyph="&#xF156;" />
                         </toolkit:SettingsCard.HeaderIcon>
@@ -72,8 +72,8 @@
                     </toolkit:SettingsCard>
 
                     <!-- Appearance & behavior -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance &amp; behavior" />
-                    <toolkit:SettingsCard Description="Select which app theme to display" Header="App theme">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" x:Uid="Settings_Appearance_Header" />
+                    <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">
                         <toolkit:SettingsCard.HeaderIcon>
                             <FontIcon Glyph="&#xE790;" />
                         </toolkit:SettingsCard.HeaderIcon>
@@ -88,7 +88,7 @@
 
 
                     <!--  About  -->
-                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" x:Uid="Settings_About_Header" />
                     <toolkit:SettingsExpander
                         Margin="0,0,0,36"
                         Description="© 2026 All rights reserved."
