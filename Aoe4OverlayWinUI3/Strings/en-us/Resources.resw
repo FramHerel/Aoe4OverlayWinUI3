@@ -132,23 +132,14 @@
   <data name="Settings_Appearance_Header.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
-  <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
-  </data>
-  <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
-  </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
     <value>Use system set</value>
   </data>
-  <data name="Settings_About.Text" xml:space="preserve">
+  <data name="Settings_About_Header.Text" xml:space="preserve">
     <value>About this application</value>
   </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>TODO: Replace with your app description.</value>
+  <data name="Settings_About_SettingsExpander.Description" xml:space="preserve">
+    <value>© 2026 All rights reserved.</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
     <value>Privacy Statement</value>
@@ -176,5 +167,17 @@
   </data>
   <data name="Settings_Overlay_SettingsCard.Description" xml:space="preserve">
     <value>Enable or disable the overlay</value>
+  </data>
+  <data name="Settings_Appearance_ComboBox_Default.Content" xml:space="preserve">
+    <value>Use system set</value>
+  </data>
+  <data name="Settings_Appearance_ComboBox_Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Settings_Appearance_ComboBox_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Settings_About_SettingsExpander.Header" xml:space="preserve">
+    <value>Aoe4OverlayWinUI3</value>
   </data>
 </root>

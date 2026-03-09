@@ -1,10 +1,11 @@
-﻿{
-    "profiles": {
-      "Aoe4OverlayWinUI3 (Package)": {
-        "commandName": "MsixPackage"
-      },
-      "Aoe4OverlayWinUI3 (Unpackaged)": {
-        "commandName": "Project"
-      }
+{
+  "profiles": {
+    "Aoe4OverlayWinUI3 (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
+    },
+    "Aoe4OverlayWinUI3 (Unpackaged)": {
+      "commandName": "Project"
     }
+  }
 }

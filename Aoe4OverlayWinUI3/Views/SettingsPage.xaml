@@ -52,60 +52,54 @@
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE790;" />
                 </toolkit:SettingsCard.HeaderIcon>
-                <ComboBox x:Name="themeMode" AutomationProperties.AutomationId="themeModeComboBox">
-                    <ComboBoxItem Content="Light" Tag="Light" />
-                    <ComboBoxItem Content="Dark" Tag="Dark" />
-                    <ComboBoxItem Content="Use system setting" Tag="Default" />
+                <ComboBox
+                    x:Name="themeMode"
+                    AutomationProperties.AutomationId="themeModeComboBox"
+                    SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}"
+                    SelectedValuePath="Tag">
+                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Default" Tag="{x:Bind xaml:ElementTheme.Default}" />
+                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Light" Tag="{x:Bind xaml:ElementTheme.Light}" />
+                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Dark" Tag="{x:Bind xaml:ElementTheme.Dark}" />
                 </ComboBox>
             </toolkit:SettingsCard>
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
-
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton
-                        x:Uid="Settings_Theme_Light"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        FontSize="15"
-                        GroupName="AppTheme"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Dark"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        FontSize="15"
-                        GroupName="AppTheme"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Default"
-                        Command="{x:Bind ViewModel.SwitchThemeCommand}"
-                        FontSize="15"
-                        GroupName="AppTheme"
-                        IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                </StackPanel>
-            </StackPanel>
-
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-
+            <!--  About  -->
+            <TextBlock x:Uid="Settings_About_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <toolkit:SettingsExpander x:Uid="Settings_About_SettingsExpander" Margin="0,0,0,36">
                 <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
-            </StackPanel>
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                <!--  Text="{x:Bind Version}"  -->
+
+                <toolkit:SettingsExpander.Items>
+                    <toolkit:SettingsCard
+                        x:Name="toCloneRepoCard"
+                        Header="To clone this repository"
+                        IsClickEnabled="True">
+                        <TextBlock
+                            x:Name="gitCloneTextBlock"
+                            FontFamily="Consolas"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Text="git clone https://github.com/framherel/Aoe4OverlayWinUI3" />
+                        <toolkit:SettingsCard.ActionIcon>
+                            <FontIcon Glyph="&#xE8C8;" />
+                        </toolkit:SettingsCard.ActionIcon>
+                    </toolkit:SettingsCard>
+                    <toolkit:SettingsCard
+                        x:Name="bugRequestCard"
+                        Header="Report a bug or request new feature"
+                        IsClickEnabled="True">
+                        <toolkit:SettingsCard.ActionIcon>
+                            <FontIcon Glyph="&#xE8A7;" />
+                        </toolkit:SettingsCard.ActionIcon>
+                    </toolkit:SettingsCard>
+                    <toolkit:SettingsCard
+                        HorizontalContentAlignment="Left"
+                        ContentAlignment="Vertical"
+                        Header="THIS CODE AND INFORMATION IS PROVIDED ‘AS IS’ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE." />
+                </toolkit:SettingsExpander.Items>
+            </toolkit:SettingsExpander>
         </StackPanel>
     </Grid>
 </Page>
