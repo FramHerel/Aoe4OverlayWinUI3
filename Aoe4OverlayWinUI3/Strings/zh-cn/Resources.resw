@@ -181,4 +181,10 @@
   <data name="Settings_About_SettingsExpander.Header" xml:space="preserve">
     <value>帝国时代4 覆盖层 WinUI 3</value>
   </data>
+  <data name="Settings_Appearance_SettingsCard.Description" xml:space="preserve">
+    <value>更改应用中显示的主题</value>
+  </data>
+  <data name="Settings_Appearance_SettingsCard.Header" xml:space="preserve">
+    <value>应用主题</value>
+  </data>
 </root>

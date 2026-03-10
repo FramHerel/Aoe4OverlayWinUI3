@@ -29,77 +29,101 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <StackPanel x:Name="ContentArea">
-            <!--  Account  -->
-            <TextBlock x:Uid="Settings_Account_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <toolkit:SettingsCard x:Uid="Settings_Account_SettingsCard">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE77B;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <Button x:Uid="Settings_Account_SettingsCard_Button" Style="{StaticResource AccentButtonStyle}" />
-            </toolkit:SettingsCard>
-            <!--  Overlay  -->
-            <TextBlock x:Uid="Settings_Overlay_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsCard">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xF156;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <ToggleSwitch x:Name="overlayOnOffToggleSwitch" />
-            </toolkit:SettingsCard>
-            <!--  Appearance  -->
-            <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE790;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <ComboBox
-                    x:Name="themeMode"
-                    AutomationProperties.AutomationId="themeModeComboBox"
-                    SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}"
-                    SelectedValuePath="Tag">
-                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Default" Tag="{x:Bind xaml:ElementTheme.Default}" />
-                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Light" Tag="{x:Bind xaml:ElementTheme.Light}" />
-                    <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Dark" Tag="{x:Bind xaml:ElementTheme.Dark}" />
-                </ComboBox>
-            </toolkit:SettingsCard>
-            <!--  About  -->
-            <TextBlock x:Uid="Settings_About_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <toolkit:SettingsExpander x:Uid="Settings_About_SettingsExpander" Margin="0,0,0,36">
-                <TextBlock
-                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                <!--  Text="{x:Bind Version}"  -->
-
-                <toolkit:SettingsExpander.Items>
-                    <toolkit:SettingsCard
-                        x:Name="toCloneRepoCard"
-                        Header="To clone this repository"
-                        IsClickEnabled="True">
+        <ScrollView
+            Grid.Row="1"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
+            <Border>
+                <StackPanel
+                    x:Name="ContentArea"
+                    MaxWidth="1064"
+                    Spacing="{StaticResource SettingsCardSpacing}">
+                    <StackPanel.ChildrenTransitions>
+                        <RepositionThemeTransition />
+                    </StackPanel.ChildrenTransitions>
+                    <!--  Account  -->
+                    <TextBlock x:Uid="Settings_Account_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                    <toolkit:SettingsCard x:Uid="Settings_Account_SettingsCard">
+                        <toolkit:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE77B;" />
+                        </toolkit:SettingsCard.HeaderIcon>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBox PlaceholderText="Name" />
+                            <Button x:Uid="Settings_Account_SettingsCard_Button" Style="{StaticResource AccentButtonStyle}" />
+                            <Border Width="2" />
+                            <ProgressRing
+                                x:Name="accountSearchProgressRing"
+                                Width="20"
+                                Height="20"
+                                IsActive="False"
+                                Visibility="Visible" />
+                        </StackPanel>
+                    </toolkit:SettingsCard>
+                    <!--  Overlay  -->
+                    <TextBlock x:Uid="Settings_Overlay_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                    <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsCard">
+                        <toolkit:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xF156;" />
+                        </toolkit:SettingsCard.HeaderIcon>
+                        <ToggleSwitch x:Name="overlayOnOffToggleSwitch" />
+                    </toolkit:SettingsCard>
+                    <!--  Appearance  -->
+                    <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                    <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">
+                        <toolkit:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE790;" />
+                        </toolkit:SettingsCard.HeaderIcon>
+                        <ComboBox
+                            x:Name="themeMode"
+                            AutomationProperties.AutomationId="themeModeComboBox"
+                            SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}"
+                            SelectedValuePath="Tag">
+                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Default" Tag="{x:Bind xaml:ElementTheme.Default}" />
+                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Light" Tag="{x:Bind xaml:ElementTheme.Light}" />
+                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Dark" Tag="{x:Bind xaml:ElementTheme.Dark}" />
+                        </ComboBox>
+                    </toolkit:SettingsCard>
+                    <!--  About  -->
+                    <TextBlock x:Uid="Settings_About_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                    <toolkit:SettingsExpander x:Uid="Settings_About_SettingsExpander" Margin="0,0,0,36">
+                        <toolkit:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" UriSource="/Assets/WindowIcon.ico" />
+                        </toolkit:SettingsExpander.HeaderIcon>
                         <TextBlock
-                            x:Name="gitCloneTextBlock"
-                            FontFamily="Consolas"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            IsTextSelectionEnabled="True"
-                            Text="git clone https://github.com/framherel/Aoe4OverlayWinUI3" />
-                        <toolkit:SettingsCard.ActionIcon>
-                            <FontIcon Glyph="&#xE8C8;" />
-                        </toolkit:SettingsCard.ActionIcon>
-                    </toolkit:SettingsCard>
-                    <toolkit:SettingsCard
-                        x:Name="bugRequestCard"
-                        Header="Report a bug or request new feature"
-                        IsClickEnabled="True">
-                        <toolkit:SettingsCard.ActionIcon>
-                            <FontIcon Glyph="&#xE8A7;" />
-                        </toolkit:SettingsCard.ActionIcon>
-                    </toolkit:SettingsCard>
-                    <toolkit:SettingsCard
-                        HorizontalContentAlignment="Left"
-                        ContentAlignment="Vertical"
-                        Header="THIS CODE AND INFORMATION IS PROVIDED ‘AS IS’ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE." />
-                </toolkit:SettingsExpander.Items>
-            </toolkit:SettingsExpander>
-        </StackPanel>
+                            IsTextSelectionEnabled="False"
+                            Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <toolkit:SettingsExpander.Items>
+                            <toolkit:SettingsCard
+                                x:Name="toCloneRepoCard"
+                                Header="To clone this repository"
+                                IsClickEnabled="True">
+                                <TextBlock
+                                    x:Name="gitCloneTextBlock"
+                                    FontFamily="Consolas"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
+                                    Text="git clone https://github.com/framherel/Aoe4OverlayWinUI3" />
+                                <toolkit:SettingsCard.ActionIcon>
+                                    <FontIcon Glyph="&#xE8C8;" />
+                                </toolkit:SettingsCard.ActionIcon>
+                            </toolkit:SettingsCard>
+                            <toolkit:SettingsCard
+                                x:Name="bugRequestCard"
+                                Header="Report a bug or request new feature"
+                                IsClickEnabled="True">
+                                <toolkit:SettingsCard.ActionIcon>
+                                    <FontIcon Glyph="&#xE8A7;" />
+                                </toolkit:SettingsCard.ActionIcon>
+                            </toolkit:SettingsCard>
+                            <toolkit:SettingsCard
+                                HorizontalContentAlignment="Left"
+                                ContentAlignment="Vertical"
+                                Header="THIS CODE AND INFORMATION IS PROVIDED ‘AS IS’ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE." />
+                        </toolkit:SettingsExpander.Items>
+                    </toolkit:SettingsExpander>
+                </StackPanel>
+            </Border>
+        </ScrollView>
     </Grid>
 </Page>

@@ -133,7 +133,7 @@
     <value>Appearance</value>
   </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Use system set</value>
+    <value>Use system setting</value>
   </data>
   <data name="Settings_About_Header.Text" xml:space="preserve">
     <value>About this application</value>
@@ -179,5 +179,11 @@
   </data>
   <data name="Settings_About_SettingsExpander.Header" xml:space="preserve">
     <value>Aoe4OverlayWinUI3</value>
+  </data>
+  <data name="Settings_Appearance_SettingsCard.Description" xml:space="preserve">
+    <value>Select which app theme to display</value>
+  </data>
+  <data name="Settings_Appearance_SettingsCard.Header" xml:space="preserve">
+    <value>App theme</value>
   </data>
 </root>

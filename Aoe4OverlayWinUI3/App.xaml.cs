@@ -11,6 +11,7 @@ using Aoe4OverlayWinUI3.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Aoe4OverlayWinUI3;
 
@@ -66,6 +67,8 @@ public partial class App : Application
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
+            services.AddHttpClient();
+            services.AddSingleton<IAoe4ApiService, Aoe4ApiService>();
             services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IFileService, FileService>();
 
@@ -89,8 +92,23 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
-        // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+        // Log the exception details
+        System.Diagnostics.Debug.WriteLine($"Unhandled exception: {e.Exception.Message}");
+        System.Diagnostics.Debug.WriteLine($"Stack trace: {e.Exception.StackTrace}");
+
+        // Optionally show a message to the user
+        var dialog = new ContentDialog
+        {
+            Title = "An error occurred",
+            Content = $"Sorry, an unexpected error occurred: {e.Exception.Message}",
+            CloseButtonText = "OK",
+            XamlRoot = MainWindow.Content.XamlRoot
+        };
+
+        _ = dialog.ShowAsync();
+
+        // Mark the event as handled to prevent the app from crashing
+        e.Handled = true;
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
