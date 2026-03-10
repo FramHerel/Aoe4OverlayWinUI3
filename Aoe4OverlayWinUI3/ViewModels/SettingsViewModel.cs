@@ -5,9 +5,11 @@ using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Models;
 using Aoe4OverlayWinUI3.Helpers;
+using Aoe4OverlayWinUI3.Messages;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -119,11 +121,13 @@ public partial class SettingsViewModel : ObservableRecipient
                 Player = result;
                 // 将 ProfileId 保存到本地设置，以便下次启动时自动加载
                 await _localSettingsService.SaveSettingAsync("SavedProfileId", SearchProfileId);
+
+                StrongReferenceMessenger.Default.Send(new PlayerChangedMessage(Player));
             }
         }
         catch (Exception ex)
         {
-            // 处理异常，例如显示错误消息
+            System.Diagnostics.Debug.WriteLine($"Search failed: {ex.Message}");
         }
         finally
         {
@@ -137,6 +141,12 @@ public partial class SettingsViewModel : ObservableRecipient
         var savedId = await _localSettingsService.ReadSettingAsync<string>("SavedProfileId");
         if (!string.IsNullOrEmpty(savedId))
         {
+            // 如果当前玩家信息已经是保存的 ID，则不需要再次搜索
+            if (Player != null && Player.ProfileId.ToString() == savedId)
+            {
+                SearchProfileId = savedId;
+                return;
+            }
             SearchProfileId = savedId;
             await SearchPlayerAsync(); // 自动跑一遍搜索，显示玩家名字
         }

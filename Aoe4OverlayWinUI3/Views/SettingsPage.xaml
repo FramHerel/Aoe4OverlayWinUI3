@@ -48,15 +48,32 @@
                             <FontIcon Glyph="&#xE77B;" />
                         </toolkit:SettingsCard.HeaderIcon>
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBox PlaceholderText="Profile ID" />
-                            <Button x:Uid="Settings_Account_SettingsCard_Button" Style="{StaticResource AccentButtonStyle}" />
+                            <TextBox
+                                MinWidth="180"
+                                VerticalAlignment="Center"
+                                PlaceholderText="Profile ID"
+                                Text="{x:Bind ViewModel.SearchProfileId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.SearchPlayerCommand}"
+                                Style="{StaticResource AccentButtonStyle}">
+                                <Button.Content>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE721;" />
+                                </Button.Content>
+                            </Button>
                             <Border Width="2" />
                             <ProgressRing
                                 x:Name="accountSearchProgressRing"
                                 Width="20"
                                 Height="20"
-                                IsActive="False"
+                                VerticalAlignment="Center"
+                                IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
                                 Visibility="Visible" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{x:Bind ViewModel.Player.Name, Mode=OneWay}" />
                         </StackPanel>
                     </toolkit:SettingsCard>
                     <!--  Overlay  -->

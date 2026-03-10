@@ -73,14 +73,14 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
-            services.AddTransient<SettingsViewModel>();
+            services.AddSingleton<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<GamesListViewModel>();
             services.AddTransient<GamesListPage>();
-            services.AddTransient<ProfileViewModel>();
+            services.AddSingleton<ProfileViewModel>();
             services.AddTransient<ProfilePage>();
             services.AddTransient<ShellPage>();
-            services.AddTransient<ShellViewModel>();
+            services.AddSingleton<ShellViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
