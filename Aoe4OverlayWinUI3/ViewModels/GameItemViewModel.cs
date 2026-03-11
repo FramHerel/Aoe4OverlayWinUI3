@@ -54,6 +54,7 @@ public partial class GameItemViewModel : ObservableObject
     }
     public string StartTime => _model.StartedAt.ToLocalTime().ToString("g"); // 本地化时间格式
 
+    // 根据当前玩家的信息初始化展示属性
     private void Initialize(MatchPlayer me)
     {
         // 提取并预处理展示数据
