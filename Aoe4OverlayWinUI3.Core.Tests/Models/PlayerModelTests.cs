@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Aoe4OverlayWinUI3.Core.Models;
-using Aoe4OverlayWinUI3.Core.Models;
 using Xunit;
 
 namespace Aoe4OverlayWinUI3.Core.Tests.Models;
