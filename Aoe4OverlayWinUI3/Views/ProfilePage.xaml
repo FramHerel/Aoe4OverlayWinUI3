@@ -69,11 +69,6 @@
             VerticalAlignment="Center"
             Visibility="{x:Bind ViewModel.Player, Mode=OneWay, Converter={StaticResource InverseNullToVisibilityConverter}}">
             <!--  TODO: 添加多语言  -->
-            <TextBlock
-                HorizontalAlignment="Center"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="尚未绑定玩家 ID" />
-
         </StackPanel>
     </Grid>
 </Page>

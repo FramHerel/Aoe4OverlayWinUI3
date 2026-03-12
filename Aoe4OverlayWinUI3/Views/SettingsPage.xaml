@@ -10,6 +10,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <helpers:EnumToDisplayNameConverter x:Key="EnumToDisplayNameConverter" />
 
         <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
         <!--  Reference SettingsExpander Page in Windows Community Toolkit Gallery for the full sample  -->
@@ -93,12 +94,23 @@
                         <ComboBox
                             x:Name="themeMode"
                             AutomationProperties.AutomationId="themeModeComboBox"
+                            ItemsSource="{x:Bind ViewModel.Themes}"
+                            SelectedItem="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="xaml:ElementTheme">
+                                    <TextBlock Text="{x:Bind Converter={StaticResource EnumToDisplayNameConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <!--<ComboBox
+                            x:Name="themeMode"
+                            AutomationProperties.AutomationId="themeModeComboBox"
                             SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}"
                             SelectedValuePath="Tag">
                             <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Default" Tag="{x:Bind xaml:ElementTheme.Default}" />
                             <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Light" Tag="{x:Bind xaml:ElementTheme.Light}" />
                             <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Dark" Tag="{x:Bind xaml:ElementTheme.Dark}" />
-                        </ComboBox>
+                        </ComboBox>-->
                     </toolkit:SettingsCard>
                     <!--  About  -->
                     <TextBlock x:Uid="Settings_About_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

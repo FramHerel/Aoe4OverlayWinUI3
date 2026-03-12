@@ -169,13 +169,13 @@
   <data name="Settings_Overlay_SettingsCard.Description" xml:space="preserve">
     <value>启用或禁用覆盖层</value>
   </data>
-  <data name="Settings_Appearance_ComboBox_Default.Content" xml:space="preserve">
+  <data name="Settings_Appearance_ComboBox_Default" xml:space="preserve">
     <value>使用系统设置</value>
   </data>
-  <data name="Settings_Appearance_ComboBox_Light.Content" xml:space="preserve">
+  <data name="Settings_Appearance_ComboBox_Light" xml:space="preserve">
     <value>浅色</value>
   </data>
-  <data name="Settings_Appearance_ComboBox_Dark.Content" xml:space="preserve">
+  <data name="Settings_Appearance_ComboBox_Dark" xml:space="preserve">
     <value>深色</value>
   </data>
   <data name="Settings_About_SettingsExpander.Header" xml:space="preserve">

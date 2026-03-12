@@ -29,24 +29,39 @@ public partial class SettingsViewModel : ObservableRecipient
 
     // 用户输入的查询内容
     [ObservableProperty]
-    private string _searchQuery = string.Empty;
+    public partial string SearchQuery { get; set; } = string.Empty;
 
     // 获取到的玩家信息
     [ObservableProperty]
-    private Player? _player;
+    public partial Player? Player
+    {
+        get;
+        set;
+    }
 
     // 加载状态
     [ObservableProperty]
-    private bool _isLoading;
+    public partial bool IsLoading
+    {
+        get;
+        set;
+    }
 
     // 主题设置
     [ObservableProperty]
-    private ElementTheme _elementTheme;
+    public partial ElementTheme ElementTheme
+    {
+        get;
+        set;
+    }
 
     // 版本描述
     [ObservableProperty]
-    private string _versionDescription;
-
+    public partial string VersionDescription
+    {
+        get;
+        set;
+    }
     public ElementTheme[] Themes { get; } = (ElementTheme[])Enum.GetValues(typeof(ElementTheme));
 
     public ICommand SwitchThemeCommand
@@ -58,8 +73,8 @@ public partial class SettingsViewModel : ObservableRecipient
     public SettingsViewModel(IThemeSelectorService themeSelectorService, IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
         _themeSelectorService = themeSelectorService;
-        _elementTheme = _themeSelectorService.Theme;    //读取当前主题
-        _versionDescription = GetVersionDescription();
+        ElementTheme = _themeSelectorService.Theme;    //读取当前主题
+        VersionDescription = GetVersionDescription();
         _aoe4ApiService = aoe4ApiService;
         _localSettingsService = localSettingsService;
         _ = LoadSavedIdAsync();
@@ -140,7 +155,6 @@ public partial class SettingsViewModel : ObservableRecipient
     // TODO: 对查询 API 速率加以限制
     // TODO: 增加错误提示，例如输入无效 ID 或网络错误时显示消息
     // TODO: 覆盖层
-    // TODO: 解决切换主题不保存的问题
 
     // 加载保存的 ProfileId，并自动搜索更新玩家信息
     private async Task LoadSavedIdAsync()

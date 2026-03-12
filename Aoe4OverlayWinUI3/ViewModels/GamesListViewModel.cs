@@ -19,7 +19,6 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
-    public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
 
     public GamesListViewModel(IAoe4ApiService aoe4ApiService,ILocalSettingsService localSettingsService)
     {
@@ -30,14 +29,6 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
     public async void OnNavigatedTo(object parameter)
     {
         await LoadDataAsync();
-
-        //// TODO: Replace with real data.
-        //var data = await _sampleDataService.GetGridDataAsync();
-
-        //foreach (var item in data)
-        //{
-        //    Source.Add(item);
-        //}
     }
 
     public void OnNavigatedFrom()

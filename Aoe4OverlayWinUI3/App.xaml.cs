@@ -70,7 +70,6 @@ public partial class App : Application
             services.AddHttpClient();
             //services.AddHttpClient<IAoe4ApiService, Aoe4ApiService>();
             services.AddSingleton<IAoe4ApiService, Aoe4ApiService>();
-            services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels

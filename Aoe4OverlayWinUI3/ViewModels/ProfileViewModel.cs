@@ -56,6 +56,7 @@ public partial class ProfileViewModel : ObservableRecipient
         }
     }
 
+    // 从 API 获取数据的方法
     private async Task FetchDataAsync(string id)
     {
         IsLoading = true;
