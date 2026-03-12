@@ -7,6 +7,4 @@ namespace Aoe4OverlayWinUI3.Contracts.Services;
 public interface IOverlayService
 {
     void ToggleOverlay(bool enable);
-
-
 }
