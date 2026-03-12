@@ -16,11 +16,19 @@ public partial class ProfileViewModel : ObservableRecipient
 
     // 加载情况
     [ObservableProperty]
-    private bool _isLoading;
+    public partial bool IsLoading
+    {
+        get;
+        set;
+    }
 
     // 玩家数据
     [ObservableProperty]
-    private Player? _player;
+    public partial Player? Player
+    {
+        get;
+        set;
+    }
 
     // 构造函数
     public ProfileViewModel(IAoe4ApiService aoe4ApiService,ILocalSettingsService localSettingsService)

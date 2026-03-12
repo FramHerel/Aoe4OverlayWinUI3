@@ -63,16 +63,6 @@ public partial class SettingsViewModel : ObservableRecipient
         _aoe4ApiService = aoe4ApiService;
         _localSettingsService = localSettingsService;
         _ = LoadSavedIdAsync();
-
-        //SwitchThemeCommand = new RelayCommand<ElementTheme>(
-        //    async (param) =>
-        //    {
-        //        if (ElementTheme != param)
-        //        {
-        //            ElementTheme = param;
-        //            await _themeSelectorService.SetThemeAsync(param);
-        //        }
-        //    });
     }
 
     // 监听 ElementTheme 属性变化，自动调用主题切换服务
@@ -119,7 +109,9 @@ public partial class SettingsViewModel : ObservableRecipient
 
         // 如果输入为空或仅包含空白字符，则不执行搜索
         if (string.IsNullOrWhiteSpace(query))
+        {
             return;
+        }
 
         IsLoading = true;
         try
