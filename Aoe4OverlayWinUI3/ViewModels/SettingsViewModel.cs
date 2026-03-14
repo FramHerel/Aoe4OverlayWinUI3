@@ -15,6 +15,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 
+using Windows.UI;
+
+using Color = Windows.UI.Color;
+using Colors = Microsoft.UI.Colors;
+
 namespace Aoe4OverlayWinUI3.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient
@@ -28,6 +33,9 @@ public partial class SettingsViewModel : ObservableRecipient
     // 注入覆盖层服务
     private readonly IOverlayService _overlayService;
 
+    // 背板设置
+    [ObservableProperty]
+    public partial int SelectedBackdropIndex { get; set; } = 0;
 
     // 用户输入的查询内容
     [ObservableProperty]
@@ -177,10 +185,9 @@ public partial class SettingsViewModel : ObservableRecipient
 
     partial void OnIsOverlayEnabledChanged(bool value)
     {
-        // 直接调用我们的底层服务
         _overlayService.ToggleOverlay(value);
 
-        // 建议：这里以后可以加上保存配置到 LocalSettings 的代码
+        // TODO: 加上保存配置到 LocalSettings 的代码
     }
 
     // 加载保存的 ProfileId，并自动搜索更新玩家信息
@@ -200,5 +207,10 @@ public partial class SettingsViewModel : ObservableRecipient
         }
     }
 
+    // 背板设置变化时通知 Service 更新覆盖层
+    partial void OnSelectedBackdropIndexChanged(int value)
+    {
+        _overlayService.UpdateBackdrop(value);
+    }
 
 }

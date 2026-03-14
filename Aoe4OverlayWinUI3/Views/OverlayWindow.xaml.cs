@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Aoe4OverlayWinUI3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,6 +23,10 @@ namespace Aoe4OverlayWinUI3.Views;
 /// </summary>
 public sealed partial class OverlayWindow : WindowEx
 {
+    public OverlayViewModel ViewModel
+    {
+        get;
+    }
     public OverlayWindow()
     {
         InitializeComponent();

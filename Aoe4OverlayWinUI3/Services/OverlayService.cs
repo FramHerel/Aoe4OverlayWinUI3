@@ -9,10 +9,12 @@ using WinRT.Interop;
 using WinUIEx;
 using Aoe4OverlayWinUI3.Views;
 using Aoe4OverlayWinUI3.Contracts.Services;
+using Microsoft.UI.Xaml.Media;
+using Windows.UI;
 
 namespace Aoe4OverlayWinUI3.Services;
 
-public class OverlayService:IOverlayService
+public class OverlayService : IOverlayService
 {
     private OverlayWindow _overlayWindow;
 
@@ -50,6 +52,21 @@ public class OverlayService:IOverlayService
             // 隐藏窗口
             _overlayWindow?.Hide();
         }
+    }
+
+    // 更新背板风格的方法
+    public void UpdateBackdrop(int value)
+    {
+        if (_overlayWindow == null) return;
+
+        _overlayWindow.SystemBackdrop = value switch
+        {
+            0 => new TransparentTintBackdrop(),
+            1 => new MicaBackdrop(),
+            2 => new DesktopAcrylicBackdrop(),
+            _ => null
+        };
+
     }
 
 }

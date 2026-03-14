@@ -85,7 +85,15 @@
                         </toolkit:SettingsCard.HeaderIcon>
                         <ToggleSwitch x:Name="overlayOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEnabled, Mode=TwoWay}" />
                     </toolkit:SettingsCard>
-                    <!--  Appearance  -->
+                    <StackPanel Spacing="20">
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="悬浮窗背景设置" />
+
+                        <ComboBox Header="背景材质" SelectedIndex="{x:Bind ViewModel.SelectedBackdropIndex, Mode=TwoWay}">
+                            <ComboBoxItem>彻底透明 (Transparent)</ComboBoxItem>
+                            <ComboBoxItem>云母效果 (Mica)</ComboBoxItem>
+                            <ComboBoxItem>亚克力 (Acrylic)</ComboBoxItem>
+                        </ComboBox>
+                        <!--  Appearance  -->
                     <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                     <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">
                         <toolkit:SettingsCard.HeaderIcon>
