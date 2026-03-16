@@ -93,7 +93,8 @@
                             <ComboBoxItem>云母效果 (Mica)</ComboBoxItem>
                             <ComboBoxItem>亚克力 (Acrylic)</ComboBoxItem>
                         </ComboBox>
-                        <!--  Appearance  -->
+                    </StackPanel>
+                    <!--  Appearance  -->
                     <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                     <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">
                         <toolkit:SettingsCard.HeaderIcon>
@@ -110,15 +111,6 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <!--<ComboBox
-                            x:Name="themeMode"
-                            AutomationProperties.AutomationId="themeModeComboBox"
-                            SelectedValue="{x:Bind ViewModel.ElementTheme, Mode=TwoWay}"
-                            SelectedValuePath="Tag">
-                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Default" Tag="{x:Bind xaml:ElementTheme.Default}" />
-                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Light" Tag="{x:Bind xaml:ElementTheme.Light}" />
-                            <ComboBoxItem x:Uid="Settings_Appearance_ComboBox_Dark" Tag="{x:Bind xaml:ElementTheme.Dark}" />
-                        </ComboBox>-->
                     </toolkit:SettingsCard>
                     <!--  About  -->
                     <TextBlock x:Uid="Settings_About_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

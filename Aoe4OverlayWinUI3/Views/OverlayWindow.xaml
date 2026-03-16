@@ -20,8 +20,6 @@
             x:Name="MainPanel"
             Width="400"
             Height="300"
-            Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
             CornerRadius="8" />
     </Grid>
