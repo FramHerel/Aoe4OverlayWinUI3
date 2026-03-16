@@ -35,10 +35,10 @@ public class OverlayService : IOverlayService
                 _overlayWindow.AppWindow.IsShownInSwitchers=false;
 
                 // --- 移除系统装饰 ---
-                if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
-                {
-                    presenter.SetBorderAndTitleBar(false, false);
-                }
+                //if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
+                //{
+                //    presenter.SetBorderAndTitleBar(false, false);
+                //}
 
                 // --- 鼠标穿透 (关键功能) ---
                 // _overlayWindow.SetIsClickThrough(true); 
@@ -67,6 +67,38 @@ public class OverlayService : IOverlayService
             _ => null
         };
 
+    }
+
+    public void SetOverlayEditMode(bool isEditing)
+    {
+        if (_overlayWindow == null) return;
+        if (isEditing)
+        {
+            // 切换鼠标穿透状态
+            //_overlayWindow.SetIsClickThrough(false);
+            // 显示边框和标题栏
+            if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
+            {
+                //presenter.SetBorderAndTitleBar(true, true); // 显示边框和标题栏
+                presenter.IsResizable = true;
+            }
+        }
+        else
+            {
+            // 恢复鼠标穿透状态
+            if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
+            {
+                //presenter.SetBorderAndTitleBar(false, false);
+                presenter.IsResizable = false;
+            }
+            //_overlayWindow.SetIsClickThrough(true);
+        }
+    }
+
+    public void SetIsClickThrough(bool isClickThrough)
+    {
+        if (_overlayWindow == null) return;
+        //_overlayWindow.SetIsClickThrough(isClickThrough);
     }
 
 }
