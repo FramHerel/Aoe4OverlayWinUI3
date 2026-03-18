@@ -32,6 +32,7 @@ public sealed partial class OverlayWindow : WindowEx
     public OverlayWindow()
     {
         InitializeComponent();
+
         ExtendsContentIntoTitleBar = true;
         this.SetTitleBar(CustomTitleBar);
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;

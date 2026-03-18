@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Aoe4OverlayWinUI3.Contracts.Services;
+using Aoe4OverlayWinUI3.Views;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using NHotkey;
+using NHotkey.WinUI;
+using Windows.System;
+using Windows.UI;
 using WinRT.Interop;
 using WinUIEx;
-using Aoe4OverlayWinUI3.Views;
-using Aoe4OverlayWinUI3.Contracts.Services;
-using Microsoft.UI.Xaml.Media;
-using Windows.UI;
 
 namespace Aoe4OverlayWinUI3.Services;
 
@@ -98,6 +101,26 @@ public class OverlayService : IOverlayService
     {
         if (_overlayWindow == null) return;
         //_overlayWindow.SetIsClickThrough(isClickThrough);
+    }
+
+    // 注册快捷键
+    public void RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers)
+    {
+        HotkeyManager.Current.AddOrReplace(name, key, modifiers, OnHotkeyInvoked);
+    }
+
+    public void UnregisterHotkey(string name)
+    {
+        HotkeyManager.Current.Remove(name);
+    }
+
+    private void OnHotkeyInvoked(object sender, HotkeyEventArgs e)
+    {
+        if (_overlayWindow.Visible)
+            _overlayWindow.Hide();
+        else
+            _overlayWindow.Show();
+        e.Handled = true;
     }
 
 }
