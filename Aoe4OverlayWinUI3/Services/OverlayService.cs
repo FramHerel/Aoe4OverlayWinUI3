@@ -69,6 +69,7 @@ public class OverlayService : IOverlayService
 
     }
 
+    // 设置 Overlay 的 EditMode
     public void SetOverlayEditMode(bool isEditing)
     {
         if (_overlayWindow == null) return;
@@ -79,7 +80,6 @@ public class OverlayService : IOverlayService
             // 显示边框和标题栏
             if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
             {
-                //presenter.SetBorderAndTitleBar(true, true); // 显示边框和标题栏
                 presenter.IsResizable = true;
             }
         }
@@ -88,7 +88,6 @@ public class OverlayService : IOverlayService
             // 恢复鼠标穿透状态
             if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
             {
-                //presenter.SetBorderAndTitleBar(false, false);
                 presenter.IsResizable = false;
             }
             //_overlayWindow.SetIsClickThrough(true);

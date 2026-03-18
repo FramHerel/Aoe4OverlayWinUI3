@@ -35,20 +35,9 @@ public sealed partial class OverlayWindow : WindowEx
         ExtendsContentIntoTitleBar = true;
         this.SetTitleBar(CustomTitleBar);
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
-        AppWindow.TitleBar.ContextMenuService.IsEnabled = false;
         RootGrid.SizeChanged += (s, e) => UpdateDragRegion();
-
-        if (AppWindow.Presenter is OverlappedPresenter presenter)
-        {
-            // 禁用最大化
-            presenter.IsMaximizable = false;
-
-            // 禁用最小化
-            presenter.IsMinimizable = false;
-
-            // 移除系统菜单
-            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-        }
+        this.SetIsMaximizable(false);
+        this.SetIsMinimizable(false);
 
     }
 

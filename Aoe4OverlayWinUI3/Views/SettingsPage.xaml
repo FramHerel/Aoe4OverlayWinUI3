@@ -32,6 +32,7 @@
     <Grid>
         <ScrollView
             Grid.Row="1"
+            Padding="36,0,36,0"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Auto">
             <Border>
@@ -79,12 +80,24 @@
                     </toolkit:SettingsCard>
                     <!--  Overlay  -->
                     <TextBlock x:Uid="Settings_Overlay_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                    <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsCard">
-                        <toolkit:SettingsCard.HeaderIcon>
+                    <toolkit:SettingsExpander x:Uid="Settings_Overlay_SettingsExpander">
+                        <toolkit:SettingsExpander.HeaderIcon>
                             <FontIcon Glyph="&#xF156;" />
-                        </toolkit:SettingsCard.HeaderIcon>
+                        </toolkit:SettingsExpander.HeaderIcon>
                         <ToggleSwitch x:Name="overlayOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEnabled, Mode=TwoWay}" />
-                    </toolkit:SettingsCard>
+                        <toolkit:SettingsExpander.Items>
+                            <toolkit:SettingsCard Header="显示/隐藏快捷键">
+                                <Button Content="Bind" />
+                            </toolkit:SettingsCard>
+                            <toolkit:SettingsCard
+                                x:Name="OverlayEditable"
+                                x:Uid="Settings_Overlay_SettingsExpander_OverlayEditable"
+                                IsEnabled="{x:Bind ViewModel.IsOverlayEnabled, Mode=OneWay}">
+                                <ToggleSwitch x:Name="overlayEditableOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEditable, Mode=TwoWay}" />
+                            </toolkit:SettingsCard>
+                            <toolkit:SettingsCard x:Name="OverlayHotkey" />
+                        </toolkit:SettingsExpander.Items>
+                    </toolkit:SettingsExpander>
                     <StackPanel Spacing="20">
                         <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="悬浮窗背景设置" />
 

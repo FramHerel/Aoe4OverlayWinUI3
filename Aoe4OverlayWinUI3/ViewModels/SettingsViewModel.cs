@@ -81,6 +81,13 @@ public partial class SettingsViewModel : ObservableRecipient
         set;
     }
 
+    [ObservableProperty]
+    public partial bool IsOverlayEditable
+    {
+        get;
+        set;
+    }
+
 
 
 
@@ -179,13 +186,23 @@ public partial class SettingsViewModel : ObservableRecipient
     // TODO: 增加一个清除按钮，清除当前玩家信息和保存的 ProfileId
     // TODO: 对查询 API 速率加以限制
     // TODO: 增加错误提示，例如输入无效 ID 或网络错误时显示消息
-    // TODO: 覆盖层
 
 
+    partial void OnIsOverlayEditableChanged(bool value)
+    {
+        _overlayService.SetOverlayEditMode(value);
+    }
 
+
+    // 
     partial void OnIsOverlayEnabledChanged(bool value)
     {
         _overlayService.ToggleOverlay(value);
+
+        if (!value)
+        {
+            IsOverlayEditable = false;
+        }
 
         // TODO: 加上保存配置到 LocalSettings 的代码
     }

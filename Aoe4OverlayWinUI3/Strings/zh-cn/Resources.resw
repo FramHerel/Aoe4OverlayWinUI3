@@ -163,10 +163,10 @@
   <data name="Settings_Overlay_Header.Text" xml:space="preserve">
     <value>覆盖层</value>
   </data>
-  <data name="Settings_Overlay_SettingsCard.Header" xml:space="preserve">
+  <data name="Settings_Overlay_SettingsExpander.Header" xml:space="preserve">
     <value>启用覆盖层</value>
   </data>
-  <data name="Settings_Overlay_SettingsCard.Description" xml:space="preserve">
+  <data name="Settings_Overlay_SettingsExpander.Description" xml:space="preserve">
     <value>启用或禁用覆盖层</value>
   </data>
   <data name="Settings_Appearance_ComboBox_Default" xml:space="preserve">
@@ -186,5 +186,11 @@
   </data>
   <data name="Settings_Appearance_SettingsCard.Header" xml:space="preserve">
     <value>应用主题</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayEditable.Header" xml:space="preserve">
+    <value>启用或禁用覆盖层调整模式</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayHotkey.Header" xml:space="preserve">
+    <value>设置热键</value>
   </data>
 </root>

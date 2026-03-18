@@ -162,10 +162,10 @@
   <data name="Settings_Overlay_Header.Text" xml:space="preserve">
     <value>Overlay</value>
   </data>
-  <data name="Settings_Overlay_SettingsCard.Header" xml:space="preserve">
+  <data name="Settings_Overlay_SettingsExpander.Header" xml:space="preserve">
     <value>Enable the overlay</value>
   </data>
-  <data name="Settings_Overlay_SettingsCard.Description" xml:space="preserve">
+  <data name="Settings_Overlay_SettingsExpander.Description" xml:space="preserve">
     <value>Enable or disable the overlay</value>
   </data>
   <data name="Settings_Appearance_ComboBox_Default" xml:space="preserve">
@@ -185,5 +185,11 @@
   </data>
   <data name="Settings_Appearance_SettingsCard.Header" xml:space="preserve">
     <value>App theme</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayEditable.Header" xml:space="preserve">
+    <value>Enable or disable overlay edit mode</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayHotkey.Header" xml:space="preserve">
+    <value>Setting a hotkey</value>
   </data>
 </root>

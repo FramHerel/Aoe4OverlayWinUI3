@@ -7,6 +7,7 @@ namespace Aoe4OverlayWinUI3.Contracts.Services;
 
 public interface IOverlayService
 {
+    void SetOverlayEditMode(bool isEditing);
     void ToggleOverlay(bool enable);
     void UpdateBackdrop(int value);
 }
