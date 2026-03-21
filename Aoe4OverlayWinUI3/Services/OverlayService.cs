@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Aoe4OverlayWinUI3.Contracts.Services;
+using Aoe4OverlayWinUI3.Core.Models;
 using Aoe4OverlayWinUI3.Messages;
 using Aoe4OverlayWinUI3.Views;
 using CommunityToolkit.Mvvm.Messaging;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using NHotkey;
 using NHotkey.WinUI;
 using Windows.System;
+using System.Timers;
 
 namespace Aoe4OverlayWinUI3.Services;
 
@@ -15,12 +17,17 @@ public class OverlayService : IOverlayService
 {
     private OverlayWindow _overlayWindow;
 
+    private System.Timers.Timer? _saveConfigTimer;
+
+    private readonly ILocalSettingsService _localSettingsService;
+
     // 切换覆盖层显示状态的方法
-    public OverlayService()
+    public OverlayService(ILocalSettingsService localSettingsService)
     {
+        _localSettingsService = localSettingsService;
         RegisterHotkey("Hotkey", VirtualKey.F12, VirtualKeyModifiers.Control);
     }
-    public void ToggleOverlay(bool enable)
+    public async Task ToggleOverlay(bool enable)
     {
         if (enable)
         {
@@ -28,19 +35,31 @@ public class OverlayService : IOverlayService
             {
                 _overlayWindow = new OverlayWindow();
 
+                // --- 保存 ---
+                _overlayWindow.AppWindow.Changed += (s, e) =>
+                {
+                    if (e.DidPositionChange || e.DidSizeChange)
+                    {
+                        RestartSaveTimer(s);
+                    }
+                };
+
                 // --- 窗口置顶 ---
                 _overlayWindow.SetIsAlwaysOnTop(true);
 
                 // --- 任务栏控制 ---
-                // 不在任务栏显示，也不出现在 Alt+Tab 切换器中
                 _overlayWindow.AppWindow.IsShownInSwitchers = false;
+
+                // --- 鼠标穿透 ---
+                // _overlayWindow.SetIsClickThrough(true); 
+
+                await RestoreWindowPositionAsync();
+
                 SetOverlayEditMode(false);
 
-                // --- 鼠标穿透 (关键功能) ---
-                // _overlayWindow.SetIsClickThrough(true); 
             }
 
-            // --- 显示窗口 (不夺取焦点) ---
+            // --- 显示窗口 ---
             _overlayWindow.Show();
         }
         else
@@ -126,6 +145,8 @@ public class OverlayService : IOverlayService
     {
         // 注销所有热键，防止内存泄漏或系统钩子残留
         UnregisterHotkey("Hotkey");
+        _saveConfigTimer?.Stop();
+        _saveConfigTimer?.Dispose();
 
         // 彻底销毁窗口
         if (_overlayWindow != null)
@@ -133,6 +154,50 @@ public class OverlayService : IOverlayService
             _overlayWindow.Close();
             _overlayWindow = null;
         }
+    }
+
+    private async Task RestoreWindowPositionAsync()
+    {
+        if (_overlayWindow == null) return;
+        var savedRect = await _localSettingsService.ReadSettingAsync<OverlayRect?>("OverlayWindowRect");
+
+        if (savedRect.HasValue)
+        {
+            var rect = savedRect.Value;
+            // 应用保存的坐标和大小
+            _overlayWindow.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(rect.X, rect.Y, rect.Width, rect.Height));
+        }
+        else
+        {
+            // 设置默认位置
+            _overlayWindow.CenterOnScreen();
+        }
+    }
+    private void RestartSaveTimer(AppWindow appWindow)
+    {
+        // 停止并销毁旧计时器
+        _saveConfigTimer?.Stop();
+        _saveConfigTimer?.Dispose();
+
+        // 500ms 后触发执行保存
+        _saveConfigTimer = new System.Timers.Timer(500)
+        {
+            AutoReset = false
+        };
+        _saveConfigTimer.Elapsed += async (s, e) =>
+        {
+            var rect = new OverlayRect
+            {
+                X = appWindow.Position.X,
+                Y = appWindow.Position.Y,
+                Width = appWindow.Size.Width,
+                Height = appWindow.Size.Height
+            };
+
+            await _localSettingsService.SaveSettingAsync("OverlayWindowRect", rect);
+            Debug.WriteLine($"Overlay 位置已保存: {rect.X}, {rect.Y}");
+        };
+        _saveConfigTimer.Start();
     }
 
 }

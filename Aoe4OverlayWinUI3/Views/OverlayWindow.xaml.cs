@@ -34,7 +34,7 @@ public sealed partial class OverlayWindow : WindowEx
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;
-        this.SetTitleBar(CustomTitleBar);
+        SetTitleBar(CustomTitleBar);
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
         RootGrid.SizeChanged += (s, e) => UpdateDragRegion();
         this.SetIsMaximizable(false);
@@ -46,7 +46,7 @@ public sealed partial class OverlayWindow : WindowEx
     private void UpdateDragRegion()
     {
         // 获取当前窗口的缩放比例（DPI）
-        double scaleAdjustment = this.GetRasterizationScale();
+        double scaleAdjustment = GetRasterizationScale();
 
         int width = (int)(RootGrid.ActualWidth * scaleAdjustment);
         int height = (int)(RootGrid.ActualHeight * scaleAdjustment);
@@ -57,7 +57,7 @@ public sealed partial class OverlayWindow : WindowEx
         dragRect.Width = width;
         dragRect.Height = height;
 
-        this.AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { dragRect });
+        AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { dragRect });
     }
 
     // 在窗口大小改变时更新拖拽区域

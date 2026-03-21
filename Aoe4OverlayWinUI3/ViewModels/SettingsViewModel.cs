@@ -81,6 +81,7 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         set;
     }
 
+    // 覆盖层编辑状态
     [ObservableProperty]
     public partial bool IsOverlayEditable
     {
