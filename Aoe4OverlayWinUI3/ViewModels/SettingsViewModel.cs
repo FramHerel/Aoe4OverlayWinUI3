@@ -10,7 +10,7 @@ using Aoe4OverlayWinUI3.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
@@ -22,7 +22,7 @@ using Colors = Microsoft.UI.Colors;
 
 namespace Aoe4OverlayWinUI3.ViewModels;
 
-public partial class SettingsViewModel : ObservableRecipient
+public partial class SettingsViewModel : ObservableRecipient, IRecipient<OverlayStatusChangedMessage>
 {
     // 注入 API 服务
     private readonly IAoe4ApiService _aoe4ApiService;
@@ -107,6 +107,9 @@ public partial class SettingsViewModel : ObservableRecipient
         ElementTheme = _themeSelectorService.Theme;    //读取当前主题
         VersionDescription = GetVersionDescription();
         _overlayService = overlayService;
+        IsOverlayEnabled = false;
+        WeakReferenceMessenger.Default.Register(this);
+
         _aoe4ApiService = aoe4ApiService;
         _localSettingsService = localSettingsService;
         _ = LoadSavedIdAsync();
@@ -187,6 +190,19 @@ public partial class SettingsViewModel : ObservableRecipient
     // TODO: 对查询 API 速率加以限制
     // TODO: 增加错误提示，例如输入无效 ID 或网络错误时显示消息
 
+    public void Receive(OverlayStatusChangedMessage message)
+    {
+        var dispatcher = DispatcherQueue.GetForCurrentThread();
+
+        dispatcher?.TryEnqueue(() =>
+        {
+            // 当收到的状态和当前 UI 状态不一致时才赋值
+            if (IsOverlayEnabled != message.IsVisible)
+            {
+                IsOverlayEnabled = message.IsVisible;
+            }
+        });
+    }
 
     partial void OnIsOverlayEditableChanged(bool value)
     {

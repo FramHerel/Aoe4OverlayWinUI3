@@ -13,4 +13,5 @@ public interface IOverlayService
     void UpdateBackdrop(int value);
     void RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers);
     void UnregisterHotkey(string name);
+    void ShutDown();
 }

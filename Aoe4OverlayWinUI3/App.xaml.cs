@@ -2,7 +2,6 @@
 using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Services;
-using Aoe4OverlayWinUI3.Helpers;
 using Aoe4OverlayWinUI3.Models;
 using Aoe4OverlayWinUI3.Services;
 using Aoe4OverlayWinUI3.ViewModels;
@@ -41,7 +40,10 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
-    public static UIElement? AppTitlebar { get; set; }
+    public static UIElement? AppTitlebar
+    {
+        get; set;
+    }
 
     public App()
     {
@@ -118,5 +120,15 @@ public partial class App : Application
         base.OnLaunched(args);
 
         await App.GetService<IActivationService>().ActivateAsync(args);
+
+        if (Application.Current != null)
+        {
+            App.MainWindow.Closed += (s, e) =>
+            {
+                var overlayService = App.GetService<IOverlayService>();
+                overlayService?.ShutDown();
+                Application.Current.Exit();
+            };
+        }
     }
 }

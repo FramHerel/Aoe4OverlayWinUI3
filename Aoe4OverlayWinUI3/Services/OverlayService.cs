@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Diagnostics;
 using Aoe4OverlayWinUI3.Contracts.Services;
+using Aoe4OverlayWinUI3.Messages;
 using Aoe4OverlayWinUI3.Views;
-using Microsoft.UI;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using NHotkey;
 using NHotkey.WinUI;
 using Windows.System;
-using Windows.UI;
-using WinRT.Interop;
-using WinUIEx;
 
 namespace Aoe4OverlayWinUI3.Services;
 
@@ -22,6 +16,10 @@ public class OverlayService : IOverlayService
     private OverlayWindow _overlayWindow;
 
     // 切换覆盖层显示状态的方法
+    public OverlayService()
+    {
+        RegisterHotkey("Hotkey", VirtualKey.F12, VirtualKeyModifiers.Control);
+    }
     public void ToggleOverlay(bool enable)
     {
         if (enable)
@@ -35,13 +33,8 @@ public class OverlayService : IOverlayService
 
                 // --- 任务栏控制 ---
                 // 不在任务栏显示，也不出现在 Alt+Tab 切换器中
-                _overlayWindow.AppWindow.IsShownInSwitchers=false;
-
-                // --- 移除系统装饰 ---
-                //if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
-                //{
-                //    presenter.SetBorderAndTitleBar(false, false);
-                //}
+                _overlayWindow.AppWindow.IsShownInSwitchers = false;
+                SetOverlayEditMode(false);
 
                 // --- 鼠标穿透 (关键功能) ---
                 // _overlayWindow.SetIsClickThrough(true); 
@@ -87,7 +80,7 @@ public class OverlayService : IOverlayService
             }
         }
         else
-            {
+        {
             // 恢复鼠标穿透状态
             if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
             {
@@ -106,7 +99,15 @@ public class OverlayService : IOverlayService
     // 注册快捷键
     public void RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers)
     {
-        HotkeyManager.Current.AddOrReplace(name, key, modifiers, OnHotkeyInvoked);
+        try
+        {
+            HotkeyManager.Current.AddOrReplace(name, key, modifiers, OnHotkeyInvoked);
+        }
+        catch (NHotkey.HotkeyAlreadyRegisteredException)
+        {
+            Debug.WriteLine($"Hotkey {key} has been used!");
+        }
+
     }
 
     public void UnregisterHotkey(string name)
@@ -114,13 +115,24 @@ public class OverlayService : IOverlayService
         HotkeyManager.Current.Remove(name);
     }
 
-    private void OnHotkeyInvoked(object sender, HotkeyEventArgs e)
+    private void OnHotkeyInvoked(object? sender, HotkeyEventArgs e)
     {
-        if (_overlayWindow.Visible)
-            _overlayWindow.Hide();
-        else
-            _overlayWindow.Show();
+        bool newStatus = !(_overlayWindow?.Visible ?? false);
+        ToggleOverlay(newStatus);
+        WeakReferenceMessenger.Default.Send(new OverlayStatusChangedMessage(newStatus));
         e.Handled = true;
+    }
+    public void ShutDown()
+    {
+        // 注销所有热键，防止内存泄漏或系统钩子残留
+        UnregisterHotkey("Hotkey");
+
+        // 彻底销毁窗口
+        if (_overlayWindow != null)
+        {
+            _overlayWindow.Close();
+            _overlayWindow = null;
+        }
     }
 
 }
