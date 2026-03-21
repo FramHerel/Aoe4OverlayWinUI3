@@ -33,6 +33,13 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
     // 注入覆盖层服务
     private readonly IOverlayService _overlayService;
 
+    // Hotkey 文本
+    [ObservableProperty]
+    public partial string HotkeyText { get; set; } = "Ctrl + F12";
+
+    [ObservableProperty]
+    public partial bool IsListeningForHotkey { get; set; } = false;
+
     // 背板设置
     [ObservableProperty]
     public partial int SelectedBackdropIndex { get; set; } = 0;
@@ -93,7 +100,7 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
 
 
     // 可用的主题列表
-    public ElementTheme[] Themes { get; } = (ElementTheme[])Enum.GetValues(typeof(ElementTheme));
+    public ElementTheme[] Themes { get; } = Enum.GetValues<ElementTheme>();
 
     //  切换主题的命令
     public ICommand SwitchThemeCommand
@@ -105,9 +112,19 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
     public SettingsViewModel(IThemeSelectorService themeSelectorService, IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService, IOverlayService overlayService)
     {
         _themeSelectorService = themeSelectorService;
-        ElementTheme = _themeSelectorService.Theme;    //读取当前主题
+        ElementTheme = _themeSelectorService.Theme;
         VersionDescription = GetVersionDescription();
+
         _overlayService = overlayService;
+        HotkeyText = _overlayService.CurrentHotkeyText;
+        Task.Run(async () =>
+        {
+            var realText = await _overlayService.GetSavedHotkeyTextAsync();
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                HotkeyText = realText;
+            });
+        });
         IsOverlayEnabled = false;
         WeakReferenceMessenger.Default.Register(this);
 
@@ -247,4 +264,13 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         _overlayService.UpdateBackdrop(value);
     }
 
+
+    // TODO: 添加翻译
+    [RelayCommand]
+    private void StartListenHotkey()
+    {
+        IsListeningForHotkey = true;
+        HotkeyText = "Waiting press...";
+        _overlayService.UnregisterHotkey("ToggleOverlay");
+    }
 }

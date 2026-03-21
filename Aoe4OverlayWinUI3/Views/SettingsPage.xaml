@@ -87,7 +87,10 @@
                         <ToggleSwitch x:Name="overlayOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEnabled, Mode=TwoWay}" />
                         <toolkit:SettingsExpander.Items>
                             <toolkit:SettingsCard Header="显示/隐藏快捷键">
-                                <Button Content="Bind" />
+                                <Button
+                                    Command="{x:Bind ViewModel.StartListenHotkeyCommand}"
+                                    Content="{x:Bind ViewModel.HotkeyText, Mode=OneWay}"
+                                    KeyDown="OnHotkeyKeyDown" />
                             </toolkit:SettingsCard>
                             <toolkit:SettingsCard
                                 x:Name="OverlayEditable"

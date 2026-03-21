@@ -57,7 +57,7 @@ public sealed partial class OverlayWindow : WindowEx
         dragRect.Width = width;
         dragRect.Height = height;
 
-        AppWindow.TitleBar.SetDragRectangles(new RectInt32[] { dragRect });
+        AppWindow.TitleBar.SetDragRectangles([dragRect]);
     }
 
     // 在窗口大小改变时更新拖拽区域

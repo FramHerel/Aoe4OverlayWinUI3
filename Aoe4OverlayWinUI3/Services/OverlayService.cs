@@ -19,13 +19,26 @@ public class OverlayService : IOverlayService
 
     private System.Timers.Timer? _saveConfigTimer;
 
+    public string CurrentHotkeyText { get; private set; } = "Ctrl + F12";
+
     private readonly ILocalSettingsService _localSettingsService;
 
     // 切换覆盖层显示状态的方法
     public OverlayService(ILocalSettingsService localSettingsService)
     {
         _localSettingsService = localSettingsService;
-        RegisterHotkey("Hotkey", VirtualKey.F12, VirtualKeyModifiers.Control);
+        //RegisterHotkey("ToggleOverlay", VirtualKey.F12, VirtualKeyModifiers.Control);
+        Initialize();
+    }
+
+    public async void Initialize()
+    {
+        // 读取保存的键位，如果没有则使用默认 Ctrl + F12
+        var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
+        var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
+        CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+
+        RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
     }
     public async Task ToggleOverlay(bool enable)
     {
@@ -72,7 +85,10 @@ public class OverlayService : IOverlayService
     // 更新背板风格的方法
     public void UpdateBackdrop(int value)
     {
-        if (_overlayWindow == null) return;
+        if (_overlayWindow == null)
+        {
+            return;
+        }
 
         _overlayWindow.SystemBackdrop = value switch
         {
@@ -87,7 +103,11 @@ public class OverlayService : IOverlayService
     // 设置 Overlay 的 EditMode
     public void SetOverlayEditMode(bool isEditing)
     {
-        if (_overlayWindow == null) return;
+        if (_overlayWindow == null)
+        {
+            return;
+        }
+
         if (isEditing)
         {
             // 切换鼠标穿透状态
@@ -111,7 +131,10 @@ public class OverlayService : IOverlayService
 
     public void SetIsClickThrough(bool isClickThrough)
     {
-        if (_overlayWindow == null) return;
+        if (_overlayWindow == null)
+        {
+            return;
+        }
         //_overlayWindow.SetIsClickThrough(isClickThrough);
     }
 
@@ -126,6 +149,10 @@ public class OverlayService : IOverlayService
         {
             Debug.WriteLine($"Hotkey {key} has been used!");
         }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Hotkey binding failed: {ex.Message}");
+        }
 
     }
 
@@ -134,31 +161,32 @@ public class OverlayService : IOverlayService
         HotkeyManager.Current.Remove(name);
     }
 
-    private void OnHotkeyInvoked(object? sender, HotkeyEventArgs e)
+    private async void OnHotkeyInvoked(object? sender, HotkeyEventArgs e)
     {
         bool newStatus = !(_overlayWindow?.Visible ?? false);
-        ToggleOverlay(newStatus);
+        await ToggleOverlay(newStatus);
         WeakReferenceMessenger.Default.Send(new OverlayStatusChangedMessage(newStatus));
         e.Handled = true;
     }
     public void ShutDown()
     {
         // 注销所有热键，防止内存泄漏或系统钩子残留
-        UnregisterHotkey("Hotkey");
+        UnregisterHotkey("ToggleOverlay");
         _saveConfigTimer?.Stop();
         _saveConfigTimer?.Dispose();
 
         // 彻底销毁窗口
-        if (_overlayWindow != null)
-        {
-            _overlayWindow.Close();
-            _overlayWindow = null;
-        }
+        _overlayWindow?.Close();
+        _overlayWindow = null;
     }
 
     private async Task RestoreWindowPositionAsync()
     {
-        if (_overlayWindow == null) return;
+        if (_overlayWindow == null)
+        {
+            return;
+        }
+
         var savedRect = await _localSettingsService.ReadSettingAsync<OverlayRect?>("OverlayWindowRect");
 
         if (savedRect.HasValue)
@@ -198,6 +226,48 @@ public class OverlayService : IOverlayService
             Debug.WriteLine($"Overlay 位置已保存: {rect.X}, {rect.Y}");
         };
         _saveConfigTimer.Start();
+    }
+
+    public void UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers)
+    {
+        RegisterHotkey("ToggleOverlay", key, modifiers);
+        _ = _localSettingsService.SaveSettingAsync("Hotkey_Key", (int)key);
+        _ = _localSettingsService.SaveSettingAsync("Hotkey_Modifiers", (int)modifiers);
+        CurrentHotkeyText = GetHotkeyDisplay(key, modifiers);
+    }
+    public string GetHotkeyDisplay(VirtualKey key, VirtualKeyModifiers modifiers)
+    {
+        var parts = new List<string>();
+
+        // 修饰键
+        if (modifiers.HasFlag(VirtualKeyModifiers.Control)) parts.Add("Ctrl");
+        if (modifiers.HasFlag(VirtualKeyModifiers.Shift)) parts.Add("Shift");
+        if (modifiers.HasFlag(VirtualKeyModifiers.Menu)) parts.Add("Alt");
+        if (modifiers.HasFlag(VirtualKeyModifiers.Windows)) parts.Add("Win");
+
+        // 主键（如果是 None 则跳过）
+        if (key != VirtualKey.None)
+        {
+            parts.Add(key.ToString());
+        }
+
+        return parts.Count > 0 ? string.Join(" + ", parts) : " ";
+    }
+
+    public async Task<string> GetSavedHotkeyTextAsync()
+    {
+        var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key")
+                       ?? (int)VirtualKey.F12;
+
+        var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers")
+                       ?? (int)VirtualKey.Control;
+
+        return GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+    }
+
+    public void CancelHotkeyUpdate()
+    {
+        Initialize();
     }
 
 }
