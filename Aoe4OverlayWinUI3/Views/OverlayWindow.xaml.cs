@@ -29,8 +29,9 @@ public sealed partial class OverlayWindow : WindowEx
     {
         get;
     }
-    public OverlayWindow()
+    public OverlayWindow(OverlayViewModel viewModel)
     {
+        ViewModel = viewModel;
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;

@@ -237,8 +237,6 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         {
             IsOverlayEditable = false;
         }
-
-        // TODO: 加上保存配置到 LocalSettings 的代码
     }
 
     // 加载保存的 ProfileId，并自动搜索更新玩家信息

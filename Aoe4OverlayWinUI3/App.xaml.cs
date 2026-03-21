@@ -85,6 +85,7 @@ public partial class App : Application
             services.AddTransient<ShellPage>();
             services.AddSingleton<ShellViewModel>();
             services.AddTransient<OverlayViewModel>();
+            services.AddTransient<OverlayWindow>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

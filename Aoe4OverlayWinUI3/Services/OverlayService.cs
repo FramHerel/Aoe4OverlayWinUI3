@@ -4,17 +4,20 @@ using Aoe4OverlayWinUI3.Core.Models;
 using Aoe4OverlayWinUI3.Messages;
 using Aoe4OverlayWinUI3.Views;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using NHotkey;
 using NHotkey.WinUI;
 using Windows.System;
-using System.Timers;
 
 namespace Aoe4OverlayWinUI3.Services;
 
 public class OverlayService : IOverlayService
 {
+    private readonly IServiceProvider _serviceProvider;
+    private readonly SemaphoreSlim _saveLock = new(1, 1);
     private OverlayWindow _overlayWindow;
 
     private System.Timers.Timer? _saveConfigTimer;
@@ -24,53 +27,57 @@ public class OverlayService : IOverlayService
     private readonly ILocalSettingsService _localSettingsService;
 
     // 切换覆盖层显示状态的方法
-    public OverlayService(ILocalSettingsService localSettingsService)
+    public OverlayService(ILocalSettingsService localSettingsService, IServiceProvider serviceProvider)
     {
         _localSettingsService = localSettingsService;
-        //RegisterHotkey("ToggleOverlay", VirtualKey.F12, VirtualKeyModifiers.Control);
-        Initialize();
+        _serviceProvider = serviceProvider;
     }
 
-    public async void Initialize()
+    public async Task InitializeAsync()
     {
-        // 读取保存的键位，如果没有则使用默认 Ctrl + F12
-        var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
-        var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
-        CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+        try
+        {
+            // 读取保存的键位，如果没有则使用默认 Ctrl + F12
+            var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
+            var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
+            CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
 
-        RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+            RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to initialize OverlayService: {ex}");
+        }
     }
     public async Task ToggleOverlay(bool enable)
     {
         if (enable)
         {
-            if (_overlayWindow == null)
-            {
-                _overlayWindow = new OverlayWindow();
+            if (_overlayWindow != null) return;
 
-                // --- 保存 ---
-                _overlayWindow.AppWindow.Changed += (s, e) =>
-                {
-                    if (e.DidPositionChange || e.DidSizeChange)
-                    {
-                        RestartSaveTimer(s);
-                    }
-                };
+            // 实例
+            _overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
 
-                // --- 窗口置顶 ---
-                _overlayWindow.SetIsAlwaysOnTop(true);
+            // --- 保存位置 ---
+            _overlayWindow.AppWindow.Changed += OnAppWindowChanged;
 
-                // --- 任务栏控制 ---
-                _overlayWindow.AppWindow.IsShownInSwitchers = false;
+            // 关闭出口
+            _overlayWindow.Closed += OnOverlayWindowClosed;
 
-                // --- 鼠标穿透 ---
-                // _overlayWindow.SetIsClickThrough(true); 
 
-                await RestoreWindowPositionAsync();
+            // --- 窗口置顶 ---
+            _overlayWindow.SetIsAlwaysOnTop(true);
 
-                SetOverlayEditMode(false);
+            // --- 任务栏控制 ---
+            _overlayWindow.AppWindow.IsShownInSwitchers = false;
 
-            }
+            // --- TODO: 鼠标穿透 ---
+            // _overlayWindow.SetIsClickThrough(true); 
+
+            // 恢复位置
+            await RestoreWindowPositionAsync();
+
+            SetOverlayEditMode(false);
 
             // --- 显示窗口 ---
             _overlayWindow.Show();
@@ -78,7 +85,28 @@ public class OverlayService : IOverlayService
         else
         {
             // 隐藏窗口
-            _overlayWindow?.Hide();
+            _overlayWindow?.Close();
+        }
+    }
+    private void OnOverlayWindowClosed(object sender, WindowEventArgs args)
+    {
+        // 清理引用
+        if (_overlayWindow != null)
+        {
+            _overlayWindow.AppWindow.Changed -= OnAppWindowChanged;
+            _overlayWindow.Closed -= OnOverlayWindowClosed;
+            _overlayWindow = null;
+        }
+
+        // 同步 UI 状态
+        WeakReferenceMessenger.Default.Send(new OverlayStatusChangedMessage(false));
+        Debug.WriteLine("[OverlayService] Window closed by user, status synced.");
+    }
+    private void OnAppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)
+    {
+        if (args.DidPositionChange || args.DidSizeChange)
+        {
+            RestartSaveTimer(sender);
         }
     }
 
@@ -129,6 +157,7 @@ public class OverlayService : IOverlayService
         }
     }
 
+    // TODO: 添加鼠标点击可穿越功能
     public void SetIsClickThrough(bool isClickThrough)
     {
         if (_overlayWindow == null)
@@ -163,21 +192,33 @@ public class OverlayService : IOverlayService
 
     private async void OnHotkeyInvoked(object? sender, HotkeyEventArgs e)
     {
-        bool newStatus = !(_overlayWindow?.Visible ?? false);
-        await ToggleOverlay(newStatus);
-        WeakReferenceMessenger.Default.Send(new OverlayStatusChangedMessage(newStatus));
-        e.Handled = true;
+        try
+        {
+            bool newStatus = !(_overlayWindow?.Visible ?? false);
+            await ToggleOverlay(newStatus);
+            WeakReferenceMessenger.Default.Send(new OverlayStatusChangedMessage(newStatus));
+            e.Handled = true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Hotkey handler error: {ex}");
+        }
     }
     public void ShutDown()
     {
         // 注销所有热键，防止内存泄漏或系统钩子残留
         UnregisterHotkey("ToggleOverlay");
+
+        if (_overlayWindow != null)
+        {
+            _overlayWindow.AppWindow.Changed -= OnAppWindowChanged; // 注销事件
+            _overlayWindow.Close(); // Close 会触发释放逻辑
+            _overlayWindow = null;
+        }
+
         _saveConfigTimer?.Stop();
         _saveConfigTimer?.Dispose();
 
-        // 彻底销毁窗口
-        _overlayWindow?.Close();
-        _overlayWindow = null;
     }
 
     private async Task RestoreWindowPositionAsync()
@@ -214,16 +255,25 @@ public class OverlayService : IOverlayService
         };
         _saveConfigTimer.Elapsed += async (s, e) =>
         {
-            var rect = new OverlayRect
+            await _saveLock.WaitAsync();
+            try
             {
-                X = appWindow.Position.X,
-                Y = appWindow.Position.Y,
-                Width = appWindow.Size.Width,
-                Height = appWindow.Size.Height
-            };
 
-            await _localSettingsService.SaveSettingAsync("OverlayWindowRect", rect);
-            Debug.WriteLine($"Overlay 位置已保存: {rect.X}, {rect.Y}");
+                var rect = new OverlayRect
+                {
+                    X = appWindow.Position.X,
+                    Y = appWindow.Position.Y,
+                    Width = appWindow.Size.Width,
+                    Height = appWindow.Size.Height
+                };
+
+                await _localSettingsService.SaveSettingAsync("OverlayWindowRect", rect);
+                Debug.WriteLine($"Overlay position saved: {rect.X}, {rect.Y}");
+            }
+            finally
+            {
+                _saveLock.Release();
+            }
         };
         _saveConfigTimer.Start();
     }
@@ -267,7 +317,7 @@ public class OverlayService : IOverlayService
 
     public void CancelHotkeyUpdate()
     {
-        Initialize();
+        InitializeAsync();
     }
 
 }
