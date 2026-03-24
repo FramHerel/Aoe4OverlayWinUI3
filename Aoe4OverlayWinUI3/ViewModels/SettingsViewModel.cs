@@ -96,9 +96,6 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         set;
     }
 
-
-
-
     // 可用的主题列表
     public ElementTheme[] Themes { get; } = Enum.GetValues<ElementTheme>();
 

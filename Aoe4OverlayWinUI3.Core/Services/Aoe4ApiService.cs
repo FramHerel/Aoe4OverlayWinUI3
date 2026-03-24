@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Models;
@@ -98,7 +99,7 @@ public class Aoe4ApiService:IAoe4ApiService
     }
 
     // 获取玩家比赛历史
-    public async Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit = 10)
+    public async Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit = 50)
     {
         try
         {
@@ -116,4 +117,44 @@ public class Aoe4ApiService:IAoe4ApiService
             return [];
         }
     }
+
+    // 获取LastMatch的数据
+    public async Task<LastMatch?> GetLastMatchAsync(string profileId, CancellationToken ct = default)
+    {
+        if (string.IsNullOrEmpty(profileId)) return null;
+        try
+        {
+            // 发起请求
+            var response = await _httpClient.GetAsync($"{BaseUrl}players/{profileId}/games/last", ct);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            // 确保其他非成功状态码抛出异常
+            response.EnsureSuccessStatusCode();
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var match = await response.Content.ReadFromJsonAsync<LastMatch>(options, ct);
+
+            if (match?.Teams != null)
+            {
+                foreach (var team in match.Teams)
+                {
+                    foreach (var player in team)
+                    {
+                        player.SyncActiveStats(match.Kind);
+                    }
+                }
+            }
+            return match;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[API Error] Cannot get the last game: {ex.Message}");
+            return null;
+        }
+    }
+
 }

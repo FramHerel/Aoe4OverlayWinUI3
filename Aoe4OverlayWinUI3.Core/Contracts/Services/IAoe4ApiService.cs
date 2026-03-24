@@ -13,4 +13,5 @@ public interface IAoe4ApiService
     Task<Player?> GetPlayerAsync(string profileId);
 
     Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit = 10);
+    Task<LastMatch?> GetLastMatchAsync(string profileId, CancellationToken ct = default);
 }
