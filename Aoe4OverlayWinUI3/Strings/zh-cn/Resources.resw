@@ -191,6 +191,18 @@
     <value>启用或禁用覆盖层调整模式</value>
   </data>
   <data name="Settings_Overlay_SettingsExpander_OverlayHotkey.Header" xml:space="preserve">
-    <value>设置热键</value>
+    <value>启用或禁用覆盖层的快捷键</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop.Header" xml:space="preserve">
+    <value>为覆盖层选择一种背景材质</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Transparent.Content" xml:space="preserve">
+    <value>透明</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Mica.Content" xml:space="preserve">
+    <value>云母</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Acrylic.Content" xml:space="preserve">
+    <value>亚克力</value>
   </data>
 </root>

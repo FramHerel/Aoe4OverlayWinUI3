@@ -68,9 +68,11 @@ public sealed partial class OverlayWindow : WindowEx
     }
 
     // 背板风格
-    public class BlurredBackdrop : CompositionBrushBackdrop
+    public partial class BlurredBackdrop : CompositionBrushBackdrop
     {
         protected override Windows.UI.Composition.CompositionBrush CreateBrush(Windows.UI.Composition.Compositor compositor)
             => compositor.CreateHostBackdropBrush();
     }
+
+    // TODO: 为Overlay加入与主程序一致的主题切换
 }

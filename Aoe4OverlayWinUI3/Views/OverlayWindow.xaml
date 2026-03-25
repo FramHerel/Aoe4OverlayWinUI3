@@ -14,7 +14,7 @@
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
-        <windowex:TransparentTintBackdrop TintColor="#000000ff" />
+        <windowex:TransparentTintBackdrop TintColor="#80000000" />
     </Window.SystemBackdrop>
 
     <Grid x:Name="RootGrid">
@@ -29,7 +29,7 @@
 
                     <Image
                         Grid.Column="0"
-                        Width="20"
+                        Width="30"
                         Height="20"
                         VerticalAlignment="Center"
                         Source="{x:Bind CivIconPath, Mode=OneWay}" />
@@ -38,14 +38,14 @@
                         Grid.Column="1"
                         Margin="8,0"
                         VerticalAlignment="Center"
-                        FontSize="13"
+                        FontSize="14"
                         Text="{x:Bind DisplayName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis" />
 
                     <TextBlock
                         Grid.Column="2"
                         VerticalAlignment="Center"
-                        FontSize="12"
+                        FontSize="14"
                         FontWeight="SemiBold"
                         Foreground="Orange"
                         Text="{x:Bind Rating, Mode=OneWay}" />
@@ -53,8 +53,8 @@
             </DataTemplate>
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid x:Name="CustomTitleBar" Grid.Row="0" />
 

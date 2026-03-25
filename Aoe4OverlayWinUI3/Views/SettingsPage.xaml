@@ -86,7 +86,7 @@
                         </toolkit:SettingsExpander.HeaderIcon>
                         <ToggleSwitch x:Name="overlayOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEnabled, Mode=TwoWay}" />
                         <toolkit:SettingsExpander.Items>
-                            <toolkit:SettingsCard Header="显示/隐藏快捷键">
+                            <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsExpander_OverlayHotkey">
                                 <Button
                                     Command="{x:Bind ViewModel.StartListenHotkeyCommand}"
                                     Content="{x:Bind ViewModel.HotkeyText, Mode=OneWay}"
@@ -98,18 +98,15 @@
                                 IsEnabled="{x:Bind ViewModel.IsOverlayEnabled, Mode=OneWay}">
                                 <ToggleSwitch x:Name="overlayEditableOnOffToggleSwitch" IsOn="{x:Bind ViewModel.IsOverlayEditable, Mode=TwoWay}" />
                             </toolkit:SettingsCard>
-                            <toolkit:SettingsCard x:Name="OverlayHotkey" />
+                            <toolkit:SettingsCard x:Name="OverlayBackdrop" x:Uid="Settings_Overlay_SettingsExpander_OverlayBackdrop">
+                                <ComboBox SelectedIndex="{x:Bind ViewModel.SelectedBackdropIndex, Mode=TwoWay}">
+                                    <ComboBoxItem x:Uid="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Transparent" />
+                                    <ComboBoxItem x:Uid="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Mica" />
+                                    <ComboBoxItem x:Uid="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Acrylic" />
+                                </ComboBox>
+                            </toolkit:SettingsCard>
                         </toolkit:SettingsExpander.Items>
                     </toolkit:SettingsExpander>
-                    <StackPanel Spacing="20">
-                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="悬浮窗背景设置" />
-
-                        <ComboBox Header="背景材质" SelectedIndex="{x:Bind ViewModel.SelectedBackdropIndex, Mode=TwoWay}">
-                            <ComboBoxItem>彻底透明 (Transparent)</ComboBoxItem>
-                            <ComboBoxItem>云母效果 (Mica)</ComboBoxItem>
-                            <ComboBoxItem>亚克力 (Acrylic)</ComboBoxItem>
-                        </ComboBox>
-                    </StackPanel>
                     <!--  Appearance  -->
                     <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                     <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">

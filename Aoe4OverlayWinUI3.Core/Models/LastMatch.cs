@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 using static Aoe4OverlayWinUI3.Core.Models.LastMatch;
 
 namespace Aoe4OverlayWinUI3.Core.Models;
@@ -44,7 +45,7 @@ public class LastMatch
 public class LastMatchPlayer
 {
     [JsonPropertyName("name")]
-    public String Name
+    public string Name
     {
         get; set;
     }
@@ -119,9 +120,21 @@ public class LastMatchPlayer
     : "ms-appx:///Assets/Countries/unknown.png";
 
     [JsonIgnore]
-    public string CivIconPath => Civilization != null
-    ? $"ms-appx:///Assets/Civs/{Civilization.ToLower()}.webp"
-    : "ms-appx:///Assets/Civs/unknown.png";
+    public string CivIconPath
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Civilization))
+            {
+                return "ms-appx:///Assets/Civs/unknown.png";
+            }
+
+            string spacedCiv = Civilization.Replace("_", " ");
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            string formattedCiv = textInfo.ToTitleCase(spacedCiv);
+            return $"ms-appx:///Assets/Civs/{formattedCiv}.webp";
+        }
+    }
 }
 
 public class ModeDetail

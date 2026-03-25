@@ -17,7 +17,6 @@ namespace Aoe4OverlayWinUI3.ViewModels;
 
 public partial class OverlayViewModel : ObservableRecipient
 {
-    // TODO: 添加游戏状态
     private readonly IAoe4ApiService _aoe4ApiService;
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -74,7 +73,11 @@ public partial class OverlayViewModel : ObservableRecipient
 
     private async Task RefreshDataAsync()
     {
-        if (string.IsNullOrEmpty(_targetProfileId)) return;
+        if (string.IsNullOrEmpty(_targetProfileId))
+        {
+            return;
+        }
+
         var match = await _aoe4ApiService.GetLastMatchAsync(_targetProfileId);
 
         if (match != null)

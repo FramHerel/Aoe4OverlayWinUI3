@@ -190,6 +190,18 @@
     <value>Enable or disable overlay edit mode</value>
   </data>
   <data name="Settings_Overlay_SettingsExpander_OverlayHotkey.Header" xml:space="preserve">
-    <value>Setting a hotkey</value>
+    <value>Overlay Toggle Hotkey</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop.Header" xml:space="preserve">
+    <value>Select a backdrop for overlay</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Transparent.Content" xml:space="preserve">
+    <value>Transparent</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Mica.Content" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Acrylic.Content" xml:space="preserve">
+    <value>Acrylic</value>
   </data>
 </root>

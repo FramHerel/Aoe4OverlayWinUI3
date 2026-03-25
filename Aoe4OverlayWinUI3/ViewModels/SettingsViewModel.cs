@@ -95,6 +95,8 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         get;
         set;
     }
+    // TODO: 覆盖层颜色设置
+
 
     // 可用的主题列表
     public ElementTheme[] Themes { get; } = Enum.GetValues<ElementTheme>();
@@ -202,7 +204,6 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
     }
 
     // TODO: 增加一个清除按钮，清除当前玩家信息和保存的 ProfileId
-    // TODO: 对查询 API 速率加以限制
     // TODO: 增加错误提示，例如输入无效 ID 或网络错误时显示消息
 
     public void Receive(OverlayStatusChangedMessage message)
