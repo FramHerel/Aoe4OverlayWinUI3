@@ -20,7 +20,11 @@
     <Grid x:Name="RootGrid">
         <Grid.Resources>
             <DataTemplate x:Key="PlayerItemTemplate" x:DataType="models:LastMatchPlayer">
-                <Grid Margin="0,2">
+                <Grid
+                    Margin="0,2"
+                    Padding="8,4"
+                    Background="#33000000"
+                    CornerRadius="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -39,6 +43,7 @@
                         Margin="8,0"
                         VerticalAlignment="Center"
                         FontSize="14"
+                        Foreground="White"
                         Text="{x:Bind DisplayName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis" />
 
@@ -76,9 +81,13 @@
                         Margin="0,0,0,8"
                         FontSize="11"
                         FontWeight="Bold"
+                        Foreground="White"
                         Opacity="0.5"
                         Text="TEAM 1" />
-                    <ItemsControl ItemTemplate="{StaticResource PlayerItemTemplate}" ItemsSource="{x:Bind ViewModel.CurrentMatch.Teams[0], Mode=OneWay}" />
+                    <ItemsControl
+                        Foreground="White"
+                        ItemTemplate="{StaticResource PlayerItemTemplate}"
+                        ItemsSource="{x:Bind ViewModel.CurrentMatch.Teams[0], Mode=OneWay}" />
                 </StackPanel>
 
                 <TextBlock
@@ -95,9 +104,13 @@
                         HorizontalAlignment="Right"
                         FontSize="11"
                         FontWeight="Bold"
+                        Foreground="White"
                         Opacity="0.5"
                         Text="TEAM 2" />
-                    <ItemsControl ItemTemplate="{StaticResource PlayerItemTemplate}" ItemsSource="{x:Bind ViewModel.CurrentMatch.Teams[1], Mode=OneWay}" />
+                    <ItemsControl
+                        Foreground="White"
+                        ItemTemplate="{StaticResource PlayerItemTemplate}"
+                        ItemsSource="{x:Bind ViewModel.CurrentMatch.Teams[1], Mode=OneWay}" />
                 </StackPanel>
             </Grid>
         </Grid>

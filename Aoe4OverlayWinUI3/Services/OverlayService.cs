@@ -118,9 +118,12 @@ public class OverlayService : IOverlayService
             return;
         }
 
+        // #80000000 对应：A=128, R=0, G=0, B=0
+        var currentColor = Microsoft.UI.ColorHelper.FromArgb(128, 0, 0, 0);
+
         _overlayWindow.SystemBackdrop = value switch
         {
-            0 => new TransparentTintBackdrop(),
+            0 => new TransparentTintBackdrop { TintColor = currentColor },
             1 => new MicaBackdrop(),
             2 => new DesktopAcrylicBackdrop(),
             _ => null
