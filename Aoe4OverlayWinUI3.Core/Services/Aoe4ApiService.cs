@@ -98,8 +98,8 @@ public class Aoe4ApiService:IAoe4ApiService
         }
     }
 
-    // 获取玩家比赛历史
-    public async Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit = 50)
+    // 获取玩家比赛历史 GamesList 页
+    public async Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit)
     {
         try
         {
@@ -118,7 +118,7 @@ public class Aoe4ApiService:IAoe4ApiService
         }
     }
 
-    // 获取LastMatch的数据
+    // 获取 LastMatch 的数据，也即 Overlay 上的数据
     public async Task<LastMatch?> GetLastMatchAsync(string profileId, CancellationToken ct = default)
     {
         if (string.IsNullOrEmpty(profileId)) return null;

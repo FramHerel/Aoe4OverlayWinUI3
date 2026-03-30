@@ -23,6 +23,14 @@ public partial class OverlayViewModel : ObservableRecipient
     private DispatcherQueueTimer? _refreshTimer;
     private string? _targetProfileId;
 
+    // 加载情况
+    [ObservableProperty]
+    public partial bool IsLoading
+    {
+        get;
+        set;
+    }
+
     [ObservableProperty]
     public partial LastMatch? CurrentMatch
     {
@@ -73,16 +81,24 @@ public partial class OverlayViewModel : ObservableRecipient
 
     private async Task RefreshDataAsync()
     {
-        if (string.IsNullOrEmpty(_targetProfileId))
+        IsLoading = true;
+        try
         {
-            return;
+            if (string.IsNullOrEmpty(_targetProfileId))
+            {
+                return;
+            }
+
+            var match = await _aoe4ApiService.GetLastMatchAsync(_targetProfileId);
+
+            if (match != null)
+            {
+                CurrentMatch = match;
+            }
         }
-
-        var match = await _aoe4ApiService.GetLastMatchAsync(_targetProfileId);
-
-        if (match != null)
+        finally
         {
-            CurrentMatch = match;
+            IsLoading = false;
         }
     }
 

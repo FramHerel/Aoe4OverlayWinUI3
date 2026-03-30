@@ -12,15 +12,12 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 
-using Windows.UI;
-
-using Color = Windows.UI.Color;
-using Colors = Microsoft.UI.Colors;
-
 namespace Aoe4OverlayWinUI3.ViewModels;
+/// <summary>
+/// 用于显示应用的设置界面，包含主题选择、热键设置、背板设置等功能。
+/// </summary>
 
 public partial class SettingsViewModel : ObservableRecipient, IRecipient<OverlayStatusChangedMessage>
 {
@@ -269,4 +266,5 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
         HotkeyText = "Waiting press...";
         _overlayService.UnregisterHotkey("ToggleOverlay");
     }
+
 }

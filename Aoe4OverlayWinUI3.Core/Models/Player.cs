@@ -14,7 +14,7 @@ public class Player
     }
 
     [JsonPropertyName("steam_id")]
-    public string SteamId { get; set; } = string.Empty;
+    public string? SteamId { get; set; } = string.Empty;
 
     [JsonPropertyName("site_url")]
     public string SiteUrl { get; set; } = string.Empty;

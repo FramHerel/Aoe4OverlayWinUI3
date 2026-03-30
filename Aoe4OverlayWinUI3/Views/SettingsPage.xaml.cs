@@ -1,13 +1,14 @@
 ﻿using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Services;
 using Aoe4OverlayWinUI3.ViewModels;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
 
 namespace Aoe4OverlayWinUI3.Views;
 
-// TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
 public sealed partial class SettingsPage : Page
 {
     private readonly IOverlayService _overlayService;
@@ -76,5 +77,18 @@ public sealed partial class SettingsPage : Page
 
             ViewModel.IsListeningForHotkey = false;
         }
+    }
+
+    private void ToCloneRepoCard_Click(object sender, RoutedEventArgs e)
+    {
+        DataPackage package = new DataPackage();
+        package.SetText(gitCloneTextBlock.Text);
+        Clipboard.SetContent(package);
+    }
+
+    private async void BugRequestCard_Click(object sender, RoutedEventArgs e)
+    {
+        await Launcher.LaunchUriAsync(new Uri("https://github.com/FramHerel/Aoe4OverlayWinUI3/issues/new/choose"));
+
     }
 }

@@ -204,4 +204,7 @@
   <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Acrylic.Content" xml:space="preserve">
     <value>Acrylic</value>
   </data>
+  <data name="Profile_HyperlinkButton.Content" xml:space="preserve">
+    <value>View detailed statistics on Aoe4World</value>
+  </data>
 </root>

@@ -53,7 +53,10 @@ public class OverlayService : IOverlayService
     {
         if (enable)
         {
-            if (_overlayWindow != null) return;
+            if (_overlayWindow != null)
+            {
+                return;
+            }
 
             // 实例
             _overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();

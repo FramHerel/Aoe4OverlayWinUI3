@@ -3,7 +3,6 @@
 using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Contracts.ViewModels;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
-using Aoe4OverlayWinUI3.Core.Models;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -15,12 +14,15 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
 
     private readonly ILocalSettingsService _localSettingsService;
 
-    public ObservableCollection<GameItemViewModel> Games { get; } = new();
+    public ObservableCollection<GameItemViewModel> Games { get; } = [];
 
     [ObservableProperty]
-    public partial bool IsLoading { get; set; }
+    public partial bool IsLoading
+    {
+        get; set;
+    }
 
-    public GamesListViewModel(IAoe4ApiService aoe4ApiService,ILocalSettingsService localSettingsService)
+    public GamesListViewModel(IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
         _aoe4ApiService = aoe4ApiService;
         _localSettingsService = localSettingsService;
@@ -35,7 +37,7 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
     {
     }
 
-    
+
     public async Task LoadDataAsync()
     {
         IsLoading = true;
@@ -51,7 +53,8 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         try
         {
             // 调用 API 获取数据
-            var matches = await _aoe4ApiService.GetMatchHistoryAsync(profileId);
+            // TODO: 请求限制暂时固定为 50，后续可以改成可配置的参数
+            var matches = await _aoe4ApiService.GetMatchHistoryAsync(profileId, 50);
 
             // 转换并填充集合
             Games.Clear();

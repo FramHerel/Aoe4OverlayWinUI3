@@ -14,8 +14,6 @@
     </Page.Resources>
 
     <!--  TODO: 添加国旗显示  -->
-    <!--  TODO: 添加跳转到 Aoe4World 首页的链接  -->
-    <!--  TODO: 添加显示 Steam ID  -->
     <!--  TODO: 添加段位显示  -->
     <!--  TODO: 检查无数据时刷新  -->
     <!--  TODO: 增加一个清除按钮，清除当前玩家信息和保存的 ProfileId  -->
@@ -57,8 +55,24 @@
                 <!--  分割线  -->
                 <Rectangle Height="1" Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
 
+                <!--  账户信息  -->
                 <ItemsControl>
-                    <toolkit:SettingsCard Content="{x:Bind ViewModel.Player.ProfileId, Mode=OneWay}" Header="Profile ID" />
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="12" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.Items>
+                        <toolkit:SettingsCard Content="{x:Bind ViewModel.Player.ProfileId, Mode=OneWay}" Header="Profile ID" />
+
+                        <toolkit:SettingsCard Content="{x:Bind ViewModel.Player.SteamId, Mode=OneWay}" Header="Steam ID" />
+
+                        <HyperlinkButton
+                            x:Uid="Profile_HyperlinkButton"
+                            Margin="4,0,0,0"
+                            Foreground="{ThemeResource SystemAccentColor}"
+                            NavigateUri="{x:Bind ViewModel.Player.SiteUrl, Mode=OneWay}" />
+                    </ItemsControl.Items>
                 </ItemsControl>
 
             </StackPanel>

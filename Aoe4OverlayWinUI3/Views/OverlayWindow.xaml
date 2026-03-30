@@ -67,7 +67,14 @@
             <StackPanel
                 x:Name="LoadingStack"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
+                VerticalAlignment="Center"
+                Spacing="12">
+
+                <ProgressRing
+                    Width="40"
+                    Height="40"
+                    IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+            </StackPanel>
 
             <Grid ColumnSpacing="20">
                 <Grid.ColumnDefinitions>

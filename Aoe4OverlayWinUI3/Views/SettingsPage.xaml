@@ -138,6 +138,7 @@
                         <toolkit:SettingsExpander.Items>
                             <toolkit:SettingsCard
                                 x:Name="toCloneRepoCard"
+                                Click="ToCloneRepoCard_Click"
                                 Header="To clone this repository"
                                 IsClickEnabled="True">
                                 <TextBlock
@@ -152,16 +153,13 @@
                             </toolkit:SettingsCard>
                             <toolkit:SettingsCard
                                 x:Name="bugRequestCard"
-                                Header="Report a bug or request new feature"
+                                Click="BugRequestCard_Click"
+                                Header="File a bug or request new feature"
                                 IsClickEnabled="True">
                                 <toolkit:SettingsCard.ActionIcon>
                                     <FontIcon Glyph="&#xE8A7;" />
                                 </toolkit:SettingsCard.ActionIcon>
                             </toolkit:SettingsCard>
-                            <toolkit:SettingsCard
-                                HorizontalContentAlignment="Left"
-                                ContentAlignment="Vertical"
-                                Header="THIS CODE AND INFORMATION IS PROVIDED ‘AS IS’ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE." />
                         </toolkit:SettingsExpander.Items>
                     </toolkit:SettingsExpander>
                 </StackPanel>

@@ -18,7 +18,7 @@ public sealed partial class ProfilePage : Page
         InitializeComponent();
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    protected async override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
         await ViewModel.OnNavigatedTo();
