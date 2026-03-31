@@ -1,10 +1,9 @@
 ﻿using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Aoe4OverlayWinUI3.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Aoe4OverlayWinUI3.ViewModels;
 
@@ -31,7 +30,7 @@ public partial class ProfileViewModel : ObservableRecipient
     }
 
     // 构造函数
-    public ProfileViewModel(IAoe4ApiService aoe4ApiService,ILocalSettingsService localSettingsService)
+    public ProfileViewModel(IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
         _aoe4ApiService = aoe4ApiService;
         _localSettingsService = localSettingsService;

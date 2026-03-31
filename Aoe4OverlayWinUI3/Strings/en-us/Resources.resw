@@ -141,12 +141,6 @@
   <data name="Settings_About_SettingsExpander.Description" xml:space="preserve">
     <value>© 2026 All rights reserved.</value>
   </data>
-  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Statement</value>
-  </data>
-  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
-  </data>
   <data name="Settings_Account_Header.Text" xml:space="preserve">
     <value>Account</value>
   </data>

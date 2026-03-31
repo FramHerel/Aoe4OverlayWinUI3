@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aoe4OverlayWinUI3.Core.Models;
+﻿using Aoe4OverlayWinUI3.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Linq;
 
 namespace Aoe4OverlayWinUI3.ViewModels;
 
 public partial class GameItemViewModel : ObservableObject
 {
-    public string Map { get; }
-    public string Kind { get; }
-    public string StartTime { get; }
+    public string Map
+    {
+        get;
+    }
+    public string Kind
+    {
+        get;
+    }
+    public string StartTime
+    {
+        get;
+    }
     public string Result
     {
         get;
@@ -33,7 +38,7 @@ public partial class GameItemViewModel : ObservableObject
 
     public GameItemViewModel(GameMatch gameMatch, string currentProfileId)
     {
-        Map=gameMatch.Map;
+        Map = gameMatch.Map;
         Kind = gameMatch.Kind;
         StartTime = gameMatch.StartedAt.ToLocalTime().ToString("g");
 
@@ -44,7 +49,7 @@ public partial class GameItemViewModel : ObservableObject
             .FirstOrDefault(p => p.ProfileId.ToString() == currentProfileId.ToString());
 
         // 根据当前玩家的信息初始化展示属性
-        Initialize(gameMatch,currentPlayer);
+        Initialize(gameMatch, currentPlayer);
 
     }
 

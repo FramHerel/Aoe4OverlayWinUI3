@@ -1,5 +1,4 @@
 ﻿using Aoe4OverlayWinUI3.Contracts.Services;
-using Aoe4OverlayWinUI3.Services;
 using Aoe4OverlayWinUI3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

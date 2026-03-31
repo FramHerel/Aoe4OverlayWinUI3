@@ -1,21 +1,15 @@
 <Solution>
   <Configurations>
-    <Platform Name="arm64" />
     <Platform Name="x64" />
-    <Platform Name="x86" />
   </Configurations>
   <Project Path="Aoe4OverlayWinUI3.Core.Tests/Aoe4OverlayWinUI3.Core.Tests.csproj" Id="6ceb655b-5af5-471d-839f-8127ec14e4d5">
     <Platform Solution="Debug|x64" Project="x64" />
   </Project>
   <Project Path="Aoe4OverlayWinUI3.Core/Aoe4OverlayWinUI3.Core.csproj">
-    <Platform Solution="*|arm64" Project="arm64" />
     <Platform Solution="*|x64" Project="x64" />
-    <Platform Solution="*|x86" Project="x86" />
   </Project>
   <Project Path="Aoe4OverlayWinUI3/Aoe4OverlayWinUI3.csproj">
-    <Platform Solution="*|arm64" Project="arm64" />
     <Platform Solution="*|x64" Project="x64" />
-    <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
 </Solution>

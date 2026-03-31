@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aoe4OverlayWinUI3.Contracts.Services;
+﻿using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
 using Aoe4OverlayWinUI3.Core.Models;
 using Aoe4OverlayWinUI3.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media;
-using Windows.Services.Maps;
-using Windows.UI;
 
 namespace Aoe4OverlayWinUI3.ViewModels;
 

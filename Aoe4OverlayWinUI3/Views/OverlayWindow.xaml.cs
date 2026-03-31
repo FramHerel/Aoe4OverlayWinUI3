@@ -1,19 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Aoe4OverlayWinUI3.ViewModels;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -43,10 +29,10 @@ public sealed partial class OverlayWindow : WindowEx
 
     }
 
-    // åœ¨çª—å£åŠ è½½å®Œæˆåè®¾ç½®æ‹–æ‹½åŒºåŸŸ
+    // ÔÚ´°¿Ú¼ÓÔØÍê³ÉºóÉèÖÃÍÏ×§ÇøÓò
     private void UpdateDragRegion()
     {
-        // è·å–å½“å‰çª—å£çš„ç¼©æ”¾æ¯”ä¾‹ï¼ˆDPIï¼‰
+        // »ñÈ¡µ±Ç°´°¿ÚµÄËõ·Å±ÈÀı£¨DPI£©
         double scaleAdjustment = GetRasterizationScale();
 
         int width = (int)(RootGrid.ActualWidth * scaleAdjustment);
@@ -61,18 +47,18 @@ public sealed partial class OverlayWindow : WindowEx
         AppWindow.TitleBar.SetDragRectangles([dragRect]);
     }
 
-    // åœ¨çª—å£å¤§å°æ”¹å˜æ—¶æ›´æ–°æ‹–æ‹½åŒºåŸŸ
+    // ÔÚ´°¿Ú´óĞ¡¸Ä±äÊ±¸üĞÂÍÏ×§ÇøÓò
     private double GetRasterizationScale()
     {
         return RootGrid.XamlRoot?.RasterizationScale ?? 1.0;
     }
 
-    // èƒŒæ¿é£æ ¼
+    // ±³°å·ç¸ñ
     public partial class BlurredBackdrop : CompositionBrushBackdrop
     {
         protected override Windows.UI.Composition.CompositionBrush CreateBrush(Windows.UI.Composition.Compositor compositor)
             => compositor.CreateHostBackdropBrush();
     }
 
-    // TODO: ä¸ºOverlayåŠ å…¥ä¸ä¸»ç¨‹åºä¸€è‡´çš„ä¸»é¢˜åˆ‡æ¢
+    // TODO: ÎªOverlay¼ÓÈëÓëÖ÷³ÌĞòÒ»ÖÂµÄÖ÷ÌâÇĞ»»
 }

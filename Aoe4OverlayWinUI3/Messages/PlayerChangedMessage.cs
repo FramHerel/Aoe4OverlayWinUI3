@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aoe4OverlayWinUI3.Core.Models;
-using CommunityToolkit.Mvvm.Messaging.Messages;
+﻿using Aoe4OverlayWinUI3.Core.Models;
 
 namespace Aoe4OverlayWinUI3.Messages;
 

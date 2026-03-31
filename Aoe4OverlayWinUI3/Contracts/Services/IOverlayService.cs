@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.System;
-using Windows.UI;
+﻿using Windows.System;
 
 namespace Aoe4OverlayWinUI3.Contracts.Services;
 

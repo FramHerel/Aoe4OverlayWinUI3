@@ -11,14 +11,14 @@
   IgnorableNamespaces="uap rescap genTemplate">
 
   <Identity
-    Name="e69f159b-389b-45eb-898d-a09a7687c2a3"
-    Publisher="CN=Aoe4OverlayWinUI3Dev"
+    Name="FramHerel.Aoe4OverlayWinUI3"
+    Publisher="CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2"
     Version="0.9.0.0" />
     
-  <mp:PhoneIdentity PhoneProductId="e69f159b-389b-45eb-898d-a09a7687c2a3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="538c7367-cb79-4c6a-a00e-ebbc1c2247ab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
   <Properties>
-    <DisplayName>Aoe4OverlayWinUI3</DisplayName>
+    <DisplayName>Aoe4 Overlay WinUI 3</DisplayName>
     <PublisherDisplayName>Fram Herel</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

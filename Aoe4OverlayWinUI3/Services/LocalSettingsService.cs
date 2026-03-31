@@ -5,8 +5,6 @@ using Aoe4OverlayWinUI3.Helpers;
 using Aoe4OverlayWinUI3.Models;
 
 using Microsoft.Extensions.Options;
-
-using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace Aoe4OverlayWinUI3.Services;
