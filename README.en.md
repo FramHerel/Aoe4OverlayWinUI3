@@ -43,3 +43,6 @@ We deeply value account security:
 ## 💡 Notes
 
 The current version is a preview. If you encounter window positioning anomalies or slow data loading, please try restarting the application and contact the developer.
+
+## 💖 Credits
+Special Thanks to **[@gearlam](https://github.com/gearlam)** and their open-source project [AoE4_Overlay_CS](https://github.com/gearlam/AoE4_Overlay_CS). This project was deeply inspired by its design philosophy and core logic.
