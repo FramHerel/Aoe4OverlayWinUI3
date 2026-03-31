@@ -121,7 +121,7 @@
     <value>Aoe4OverlayWinUI3</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>Aoe4OverlayWinUI3</value>
+    <value>A real-time match tracking and statistics overlay for Age of Empires IV. Built with WinUI 3 for a native Windows 11 experience.</value>
   </data>
   <data name="Shell_Profile.Content" xml:space="preserve">
     <value>Profile</value>

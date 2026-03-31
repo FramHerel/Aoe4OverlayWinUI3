@@ -121,7 +121,7 @@
     <value>帝国时代4 覆盖层 WinUI 3</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>帝国时代4 覆盖层 WinUI 3</value>
+    <value>《帝国时代 4》实时对局查询工具。基于 WinUI 3 开发，提供原生流畅的悬浮窗数据追踪体验。</value>
   </data>
   <data name="Shell_Profile.Content" xml:space="preserve">
     <value>档案</value>

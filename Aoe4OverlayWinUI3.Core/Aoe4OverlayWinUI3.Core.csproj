@@ -2,8 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Aoe4OverlayWinUI3.Core</RootNamespace>
-    <Platforms>AnyCPU;x64;x86</Platforms>
-    <Platforms>x86;x64;arm64;AnyCPU</Platforms>
+    <Platforms>x64;AnyCPU</Platforms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <LangVersion>preview</LangVersion>
