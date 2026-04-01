@@ -67,5 +67,4 @@ public partial class ProfileViewModel : ObservableRecipient
             IsLoading = false;
         }
     }
-
 }

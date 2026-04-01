@@ -29,6 +29,7 @@
             <StackPanel Spacing="20">
 
                 <StackPanel Orientation="Horizontal" Spacing="15">
+                    <!--  头像  -->
                     <Border
                         Width="80"
                         Height="80"
@@ -66,12 +67,12 @@
                         <toolkit:SettingsCard Content="{x:Bind ViewModel.Player.ProfileId, Mode=OneWay}" Header="Profile ID" />
 
                         <toolkit:SettingsCard Content="{x:Bind ViewModel.Player.SteamId, Mode=OneWay}" Header="Steam ID" />
-
+                        <!--  超链接到 AoE4World 主页  -->
                         <HyperlinkButton
                             x:Uid="Profile_HyperlinkButton"
                             Margin="4,0,0,0"
                             Foreground="{ThemeResource SystemAccentColor}"
-                            NavigateUri="{x:Bind ViewModel.Player.SiteUrl, Mode=OneWay}" />
+                            NavigateUri="{x:Bind ViewModel.Player.SafeSiteUrl, Mode=OneWay, FallbackValue='https://aoe4world.com'}" />
                     </ItemsControl.Items>
                 </ItemsControl>
 

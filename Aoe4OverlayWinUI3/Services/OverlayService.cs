@@ -49,6 +49,8 @@ public class OverlayService : IOverlayService
             Debug.WriteLine($"Failed to initialize OverlayService: {ex}");
         }
     }
+
+    // 切换覆盖层显示状态的方法
     public async Task ToggleOverlay(bool enable)
     {
         if (enable)
@@ -61,24 +63,23 @@ public class OverlayService : IOverlayService
             // 实例
             _overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
 
-            // --- 保存位置 ---
+            // 固定属性
+            _overlayWindow.SetIsAlwaysOnTop(true);
+            _overlayWindow.AppWindow.IsShownInSwitchers = false;
+            _overlayWindow.SetIsMaximizable(false);
+            _overlayWindow.SetIsMinimizable(false);
+
+            // 监听窗口位置和大小变化事件，触发保存
             _overlayWindow.AppWindow.Changed += OnAppWindowChanged;
 
-            // 关闭出口
+            // 监听窗口关闭事件，清理引用并同步状态
             _overlayWindow.Closed += OnOverlayWindowClosed;
-
-
-            // --- 窗口置顶 ---
-            _overlayWindow.SetIsAlwaysOnTop(true);
-
-            // --- 任务栏控制 ---
-            _overlayWindow.AppWindow.IsShownInSwitchers = false;
 
             // --- TODO: 鼠标穿透 ---
             // _overlayWindow.SetIsClickThrough(true); 
 
             // 恢复位置
-            await RestoreWindowPositionAsync();
+            await RestoreWindowRectAsync();
 
             SetOverlayEditMode(false);
 
@@ -191,6 +192,7 @@ public class OverlayService : IOverlayService
 
     }
 
+    // 注销快捷键
     public void UnregisterHotkey(string name)
     {
         HotkeyManager.Current.Remove(name);
@@ -210,6 +212,8 @@ public class OverlayService : IOverlayService
             Debug.WriteLine($"Hotkey handler error: {ex}");
         }
     }
+
+    // 释放资源的方法
     public void ShutDown()
     {
         // 注销所有热键，防止内存泄漏或系统钩子残留
@@ -227,7 +231,8 @@ public class OverlayService : IOverlayService
 
     }
 
-    private async Task RestoreWindowPositionAsync()
+    // 恢复窗口的方法
+    private async Task RestoreWindowRectAsync()
     {
         if (_overlayWindow == null)
         {
@@ -235,19 +240,31 @@ public class OverlayService : IOverlayService
         }
 
         var savedRect = await _localSettingsService.ReadSettingAsync<OverlayRect?>("OverlayWindowRect");
+        bool restored = false;
 
         if (savedRect.HasValue)
         {
             var rect = savedRect.Value;
-            // 应用保存的坐标和大小
-            _overlayWindow.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(rect.X, rect.Y, rect.Width, rect.Height));
+
+            var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromRect(new Windows.Graphics.RectInt32(rect.X, rect.Y, rect.Width, rect.Height), Microsoft.UI.Windowing.DisplayAreaFallback.None);
+
+            if (displayArea != null)
+            {
+                _overlayWindow.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(rect.X, rect.Y, rect.Width, rect.Height));
+                restored = true;
+            }
+
         }
-        else
+        if (!restored)
         {
-            // 设置默认位置
+            // 没有保存过位置，默认居中并设置初始大小
+            _overlayWindow.Width = 650;
+            _overlayWindow.Height = 178;
             _overlayWindow.CenterOnScreen();
         }
     }
+
+    //  重启保存窗口位置的计时器
     private void RestartSaveTimer(AppWindow appWindow)
     {
         // 停止并销毁旧计时器
@@ -259,31 +276,42 @@ public class OverlayService : IOverlayService
         {
             AutoReset = false
         };
+        // 事件触发时保存窗口
         _saveConfigTimer.Elapsed += async (s, e) =>
         {
-            await _saveLock.WaitAsync();
-            try
-            {
-
-                var rect = new OverlayRect
-                {
-                    X = appWindow.Position.X,
-                    Y = appWindow.Position.Y,
-                    Width = appWindow.Size.Width,
-                    Height = appWindow.Size.Height
-                };
-
-                await _localSettingsService.SaveSettingAsync("OverlayWindowRect", rect);
-                Debug.WriteLine($"Overlay position saved: {rect.X}, {rect.Y}");
-            }
-            finally
-            {
-                _saveLock.Release();
-            }
+            await SaveOverlayRectAsync(appWindow);
         };
+        // 启动计时器
         _saveConfigTimer.Start();
     }
 
+    private async Task SaveOverlayRectAsync(AppWindow appWindow)
+    {
+        await _saveLock.WaitAsync();
+        try
+        {
+            var rect = new OverlayRect
+            {
+                X = appWindow.Position.X,
+                Y = appWindow.Position.Y,
+                Width = appWindow.Size.Width,
+                Height = appWindow.Size.Height
+            };
+            await _localSettingsService.SaveSettingAsync("OverlayWindowRect", rect);
+            Debug.WriteLine($"[Overlay] Configuration saved: {rect.X}, {rect.Y}, {rect.Width}x{rect.Height}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[Overlay] Failed to save rect: {ex.Message}");
+        }
+        finally
+        {
+            _saveLock.Release();
+        }
+
+    }
+
+    // 更新快捷键的方法
     public void UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers)
     {
         RegisterHotkey("ToggleOverlay", key, modifiers);
@@ -291,6 +319,8 @@ public class OverlayService : IOverlayService
         _ = _localSettingsService.SaveSettingAsync("Hotkey_Modifiers", (int)modifiers);
         CurrentHotkeyText = GetHotkeyDisplay(key, modifiers);
     }
+
+    //  获取快捷键显示文本的方法
     public string GetHotkeyDisplay(VirtualKey key, VirtualKeyModifiers modifiers)
     {
         var parts = new List<string>();
@@ -310,6 +340,7 @@ public class OverlayService : IOverlayService
         return parts.Count > 0 ? string.Join(" + ", parts) : " ";
     }
 
+    // 获取保存的快捷键文本的方法
     public async Task<string> GetSavedHotkeyTextAsync()
     {
         var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key")
@@ -321,6 +352,7 @@ public class OverlayService : IOverlayService
         return GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
     }
 
+    //  取消快捷键更新，恢复到保存的状态
     public void CancelHotkeyUpdate()
     {
         InitializeAsync();

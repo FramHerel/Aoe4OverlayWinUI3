@@ -128,7 +128,6 @@ public partial class App : Application
             {
                 var overlayService = App.GetService<IOverlayService>();
                 overlayService?.ShutDown();
-                Application.Current.Exit();
             };
         }
     }

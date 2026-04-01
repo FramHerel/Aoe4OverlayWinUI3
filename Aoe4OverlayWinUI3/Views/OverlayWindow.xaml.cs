@@ -24,8 +24,6 @@ public sealed partial class OverlayWindow : WindowEx
         SetTitleBar(CustomTitleBar);
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
         RootGrid.SizeChanged += (s, e) => UpdateDragRegion();
-        this.SetIsMaximizable(false);
-        this.SetIsMinimizable(false);
 
     }
 

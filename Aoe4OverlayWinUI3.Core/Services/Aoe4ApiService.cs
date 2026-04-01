@@ -27,10 +27,14 @@ public class Aoe4ApiService:IAoe4ApiService
     public async Task<Player?> GetPlayerAsync(string query)
     {
         // 如果查询字符串为空，直接返回 null
-        if (string.IsNullOrEmpty(query)) return null;
+        if (string.IsNullOrEmpty(query))
+        {
+            return null;
+        }
+
         try
         {
-
+            // 优先通过 ID 获取玩家信息
             if (long.TryParse(query, out _))
             {
                 var playerById = await GetPlayerByIdAsync(query);

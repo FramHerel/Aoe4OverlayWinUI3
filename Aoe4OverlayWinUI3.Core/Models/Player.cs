@@ -21,4 +21,7 @@ public class Player
 
     [JsonPropertyName("country")]
     public string Country { get; set; } = string.Empty;
+
+    [JsonIgnore]
+    public Uri? SafeSiteUrl => Uri.TryCreate(SiteUrl, UriKind.Absolute, out var uri) ? uri : null;
 }
