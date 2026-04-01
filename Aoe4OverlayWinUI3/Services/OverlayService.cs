@@ -24,6 +24,8 @@ public class OverlayService : IOverlayService
 
     public string CurrentHotkeyText { get; private set; } = "Ctrl + F12";
 
+    private int _currentBackdropIndex = 0;
+
     private readonly ILocalSettingsService _localSettingsService;
 
     // 切换覆盖层显示状态的方法
@@ -42,6 +44,8 @@ public class OverlayService : IOverlayService
             var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
             var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
             CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+
+            _currentBackdropIndex = await _localSettingsService.ReadSettingAsync<int?>("OverlayBackdropIndex") ?? 0;
 
             Debug.WriteLine($"[OverlayService] Registering initial hotkey: {CurrentHotkeyText}");
             RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
@@ -86,6 +90,9 @@ public class OverlayService : IOverlayService
 
             SetOverlayEditMode(false);
 
+            // 应用当前背板风格
+            UpdateBackdrop(_currentBackdropIndex);
+
             // --- 显示窗口 ---
             _overlayWindow.Show();
         }
@@ -120,6 +127,9 @@ public class OverlayService : IOverlayService
     // 更新背板风格的方法
     public void UpdateBackdrop(int value)
     {
+        _currentBackdropIndex = value;
+        _ = _localSettingsService.SaveSettingAsync("OverlayBackdropIndex", value);
+
         if (_overlayWindow == null)
         {
             return;
