@@ -9,6 +9,7 @@ public interface IOverlayService
         get;
     }
 
+    Task InitializeAsync();
     void SetOverlayEditMode(bool isEditing);
     Task ToggleOverlay(bool enable);
     void UpdateBackdrop(int value);

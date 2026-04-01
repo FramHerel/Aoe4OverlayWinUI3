@@ -37,12 +37,15 @@ public class OverlayService : IOverlayService
     {
         try
         {
+            Debug.WriteLine("[OverlayService] Initializing...");
             // 读取保存的键位，如果没有则使用默认 Ctrl + F12
             var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
             var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
             CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
 
+            Debug.WriteLine($"[OverlayService] Registering initial hotkey: {CurrentHotkeyText}");
             RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+            Debug.WriteLine("[OverlayService] Initialization complete.");
         }
         catch (Exception ex)
         {
@@ -179,7 +182,9 @@ public class OverlayService : IOverlayService
     {
         try
         {
+            Debug.WriteLine($"[OverlayService] RegisterHotkey: {name}, {key}, {modifiers}");
             HotkeyManager.Current.AddOrReplace(name, key, modifiers, OnHotkeyInvoked);
+            Debug.WriteLine($"[OverlayService] Hotkey registered successfully: {name}");
         }
         catch (NHotkey.HotkeyAlreadyRegisteredException)
         {
