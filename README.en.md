@@ -16,7 +16,7 @@ Aoe4OverlayWinUI3 is a lightweight real-time query tool designed for *Age of Emp
 
 **Method A: Microsoft Store (Recommended)**
 
-Search for "Aoe4Overlay" in the Microsoft Store and click "Get" for automatic installation. This is the safest method with automatic update support.
+Search for "Aoe4 Overlay WinUI 3" in the Microsoft Store and click "Get" for automatic installation. This is the safest method with automatic update support.
 
 ## 🛠️ Tech Stack
 
