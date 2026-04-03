@@ -10,6 +10,7 @@
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	  <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
 
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
@@ -20,7 +21,7 @@
 	<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-	<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+	<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	<GenerateTestArtifacts>True</GenerateTestArtifacts>
 	<AppxBundle>Auto</AppxBundle>
 	<AppxBundlePlatforms>x64</AppxBundlePlatforms>
