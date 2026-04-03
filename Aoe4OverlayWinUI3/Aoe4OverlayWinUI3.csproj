@@ -9,6 +9,7 @@
 	  
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
