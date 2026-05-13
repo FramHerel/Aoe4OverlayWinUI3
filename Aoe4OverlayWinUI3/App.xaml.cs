@@ -126,8 +126,7 @@ public partial class App : Application
         {
             App.MainWindow.Closed += (s, e) =>
             {
-                var overlayService = App.GetService<IOverlayService>();
-                overlayService?.ShutDown();
+                Application.Current.Exit();
             };
         }
     }

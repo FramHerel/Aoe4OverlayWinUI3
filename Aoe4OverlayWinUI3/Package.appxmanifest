@@ -13,7 +13,7 @@
   <Identity
     Name="FramHerel.Aoe4OverlayWinUI3"
     Publisher="CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2"
-    Version="0.9.4.0" />
+    Version="0.9.9.0" />
     
   <mp:PhoneIdentity PhoneProductId="538c7367-cb79-4c6a-a00e-ebbc1c2247ab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
@@ -28,9 +28,10 @@
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
   </Dependencies>
 
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
+	<Resources>
+		<Resource Language="en-US" />
+		<Resource Language="zh-CN" />
+	</Resources>
 
   <Applications>
     <Application Id="App"

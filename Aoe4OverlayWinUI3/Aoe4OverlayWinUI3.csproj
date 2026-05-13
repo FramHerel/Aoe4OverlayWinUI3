@@ -10,13 +10,18 @@
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	  <SelfContained>true</SelfContained>
+	  <PublishSelfContained>true</PublishSelfContained>
 	  <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
 
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-	<LangVersion>preview</LangVersion>
+    <AppxPackage>true</AppxPackage>
+    <WindowsPackageType>MSIX</WindowsPackageType>
+    <AppxPackageId>Aoe4OverlayWinUI3</AppxPackageId>
+    <LangVersion>preview</LangVersion>
 	  
 	<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
@@ -25,6 +30,9 @@
 	<GenerateTestArtifacts>True</GenerateTestArtifacts>
 	<AppxBundle>Auto</AppxBundle>
 	<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+	<DefaultLanguage>en-US</DefaultLanguage>
+    <AppxManifest>Package.appxmanifest</AppxManifest>
+	<GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\OverlayWindow.xaml" />
