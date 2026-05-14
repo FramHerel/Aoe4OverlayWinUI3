@@ -18,13 +18,19 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <LangVersion>preview</LangVersion>
 	  
-	<AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+	<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
 	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+	  <!--版本名自增长-->
 	<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <!--强制打包语言包-->
+	  <AppxBundleAutoResourcePackageQualifiers>Language</AppxBundleAutoResourcePackageQualifiers>
+	  <AppxDefaultResourceQualifiers>Language=en-US;zh-Hans</AppxDefaultResourceQualifiers>
 	<GenerateTestArtifacts>True</GenerateTestArtifacts>
 	<AppxBundle>Auto</AppxBundle>
 	<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+	<PackageCertificateKeyFile>Aoe4OverlayWinUI3_TemporaryKey.pfx</PackageCertificateKeyFile>
+	<DefaultLanguage>zh-Hans</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\OverlayWindow.xaml" />

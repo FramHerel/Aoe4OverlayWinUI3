@@ -12,8 +12,8 @@
 
   <Identity
     Name="FramHerel.Aoe4OverlayWinUI3"
-    Publisher="CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2"
-    Version="0.9.11.0" />
+    Publisher="CN=Fram Herel"
+    Version="0.9.12.0" />
     
   <mp:PhoneIdentity PhoneProductId="538c7367-cb79-4c6a-a00e-ebbc1c2247ab" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
@@ -29,8 +29,8 @@
   </Dependencies>
 
 	<Resources>
+		<Resource Language="zh-Hans" />
 		<Resource Language="en-US" />
-		<Resource Language="zh-CN" />
 	</Resources>
 
   <Applications>
