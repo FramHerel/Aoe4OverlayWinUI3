@@ -2,7 +2,8 @@
   "profiles": {
     "Aoe4OverlayWinUI3 (Package)": {
       "commandName": "MsixPackage",
-      "nativeDebugging": true
+      "commandLineArgs": "", /* Command line arguments to pass to the app. */
+      "nativeDebugging": false
     },
     "Aoe4OverlayWinUI3 (Unpackaged)": {
       "commandName": "Project"
