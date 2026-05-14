@@ -5,13 +5,13 @@
     <Platform Name="x64" />
   </Configurations>
   <Project Path="Aoe4OverlayWinUI3.Core.Tests/Aoe4OverlayWinUI3.Core.Tests.csproj" Id="6ceb655b-5af5-471d-839f-8127ec14e4d5">
-    <Platform Solution="*|x64" Project="x64" />
+    <Platform Project="x64" />
   </Project>
   <Project Path="Aoe4OverlayWinUI3.Core/Aoe4OverlayWinUI3.Core.csproj">
-    <Platform Solution="*|x64" Project="x64" />
+    <Platform Project="x64" />
   </Project>
   <Project Path="Aoe4OverlayWinUI3/Aoe4OverlayWinUI3.csproj">
-    <Platform Solution="*|x64" Project="x64" />
+    <Platform Project="x64" />
     <Deploy />
   </Project>
 </Solution>
