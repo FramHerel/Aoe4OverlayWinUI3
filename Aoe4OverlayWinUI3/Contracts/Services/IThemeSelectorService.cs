@@ -4,6 +4,8 @@ namespace Aoe4OverlayWinUI3.Contracts.Services;
 
 public interface IThemeSelectorService
 {
+    event EventHandler<ElementTheme>? ThemeChanged;
+
     ElementTheme Theme
     {
         get;

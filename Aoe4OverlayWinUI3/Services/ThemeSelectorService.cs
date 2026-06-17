@@ -9,6 +9,8 @@ public class ThemeSelectorService : IThemeSelectorService
 {
     private const string SettingsKey = "AppBackgroundRequestedTheme";
 
+    public event EventHandler<ElementTheme>? ThemeChanged;
+
     public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
     private readonly ILocalSettingsService _localSettingsService;
@@ -40,6 +42,8 @@ public class ThemeSelectorService : IThemeSelectorService
 
             TitleBarHelper.UpdateTitleBar(Theme);
         }
+
+        ThemeChanged?.Invoke(this, Theme);
 
         await Task.CompletedTask;
     }
