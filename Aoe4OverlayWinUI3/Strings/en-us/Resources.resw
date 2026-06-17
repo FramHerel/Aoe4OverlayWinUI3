@@ -129,6 +129,24 @@
   <data name="Shell_GamesList.Content" xml:space="preserve">
     <value>Games List</value>
   </data>
+  <data name="GamesList_ResultColumn.Header" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="GamesList_MapColumn.Header" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="GamesList_CivilizationColumn.Header" xml:space="preserve">
+    <value>Civilization</value>
+  </data>
+  <data name="GamesList_DurationColumn.Header" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="GamesList_StartTimeColumn.Header" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="GamesList_KindColumn.Header" xml:space="preserve">
+    <value>Kind</value>
+  </data>
   <data name="Settings_Appearance_Header.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>

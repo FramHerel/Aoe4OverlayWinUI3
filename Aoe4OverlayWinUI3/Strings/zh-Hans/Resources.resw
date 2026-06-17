@@ -129,6 +129,24 @@
   <data name="Shell_GamesList.Content" xml:space="preserve">
     <value>对战列表</value>
   </data>
+  <data name="GamesList_ResultColumn.Header" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="GamesList_MapColumn.Header" xml:space="preserve">
+    <value>地图</value>
+  </data>
+  <data name="GamesList_CivilizationColumn.Header" xml:space="preserve">
+    <value>文明</value>
+  </data>
+  <data name="GamesList_DurationColumn.Header" xml:space="preserve">
+    <value>时长</value>
+  </data>
+  <data name="GamesList_StartTimeColumn.Header" xml:space="preserve">
+    <value>开始时间</value>
+  </data>
+  <data name="GamesList_KindColumn.Header" xml:space="preserve">
+    <value>类型</value>
+  </data>
   <data name="Settings_Appearance_Header.Text" xml:space="preserve">
     <value>外观</value>
   </data>

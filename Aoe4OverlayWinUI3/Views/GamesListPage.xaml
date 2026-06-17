@@ -17,13 +17,12 @@
                 <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundColor" Color="Transparent" />
             </controls:DataGrid.Resources>
             <controls:DataGrid.Columns>
-                <!--  TODO: 添加翻译  -->
-                <controls:DataGridTextColumn Binding="{Binding Result}" Header="Result" />
-                <controls:DataGridTextColumn Binding="{Binding Map}" Header="Map" />
-                <controls:DataGridTextColumn Binding="{Binding Civilization}" Header="Civilization" />
-                <controls:DataGridTextColumn Binding="{Binding Duration}" Header="Duration" />
-                <controls:DataGridTextColumn Binding="{Binding StartTime}" Header="StartTime" />
-                <controls:DataGridTextColumn Binding="{Binding Kind}" Header="Kind" />
+                <controls:DataGridTextColumn x:Uid="GamesList_ResultColumn" Binding="{Binding Result}" />
+                <controls:DataGridTextColumn x:Uid="GamesList_MapColumn" Binding="{Binding Map}" />
+                <controls:DataGridTextColumn x:Uid="GamesList_CivilizationColumn" Binding="{Binding Civilization}" />
+                <controls:DataGridTextColumn x:Uid="GamesList_DurationColumn" Binding="{Binding Duration}" />
+                <controls:DataGridTextColumn x:Uid="GamesList_StartTimeColumn" Binding="{Binding StartTime}" />
+                <controls:DataGridTextColumn x:Uid="GamesList_KindColumn" Binding="{Binding Kind}" />
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
