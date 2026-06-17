@@ -6,19 +6,17 @@ Aoe4OverlayWinUI3 is a lightweight real-time query tool designed for *Age of Emp
 
 ## ✨ Key Features
 
-- **Real-time Data Fetching**: Quickly retrieve player win rates, civilization preferences, and recent match history via the Aoe4World API.
+- Quickly retrieve player win rates, civilization preferences, and recent match history via the Aoe4World API.
 
-- **Game Overlay**: Leverages WinUI 3's always-on-top window technology, allowing you to view opponent info without switching out of the game.
-
-- **Local Preference Memory**: Automatically caches your recently searched Profile ID for instant lookup on startup.
+- View opponent info without switching out of the game.
 
 ## 🚀 Installation
 
 **Method A: Microsoft Store (Recommended)**
 
-Search for "Aoe4 Overlay WinUI 3" in the Microsoft Store and click "Get" for automatic installation. This is the safest method with automatic update support.
-
-[Link](https://apps.microsoft.com/detail/9np6m86kj0t6)
+<a href="https://apps.microsoft.com/detail/9np6m86kj0t6?referrer=appbadge&cid=Github&mode=full" target="_blank"  rel="noopener noreferrer">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
 
 ## 🛠️ Tech Stack
 
@@ -28,23 +26,20 @@ Search for "Aoe4 Overlay WinUI 3" in the Microsoft Store and click "Get" for aut
 
 ## 🛡️ Privacy & Security
 
-We deeply value account security:
+This tool only fetches data through public APIs. It does not read game memory or modify game files.
 
-- **Non-intrusive**: This tool only fetches data through public APIs. It does not read game memory or modify game files, ensuring 100% no risk of bans.
-
-- **Privacy Protection**: All player IDs are cached locally only and are never uploaded to any developer servers.
-
-- **Open Source & Transparent**: The code is fully open source and open to community supervision.
+All player IDs are cached locally only and are never uploaded to any developer servers.
 
 ## 🤝 Contributions & Feedback
 
 - Found a bug? Please submit an Issue.
 - Want new features? Feel free to send a Pull Request.
-- **Data Source Disclaimer**: This tool is developed by the community, with data provided by Aoe4World. It has no official affiliation with Microsoft or World's Edge.
 
 ## 💡 Notes
 
-The current version is a preview. If you encounter window positioning anomalies or slow data loading, please try restarting the application and contact the developer.
+- The current version is a preview. If you encounter window positioning anomalies or slow data loading, please try restarting the application and contact the developer.
+
+- This tool is developed by the community, with data provided by Aoe4World. It has no official affiliation with Microsoft or World's Edge.
 
 ## 💖 Credits
 Special Thanks to **[@gearlam](https://github.com/gearlam)** and their open-source project [AoE4_Overlay_CS](https://github.com/gearlam/AoE4_Overlay_CS). This project was deeply inspired by its design philosophy and core logic.
