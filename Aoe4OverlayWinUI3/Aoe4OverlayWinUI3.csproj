@@ -22,7 +22,7 @@
 	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <!--版本名自增长-->
-	<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+	<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <!--强制打包语言包-->
 	  <AppxBundleAutoResourcePackageQualifiers>Language</AppxBundleAutoResourcePackageQualifiers>
 	  <AppxDefaultResourceQualifiers>Language=zh-Hans;en-US</AppxDefaultResourceQualifiers>
