@@ -4,6 +4,7 @@ using Aoe4OverlayWinUI3.Core.Models;
 using Aoe4OverlayWinUI3.Messages;
 using Aoe4OverlayWinUI3.Views;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -16,6 +17,16 @@ namespace Aoe4OverlayWinUI3.Services;
 
 public class OverlayService : IOverlayService
 {
+    private const int GwlExStyle = -20;
+    private const long WsExLayered = 0x00080000L;
+    private const long WsExNoActivate = 0x08000000L;
+    private const long WsExTransparent = 0x00000020L;
+    private const uint SwpNoSize = 0x0001;
+    private const uint SwpNoMove = 0x0002;
+    private const uint SwpNoZOrder = 0x0004;
+    private const uint SwpNoActivate = 0x0010;
+    private const uint SwpFrameChanged = 0x0020;
+
     private readonly IServiceProvider _serviceProvider;
     private readonly SemaphoreSlim _saveLock = new(1, 1);
     private OverlayWindow _overlayWindow;
@@ -82,9 +93,6 @@ public class OverlayService : IOverlayService
             // 监听窗口关闭事件，清理引用并同步状态
             _overlayWindow.Closed += OnOverlayWindowClosed;
 
-            // --- TODO: 鼠标穿透 ---
-            // _overlayWindow.SetIsClickThrough(true); 
-
             // 恢复位置
             await RestoreWindowRectAsync();
 
@@ -95,6 +103,7 @@ public class OverlayService : IOverlayService
 
             // --- 显示窗口 ---
             _overlayWindow.Show();
+            SetOverlayEditMode(false);
         }
         else
         {
@@ -159,7 +168,7 @@ public class OverlayService : IOverlayService
         if (isEditing)
         {
             // 切换鼠标穿透状态
-            //_overlayWindow.SetIsClickThrough(false);
+            SetIsClickThrough(false);
             // 显示边框和标题栏
             if (_overlayWindow.AppWindow.Presenter is OverlappedPresenter presenter)
             {
@@ -173,18 +182,37 @@ public class OverlayService : IOverlayService
             {
                 presenter.IsResizable = false;
             }
-            //_overlayWindow.SetIsClickThrough(true);
+            SetIsClickThrough(true);
         }
     }
 
-    // TODO: 添加鼠标点击可穿越功能
+    // 添加鼠标点击可穿越功能
     public void SetIsClickThrough(bool isClickThrough)
     {
         if (_overlayWindow == null)
         {
             return;
         }
-        //_overlayWindow.SetIsClickThrough(isClickThrough);
+
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(_overlayWindow);
+        if (hwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        var exStyle = GetWindowLongPtr(hwnd, GwlExStyle).ToInt64();
+        var clickThroughStyles = WsExLayered | WsExTransparent | WsExNoActivate;
+        var updatedExStyle = isClickThrough
+            ? exStyle | clickThroughStyles
+            : exStyle & ~clickThroughStyles;
+
+        if (updatedExStyle == exStyle)
+        {
+            return;
+        }
+
+        SetWindowLongPtr(hwnd, GwlExStyle, new IntPtr(updatedExStyle));
+        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpNoMove | SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpFrameChanged);
     }
 
     // 注册快捷键
@@ -373,4 +401,13 @@ public class OverlayService : IOverlayService
         InitializeAsync();
     }
 
+    [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
+    private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
+    private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 }
