@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio" xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap rescap genTemplate">
-  <Identity Name="FramHerel.Aoe4OverlayWinUI3" Publisher="CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2" Version="0.9.14.0" />
+  <Identity Name="FramHerel.Aoe4OverlayWinUI3" Publisher="CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2" Version="0.9.15.0" />
   <mp:PhoneIdentity PhoneProductId="ae71a453-d46a-4bbf-aed0-09477226b13b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Aoe4 Overlay WinUI 3</DisplayName>
