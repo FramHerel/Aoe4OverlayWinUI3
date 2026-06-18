@@ -108,6 +108,11 @@ public class LastMatchPlayer
     [JsonIgnore]
     public string DisplayName => Name ?? $"ID:{ProfileId}";
 
+    [JsonIgnore]
+    public string CountryDisplayName => string.IsNullOrEmpty(Country)
+        ? ""
+        : Country.ToUpperInvariant();
+ 
     // TODO: 增加段位图标
     //[JsonIgnore]
     //public string RankIconPath => ActiveStats?.RankLevel != null
