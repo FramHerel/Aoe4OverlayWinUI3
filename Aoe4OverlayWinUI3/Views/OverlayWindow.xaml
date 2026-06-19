@@ -27,7 +27,7 @@
                     CornerRadius="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition Width="26" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
 
                     <TextBlock
                         Grid.Column="1"
-                        Width="24"
+                        Width="26"
                         Margin="2,0"
                         VerticalAlignment="Center"
                         FontSize="12"
