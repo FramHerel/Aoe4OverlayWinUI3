@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Aoe4OverlayWinUI3.Views.GamesListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +8,17 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
+        <!-- 刷新按钮 -->
+        <Button
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,4,4,0"
+            Padding="10,6,10,6"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.RefreshCommand}">
+            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+        </Button>
+
         <controls:DataGrid
             AutoGenerateColumns="False"
             GridLinesVisibility="Horizontal"
@@ -26,10 +37,10 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
+        <!-- 加载中指示器 -->
         <ProgressRing
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
-
     </Grid>
 </Page>
