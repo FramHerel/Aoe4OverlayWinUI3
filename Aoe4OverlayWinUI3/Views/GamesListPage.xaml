@@ -7,18 +7,31 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        <!-- 刷新按钮 -->
-        <Button
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Margin="0,4,4,0"
-            Padding="10,6,10,6"
-            Background="Transparent"
-            Command="{x:Bind ViewModel.RefreshCommand}">
-            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
-        </Button>
+    <Page.Resources>
+        <!--  自定义导航栏头部模板：标题左侧 + 刷新按钮右侧  -->
+        <DataTemplate x:Key="GamesListHeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding}" />
+                <!--  用单独 Grid 包裹按钮，加上与内容区相同的边距，使按钮右侧与 DataGrid 平齐  -->
+                <Grid Grid.Column="1" Margin="0,0,56,0">
+                    <Button
+                        Margin="8,0,0,0"
+                        Padding="10,6,10,6"
+                        Background="Transparent"
+                        Command="{Binding Content.ViewModel.RefreshCommand, ElementName=NavigationFrame}"
+                        ToolTipService.ToolTip="刷新">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
+    <Grid x:Name="ContentArea">
         <controls:DataGrid
             AutoGenerateColumns="False"
             GridLinesVisibility="Horizontal"
@@ -37,7 +50,6 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-        <!-- 加载中指示器 -->
         <ProgressRing
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
