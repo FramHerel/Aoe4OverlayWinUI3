@@ -2,8 +2,6 @@
  
  中文 | [English](README.en.md)
  
- **当前版本：v0.9.15 (Preview)**
- 
  一款专为《帝国时代 4》(Age of Empires IV) 玩家打造的对局实时查询工具。基于 WinUI 3 构建，提供原生 Windows 体验，助你在战场上知己知彼。
  
  ---
@@ -58,8 +56,7 @@
  ├── Aoe4OverlayWinUI3.slnx              # 解决方案文件
  ├── README.md                           # 本文件
  ├── README.en.md                        # 英文版 README
- ├── AGENTS.md                           # AI 代理指令（Codex）
- └── CLAUDE.md                           # AI 代理指令（Claude）
+ ├── AGENTS.md                           # AI 代理指令
  ```
  
  ## 🏗️ 架构
@@ -90,6 +87,7 @@
  <a href="https://apps.microsoft.com/detail/9np6m86kj0t6?referrer=appbadge&cid=Github&mode=full" target="_blank" rel="noopener noreferrer">
  	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
  </a>
+
  ## 🛠️ 技术栈
  
  ### 核心框架

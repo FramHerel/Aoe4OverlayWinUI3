@@ -2,8 +2,6 @@
  
  [中文](README.md) | English
  
- **Current version: v0.9.15 (Preview)**
- 
  Aoe4OverlayWinUI3 is a real-time query tool designed for *Age of Empires IV* players. Built with WinUI 3, it delivers a native Windows experience to help you know yourself and your enemy on the battlefield.
  
  ---
@@ -58,8 +56,7 @@
  ├── Aoe4OverlayWinUI3.slnx              # Solution file
  ├── README.md                           # Chinese README
  ├── README.en.md                        # This file
- ├── AGENTS.md                           # AI agent instructions (Codex)
- └── CLAUDE.md                           # AI agent instructions (Claude)
+ ├── AGENTS.md                           # AI agent instructions
  ```
  
  ## 🏗️ Architecture
@@ -90,6 +87,7 @@
  <a href="https://apps.microsoft.com/detail/9np6m86kj0t6?referrer=appbadge&cid=Github&mode=full" target="_blank" rel="noopener noreferrer">
  	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
  </a>
+
  ## 🛠️ Tech Stack
  
  ### Core Frameworks
