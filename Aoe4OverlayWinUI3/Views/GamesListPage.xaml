@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <!--  自定义导航栏头部模板：标题左侧 + 刷新按钮右侧  -->
+        <!--  自定义导航栏头部模板：标题左侧 + 刷新按钮右侧（在代码隐藏中设置）  -->
         <DataTemplate x:Key="GamesListHeaderTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -22,7 +22,7 @@
                         Margin="8,0,0,0"
                         Padding="10,6,10,6"
                         Background="Transparent"
-                        Command="{Binding Content.ViewModel.RefreshCommand, ElementName=NavigationFrame}"
+                        Command="{Binding Content.ViewModel.RefreshCommand, ElementName=NavigationFrame, FallbackValue={x:Null}}"
                         ToolTipService.ToolTip="刷新">
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
                     </Button>
@@ -31,6 +31,8 @@
         </DataTemplate>
     </Page.Resources>
 
+    <!-- TODO: 将对战列表页更改为 ListView 代替 DataGrid -->
+    
     <Grid x:Name="ContentArea">
         <controls:DataGrid
             AutoGenerateColumns="False"

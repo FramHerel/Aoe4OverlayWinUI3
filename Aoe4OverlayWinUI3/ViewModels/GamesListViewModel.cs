@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Aoe4OverlayWinUI3.Contracts.Services;
 using Aoe4OverlayWinUI3.Contracts.ViewModels;
 using Aoe4OverlayWinUI3.Core.Contracts.Services;
+using Aoe4OverlayWinUI3.Core.Models;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -19,7 +20,10 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
     // 自动刷新定时器：每 1 分钟触发一次刷新检查
     private readonly DispatcherTimer _autoRefreshTimer;
     // 上次成功刷新的 UTC 时间戳，用于 10 秒最低间隔限速
-    private DateTime _lastRefreshTime = DateTime.MinValue;
+    // static：跨页面实例共享，避免每次切页创建新 ViewModel 时重置
+    private static DateTime _lastRefreshTime = DateTime.MinValue;
+    // 缓存最近一次 API 返回的对局数据，切页回来看缓存，不空跑 API
+    private static List<GameMatch>? _cachedMatches;
     // 最小刷新间隔：10 秒内不允许发起第二次请求
     private static readonly TimeSpan MinRefreshInterval = TimeSpan.FromSeconds(10);
     // 自动刷新间隔：每 60 秒触发一次定时器 tick
@@ -49,6 +53,25 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
     {
         // 进入页面时启动自动刷新定时器
         _autoRefreshTimer.Start();
+
+        var profileId = await _localSettingsService.ReadSettingAsync<string>("SavedProfileId");
+        if (string.IsNullOrEmpty(profileId))
+        {
+            return;
+        }
+
+        // 缓存未过期时直接恢复，不请求 API
+        if (_cachedMatches != null && !CanRefresh())
+        {
+            Games.Clear();
+            foreach (var match in _cachedMatches)
+            {
+                Games.Add(new GameItemViewModel(match, profileId));
+            }
+            return;
+        }
+
+        // 无缓存或已过期，重新加载
         await LoadDataAsync();
     }
 
@@ -107,7 +130,11 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         {
             // 调用 API 获取数据
             // TODO: 请求限制暂时固定为 50，后续可以改成可配置的参数
-            var matches = await _aoe4ApiService.GetMatchHistoryAsync(profileId, 50);
+            var matches = (await _aoe4ApiService.GetMatchHistoryAsync(profileId, 50)).ToList();
+
+            // 更新缓存
+            _cachedMatches = matches;
+            _lastRefreshTime = DateTime.UtcNow;
 
             // 转换并填充集合
             Games.Clear();
