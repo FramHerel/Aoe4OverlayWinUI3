@@ -44,6 +44,11 @@ public sealed partial class OverlayWindow : WindowEx
     private void OnClosed(object sender, WindowEventArgs args)
     {
         _themeSelectorService.ThemeChanged -= OnThemeChanged;
+
+        // OverlayWindow 与 OverlayViewModel 都是 transient：每次打开覆盖层都会创建新实例。
+        // 窗口关闭是 ViewModel 生命周期的明确终点，因此在这里集中释放其消息订阅、
+        // 刷新定时器和未完成请求，防止反复打开覆盖层后残留旧实例。
+        ViewModel.Dispose();
         Closed -= OnClosed;
     }
 
