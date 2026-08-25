@@ -119,6 +119,10 @@ jobs:
       #   /p:Configuration=Release                  Release 配置（和商店包一致）
       #   /p:Platform=x64                            项目只支持 x64
       #   /p:GenerateAppxPackageOnBuild=true         构建时同时生成 MSIX 包
+      #   /p:AppxPackageSigningEnabled=true          强制开启签名。csproj 里写的是 False
+      #                                             （商店模式），不传这个参数的话，
+      #                                             打包目标不会运行签名，产出未签名包
+      #                                             用户装不上。
       #   /p:UapAppxPackageBuildMode=SideloadOnly    按"旁加载"模式打包（不经商店）
       #   /p:AppxBundle=Auto                         生成 .msixbundle，带语言资源包
       #                                             （zh-Hans/en-US），和本地打包一致
@@ -131,6 +135,7 @@ jobs:
         run: |
           msbuild $env:Project_Path /p:Configuration=Release /p:Platform=x64 `
             /p:GenerateAppxPackageOnBuild=true `
+            /p:AppxPackageSigningEnabled=true `
             /p:UapAppxPackageBuildMode=SideloadOnly `
             /p:AppxBundle=Auto `
             /p:AppxBundlePlatforms=x64 `
