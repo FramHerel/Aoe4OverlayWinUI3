@@ -1,0 +1,172 @@
+# ============================================================
+# Build Sideload MSIX —— 旁加载包自动构建工作流
+# ============================================================
+# 作用：
+#   每当推送到 main 分支、推送 v* 标签或手动触发时，
+#   在 GitHub 的 Windows 服务器上自动完成：
+#   还原依赖 -> 运行单元测试 -> 构建并签名 MSIX 包 -> 上传产物；
+#   打 v* 标签时还会把安装包挂到 GitHub Release 页面。
+#
+# 前置准备（只需要做一次）：
+#   1. 用 Visual Studio 创建测试证书，公用名称填清单里的 Publisher，
+#      即 CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2，
+#      这样旁加载包与商店包保持同一个包身份。
+#   2. 把 pfx 转成 Base64 文本：
+#        $pfx = Get-Content 'Aoe4OverlayWinUI3\Aoe4OverlayWinUI3_TemporaryKey.pfx' -AsByteStream
+#        [System.Convert]::ToBase64String($pfx) | Set-Content 'pfx_base64.txt'
+#   3. 在仓库 Settings -> Secrets and variables -> Actions 里新建 secret：
+#        BASE64_ENCODED_PFX = pfx_base64.txt 的内容
+#        PFX_PASSWORD       = pfx 的密码（证书设了密码才需要；留空可省略）
+#
+# 版本号策略：
+#   发版前在本地把 Package.appxmanifest 的 Version 改好并提交，
+#   商店包与旁加载包使用同一版本号；CI 里已关闭自动递增，
+#   保证构建产物版本与提交的清单完全一致。
+
+name: Build Sideload MSIX
+
+# ------------------------------------------------------------
+# 触发条件
+# ------------------------------------------------------------
+on:
+  push:
+    branches: [ main ]   # 推送 main 分支：日常构建，产出测试包
+    tags: [ 'v*' ]       # 推送 v 开头的标签：发布版，额外挂到 GitHub Release
+  workflow_dispatch:     # 在 Actions 页面手动点击 "Run workflow" 也能触发
+
+# 工作流权限：contents: write 是"发布 GitHub Release"那一步需要的；
+# 如果不打算用 Release 功能，可以整段删掉，权限越小越安全。
+permissions:
+  contents: write
+
+jobs:
+  # 整个流程只有一个 job：build。
+  # 项目只支持 x64，所以不需要像官方示例那样做 x64/x86 矩阵。
+  build:
+    runs-on: windows-latest   # Windows 构建机，WinUI/MSIX 打包必须用 Windows
+
+    # job 级环境变量，后面步骤用 $env:XXX 引用，避免路径写错。
+    env:
+      # 主项目路径：直接构建 csproj 而不是 .slnx，
+      # 避免解决方案里其他项目被 MSBuild 一起构建。
+      Project_Path: Aoe4OverlayWinUI3\Aoe4OverlayWinUI3.csproj
+      # 测试项目路径，用于"运行单元测试"步骤。
+      Test_Project_Path: Aoe4OverlayWinUI3.Core.Tests\Aoe4OverlayWinUI3.Core.Tests.csproj
+
+    steps:
+      # --------------------------------------------------------
+      # 1. 检出代码
+      # --------------------------------------------------------
+      # 把仓库代码下载到构建机上。
+      # fetch-depth: 0 表示拉取完整历史（包括所有标签），
+      # 以后如果想根据 git tag 自动生成版本号也能用得上。
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # --------------------------------------------------------
+      # 2. 安装 .NET SDK
+      # --------------------------------------------------------
+      # 项目目标框架是 net10.0-windows10.0.19041.0，所以要装 .NET 10。
+      # setup-dotnet 会从官方源下载对应版本的 SDK 并缓存。
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      # --------------------------------------------------------
+      # 3. 安装 MSBuild
+      # --------------------------------------------------------
+      # windows-latest 自带 Visual Studio 的 MSBuild，但默认不在 PATH 里。
+      # setup-msbuild 把它加入 PATH，后面的 msbuild 命令才能直接调用。
+      # WinUI 的 MSIX 打包必须走 MSBuild 的打包目标，dotnet build 不够。
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # --------------------------------------------------------
+      # 4. 还原 NuGet 依赖
+      # --------------------------------------------------------
+      # 先还原包引用（CommunityToolkit、Windows App SDK 等）。
+      # 官方文档特别强调要先 restore，把 obj 里的 RuntimeIdentifiers
+      # 等信息生成好，后面的打包阶段才不会出错。
+      - name: Restore
+        run: msbuild $env:Project_Path /t:Restore /p:Configuration=Release /p:Platform=x64
+
+      # --------------------------------------------------------
+      # 5. 运行单元测试
+      # --------------------------------------------------------
+      # 构建前先跑 Core 的 xUnit 测试（Aoe4ApiService 等逻辑）。
+      # 测试失败会让整个工作流失败，避免把坏代码打成安装包。
+      - name: Run tests
+        run: dotnet test $env:Test_Project_Path -c Release
+
+      # --------------------------------------------------------
+      # 6. 还原签名证书
+      # --------------------------------------------------------
+      # secret 里存的是 pfx 的 Base64 文本，这里解码回二进制文件，
+      # 输出到构建机工作区根目录，下一步签名时引用。
+      # 不把 pfx 直接提交到仓库，是为了防止私钥泄露。
+      - name: Decode signing certificate
+        run: |
+          $pfxBytes = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
+          [IO.File]::WriteAllBytes("$env:GITHUB_WORKSPACE\GitHubActionsWorkflow.pfx", $pfxBytes)
+
+      # --------------------------------------------------------
+      # 7. 构建并签名 MSIX 包（核心步骤）
+      # --------------------------------------------------------
+      # 参数逐条说明：
+      #   /p:Configuration=Release                  Release 配置（和商店包一致）
+      #   /p:Platform=x64                            项目只支持 x64
+      #   /p:GenerateAppxPackageOnBuild=true         构建时同时生成 MSIX 包
+      #   /p:UapAppxPackageBuildMode=SideloadOnly    按"旁加载"模式打包（不经商店）
+      #   /p:AppxBundle=Auto                         生成 .msixbundle，带语言资源包
+      #                                             （zh-Hans/en-US），和本地打包一致
+      #   /p:AppxBundlePlatforms=x64                 只打包 x64 架构
+      #   /p:AppxAutoIncrementPackageRevision=false  关闭版本自动递增，版本以清单为准
+      #   /p:AppxPackageDir=...                      包输出目录（工作区下的 Packages）
+      #   /p:PackageCertificateKeyFile=...           指定第 6 步解码出来的 pfx
+      #   /p:PackageCertificatePassword=...          证书密码；没设密码时 secret 为空，无影响
+      - name: Build MSIX package
+        run: |
+          msbuild $env:Project_Path /p:Configuration=Release /p:Platform=x64 `
+            /p:GenerateAppxPackageOnBuild=true `
+            /p:UapAppxPackageBuildMode=SideloadOnly `
+            /p:AppxBundle=Auto `
+            /p:AppxBundlePlatforms=x64 `
+            /p:AppxAutoIncrementPackageRevision=false `
+            /p:AppxPackageDir="$env:GITHUB_WORKSPACE\Packages\" `
+            /p:PackageCertificateKeyFile="$env:GITHUB_WORKSPACE\GitHubActionsWorkflow.pfx" `
+            /p:PackageCertificatePassword="${{ secrets.PFX_PASSWORD }}"
+
+      # --------------------------------------------------------
+      # 8. 删除签名证书
+      # --------------------------------------------------------
+      # 构建机上的 pfx 用完即删，防止私钥残留在 runner 里。
+      # GitHub 的 runner 任务结束后本来也会被回收，但显式删除更稳妥。
+      - name: Remove pfx
+        run: Remove-Item -LiteralPath "$env:GITHUB_WORKSPACE\GitHubActionsWorkflow.pfx" -Force
+
+      # --------------------------------------------------------
+      # 9. 上传构建产物
+      # --------------------------------------------------------
+      # 把 Packages 目录下的所有文件（.msixbundle 等）上传为
+      # GitHub Actions 构建产物。普通 push 触发的构建，
+      # 可以在 Actions 页面底部直接下载这些文件。
+      - name: Upload MSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sideload-Msix-x64
+          path: Packages/**
+
+      # --------------------------------------------------------
+      # 10. 发布到 GitHub Release（仅打标签时执行）
+      # --------------------------------------------------------
+      # if 条件：只有推送到 v* 标签时才运行这一步。
+      # softprops/action-gh-release 会把 Packages 里的安装包
+      # 自动挂到对应的 Release 页面，用户可以直接下载。
+      - name: Publish to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Packages/**
