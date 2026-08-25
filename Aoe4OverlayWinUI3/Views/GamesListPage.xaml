@@ -21,11 +21,15 @@
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding}" />
                 <!--  用单独 Grid 包裹按钮，加上与内容区相同的边距，使按钮右侧与 DataGrid 平齐  -->
                 <Grid Grid.Column="1" Margin="0,0,56,0">
+                    <!--  刷新按钮：未绑定账户（HasSavedProfile=false）时禁用，
+                          避免用户对着空数据页发起无意义的刷新请求；
+                          FallbackValue 设为 False，防止模板在页面就绪前短暂可点  -->
                     <Button
                         Margin="8,0,0,0"
                         Padding="10,6,10,6"
                         Background="Transparent"
                         Command="{Binding Content.ViewModel.RefreshCommand, ElementName=NavigationFrame, FallbackValue={x:Null}}"
+                        IsEnabled="{Binding Content.ViewModel.HasSavedProfile, ElementName=NavigationFrame, FallbackValue=False}"
                         ToolTipService.ToolTip="刷新">
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
                     </Button>

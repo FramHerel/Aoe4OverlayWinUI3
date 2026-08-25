@@ -225,4 +225,10 @@
   <data name="GamesList_NoAccount_Description.Text" xml:space="preserve">
     <value>Bind your account in Settings to view match history.</value>
   </data>
+  <data name="Profile_NoAccount_Title.Text" xml:space="preserve">
+    <value>No account bound</value>
+  </data>
+  <data name="Profile_NoAccount_Description.Text" xml:space="preserve">
+    <value>Bind your account in Settings to view player profile.</value>
+  </data>
 </root>

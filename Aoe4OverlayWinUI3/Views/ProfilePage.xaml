@@ -11,6 +11,7 @@
     <Page.Resources>
         <helper:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <helper:InverseNullToVisibilityConverter x:Key="InverseNullToVisibilityConverter" />
+        <helper:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     </Page.Resources>
 
     <!--  TODO: 添加国旗显示  -->
@@ -79,11 +80,28 @@
             </StackPanel>
         </ScrollViewer>
 
+        <!--  未绑定账户时的空状态提示，用户可通过左侧导航栏进入设置绑定账户  -->
+        <!--  可见性绑定 HasSavedProfile（而非 Player）：避免加载数据期间空状态闪现  -->
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Visibility="{x:Bind ViewModel.Player, Mode=OneWay, Converter={StaticResource InverseNullToVisibilityConverter}}">
-            <!--  TODO: 添加多语言  -->
+            Spacing="12"
+            Visibility="{x:Bind ViewModel.HasSavedProfile, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <FontIcon
+                HorizontalAlignment="Center"
+                FontSize="36"
+                Glyph="&#xE77B;"
+                Opacity="0.6" />
+            <TextBlock
+                x:Uid="Profile_NoAccount_Title"
+                HorizontalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock
+                x:Uid="Profile_NoAccount_Description"
+                HorizontalAlignment="Center"
+                Opacity="0.6"
+                Style="{StaticResource BodyTextBlockStyle}"
+                TextWrapping="Wrap" />
         </StackPanel>
     </Grid>
 </Page>

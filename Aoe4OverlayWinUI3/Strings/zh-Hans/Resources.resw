@@ -225,4 +225,10 @@
   <data name="GamesList_NoAccount_Description.Text" xml:space="preserve">
     <value>请在设置中绑定账户后查看对战记录。</value>
   </data>
+  <data name="Profile_NoAccount_Title.Text" xml:space="preserve">
+    <value>尚未绑定账户</value>
+  </data>
+  <data name="Profile_NoAccount_Description.Text" xml:space="preserve">
+    <value>请在设置中绑定账户后查看玩家资料。</value>
+  </data>
 </root>

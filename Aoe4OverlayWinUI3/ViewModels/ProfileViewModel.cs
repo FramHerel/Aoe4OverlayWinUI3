@@ -29,6 +29,15 @@ public partial class ProfileViewModel : ObservableRecipient
         set;
     }
 
+    // 是否已绑定账户（存在保存的 ProfileId）
+    // 驱动资料页的空状态显示：未绑定时显示"尚未绑定账户"提示
+    [ObservableProperty]
+    public partial bool HasSavedProfile
+    {
+        get;
+        set;
+    }
+
     // 构造函数
     public ProfileViewModel(IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
@@ -39,8 +48,11 @@ public partial class ProfileViewModel : ObservableRecipient
         StrongReferenceMessenger.Default.Register<PlayerChangedMessage>(this, (r, m) =>
         {
             this.Player = m.Value;
+            // 同步空状态：收到非空玩家消息说明刚绑定成功，视为已绑定账户
+            HasSavedProfile = m.Value != null;
         });
     }
+
     // 加载数据的方法
     public async Task OnNavigatedTo()
     {
@@ -48,6 +60,8 @@ public partial class ProfileViewModel : ObservableRecipient
         if (Player != null) return;
 
         var savedId = await _localSettingsService.ReadSettingAsync<string>("SavedProfileId");
+        // 同步空状态：有保存的 ID 才认为已绑定账户
+        HasSavedProfile = !string.IsNullOrWhiteSpace(savedId);
         if (!string.IsNullOrWhiteSpace(savedId))
         {
             await FetchDataAsync(savedId);
