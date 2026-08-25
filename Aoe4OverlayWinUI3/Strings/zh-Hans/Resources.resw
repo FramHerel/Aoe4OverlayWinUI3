@@ -219,4 +219,10 @@
   <data name="Profile_HyperlinkButton.Content" xml:space="preserve">
     <value>在 Aoe4 World 上查看详细资料</value>
   </data>
+  <data name="GamesList_NoAccount_Title.Text" xml:space="preserve">
+    <value>尚未绑定账户</value>
+  </data>
+  <data name="GamesList_NoAccount_Description.Text" xml:space="preserve">
+    <value>请在设置中绑定账户后查看对战记录。</value>
+  </data>
 </root>

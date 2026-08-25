@@ -37,6 +37,13 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         get; set;
     }
 
+    // 是否已绑定账户（存在保存的 ProfileId）
+    [ObservableProperty]
+    public partial bool HasSavedProfile
+    {
+        get; set;
+    }
+
     public GamesListViewModel(IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
         _aoe4ApiService = aoe4ApiService;
@@ -55,6 +62,7 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         _autoRefreshTimer.Start();
 
         var profileId = await _localSettingsService.ReadSettingAsync<string>("SavedProfileId");
+        HasSavedProfile = !string.IsNullOrEmpty(profileId);
         if (string.IsNullOrEmpty(profileId))
         {
             return;
@@ -116,16 +124,16 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
 
     public async Task LoadDataAsync()
     {
-        IsLoading = true;
         // 从本地设置中读取保存的 profileId
         var profileId = await _localSettingsService.ReadSettingAsync<string>("SavedProfileId");
-        // 如果没有绑定帐户，提示用户先绑定帐户
+        HasSavedProfile = !string.IsNullOrEmpty(profileId);
+        // 如果没有绑定帐户，显示空状态提示，不进入加载流程
         if (string.IsNullOrEmpty(profileId))
         {
-            // TODO: 添加提示：请先在设置中绑定帐户
             return;
         }
 
+        IsLoading = true;
         try
         {
             // 调用 API 获取数据

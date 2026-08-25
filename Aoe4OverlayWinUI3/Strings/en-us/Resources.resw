@@ -219,4 +219,10 @@
   <data name="Profile_HyperlinkButton.Content" xml:space="preserve">
     <value>View detailed statistics on Aoe4World</value>
   </data>
+  <data name="GamesList_NoAccount_Title.Text" xml:space="preserve">
+    <value>No account bound</value>
+  </data>
+  <data name="GamesList_NoAccount_Description.Text" xml:space="preserve">
+    <value>Bind your account in Settings to view match history.</value>
+  </data>
 </root>

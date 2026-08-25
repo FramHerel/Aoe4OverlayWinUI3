@@ -4,10 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:Aoe4OverlayWinUI3.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
+        <helper:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <helper:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         <!--  自定义导航栏头部模板：标题左侧 + 刷新按钮右侧（在代码隐藏中设置）  -->
         <DataTemplate x:Key="GamesListHeaderTemplate">
             <Grid>
@@ -38,7 +41,8 @@
             AutoGenerateColumns="False"
             GridLinesVisibility="Horizontal"
             IsReadOnly="True"
-            ItemsSource="{x:Bind ViewModel.Games, Mode=OneWay}">
+            ItemsSource="{x:Bind ViewModel.Games, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.HasSavedProfile, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundColor" Color="Transparent" />
             </controls:DataGrid.Resources>
@@ -56,5 +60,28 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+
+        <!--  未绑定账户时的空状态提示，用户可通过左侧导航栏进入设置绑定账户  -->
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="12"
+            Visibility="{x:Bind ViewModel.HasSavedProfile, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <FontIcon
+                HorizontalAlignment="Center"
+                FontSize="36"
+                Glyph="&#xE77B;"
+                Opacity="0.6" />
+            <TextBlock
+                x:Uid="GamesList_NoAccount_Title"
+                HorizontalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock
+                x:Uid="GamesList_NoAccount_Description"
+                HorizontalAlignment="Center"
+                Opacity="0.6"
+                Style="{StaticResource BodyTextBlockStyle}"
+                TextWrapping="Wrap" />
+        </StackPanel>
     </Grid>
 </Page>
