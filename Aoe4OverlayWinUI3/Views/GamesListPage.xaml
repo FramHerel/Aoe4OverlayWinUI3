@@ -18,19 +18,50 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Text="{Binding}" />
+                    <!--
+                        刷新频率说明按钮：点击弹出 Flyout，解释手动/自动刷新频率限制及原因
+                    -->
+                    <Button
+                        x:Uid="GamesList_RefreshInfoButton"
+                        Margin="0,0,4,0"
+                        Padding="4"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Refresh rate info"
+                        Style="{StaticResource SubtleButtonStyle}"
+                        ToolTipService.ToolTip="Refresh rate info">
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            Glyph="&#xE946;" />
+                        <Button.Flyout>
+                            <Flyout Placement="Bottom">
+                                <TextBlock
+                                    x:Uid="GamesList_RefreshInfo_Text"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource CaptionTextBlockStyle}" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
                 <!--  用单独 Grid 包裹按钮，加上与内容区相同的边距，使按钮右侧与 DataGrid 平齐  -->
                 <Grid Grid.Column="1" Margin="0,0,56,0">
-                    <!--  刷新按钮：未绑定账户（HasSavedProfile=false）时禁用，
-                          避免用户对着空数据页发起无意义的刷新请求；
-                          FallbackValue 设为 False，防止模板在页面就绪前短暂可点  -->
+                    <!--
+                        刷新按钮：未绑定账户（HasSavedProfile=false）时禁用，
+                        避免用户对着空数据页发起无意义的刷新请求；
+                        FallbackValue 设为 False，防止模板在页面就绪前短暂可点
+                    -->
                     <Button
-                        Margin="8,0,0,0"
+                        x:Uid="GamesList_RefreshButton"
+                        Margin="0,0,0,0"
                         Padding="10,6,10,6"
                         Background="Transparent"
+                        VerticalAlignment="Center"
+                        ToolTipService.ToolTip="Refresh"
+                        AutomationProperties.Name="Refresh"
                         Command="{Binding Content.ViewModel.RefreshCommand, ElementName=NavigationFrame, FallbackValue={x:Null}}"
-                        IsEnabled="{Binding Content.ViewModel.HasSavedProfile, ElementName=NavigationFrame, FallbackValue=False}"
-                        ToolTipService.ToolTip="刷新">
+                        IsEnabled="{Binding Content.ViewModel.HasSavedProfile, ElementName=NavigationFrame, FallbackValue=False}">
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
                     </Button>
                 </Grid>
@@ -38,8 +69,8 @@
         </DataTemplate>
     </Page.Resources>
 
-    <!-- TODO: 将对战列表页更改为 ListView 代替 DataGrid -->
-    
+    <!--  TODO: 将对战列表页更改为 ListView 代替 DataGrid  -->
+
     <Grid x:Name="ContentArea">
         <controls:DataGrid
             AutoGenerateColumns="False"

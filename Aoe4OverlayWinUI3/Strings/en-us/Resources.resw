@@ -231,4 +231,16 @@
   <data name="Profile_NoAccount_Description.Text" xml:space="preserve">
     <value>Bind your account in Settings to view player profile.</value>
   </data>
+  <data name="GamesList_RefreshButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="GamesList_RefreshInfoButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh rate info</value>
+  </data>
+  <data name="GamesList_RefreshInfoButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Refresh rate info</value>
+  </data>
+  <data name="GamesList_RefreshInfo_Text.Text" xml:space="preserve">
+    <value>To avoid excessive requests to the public API, auto refresh is limited to 60s and manual refresh to 10s.</value>
+  </data>
 </root>
