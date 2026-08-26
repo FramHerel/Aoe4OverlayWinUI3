@@ -48,8 +48,14 @@
  │   ├── Services/                       # Aoe4ApiService, FileService
  │   └── Aoe4OverlayWinUI3.Core.csproj
  ├── Aoe4OverlayWinUI3.Core.Tests/       # 单元测试项目（xUnit）
- │   ├── Models/PlayerModelTests.cs
+ │   ├── Models/
+ │   │   ├── GameMatchModelTests.cs
+ │   │   ├── LastMatchModelTests.cs
+ │   │   ├── PlayerModelTests.cs
+ │   │   └── PlayerSearchResponseModelTests.cs
+ │   ├── Services/Aoe4ApiServiceTests.cs
  │   └── Aoe4OverlayWinUI3.Core.Tests.csproj
+ ├── .github/workflows/build-sideload.yml  # CI：旁加载包自动构建
  ├── .editorconfig                       # 代码风格配置
  ├── .gitignore
  ├── .vsconfig                           # Visual Studio 组件建议
@@ -74,7 +80,7 @@
  | 依赖 | 版本 |
  |------|------|
  | Windows | 10.0.17763.0 及以上 |
- | .NET SDK | 10.0 (Preview) |
+| .NET SDK | 10.0 |
  | Windows App SDK | 2.0.1 |
  | Visual Studio 2022 | 17.14+（含"通用 Windows 平台开发"工作负载） |
  
@@ -88,7 +94,16 @@
  	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
  </a>
 
- ## 🛠️ 技术栈
+**方式 B：GitHub Release 旁加载**
+
+1. 前往 [Releases 页面](https://github.com/FramHerel/Aoe4OverlayWinUI3/releases) 下载最新版本的 `.cer` 和 `.msixbundle`。
+2. 双击 `.cer`，将证书安装到“受信任的根证书颁发机构”和“受信任的人”。
+3. 双击 `.msixbundle` 完成安装。
+
+> 旁加载包与商店包为同一版本、同一代码。因使用自签名证书，首次安装时 Windows 会提示无法验证发布者，属正常现象。
+> 若安装时提示“需要启用旁加载”，请在 设置 → 系统 → 开发者选项 中开启“开发人员模式”后重试。
+
+## 🛠️ 技术栈
  
  ### 核心框架
  - **UI 框架**：WinUI 3 (Windows App SDK 2.0.1)
@@ -115,7 +130,7 @@
  
  ### 部署
  - **打包格式**：MSIX
- - **发布渠道**：Microsoft Store / Sideload（开发中）
+- **发布渠道**：Microsoft Store / GitHub Release（旁加载）
  
  ## 🔧 构建与运行
  
@@ -138,13 +153,10 @@
  dotnet test Aoe4OverlayWinUI3.Core.Tests
  ```
  
- ### 打包 MSIX
- ```bash
- # 生成 MSIX 安装包
- dotnet publish Aoe4OverlayWinUI3\Aoe4OverlayWinUI3.csproj --configuration Release /p:RuntimeIdentifier=win-x64
- ```
- 
- 打包产物位于 `Aoe4OverlayWinUI3\AppPackages\` 目录下，可双击 `.msixbundle` 文件侧载安装。
+### 打包 MSIX
+
+- **旁加载安装包**：由 CI 自动构建，产物发布在 [GitHub Releases](https://github.com/FramHerel/Aoe4OverlayWinUI3/releases)。
+- **商店上传包**：在 Visual Studio 中使用“创建应用包”向导（选择 Microsoft Store）生成 `.msixupload`。
  
  ## 🛡️ 隐私与安全 (Privacy & Security)
  
@@ -154,8 +166,8 @@
  
  ## 🤝 贡献与反馈
  
- - 发现 Bug？请提交 [Issue](https://github.com/FramHerel/Aoe4OverlayWinUI3/issues)。
- - 想要新功能？欢迎发起 [Pull Request](https://github.com/FramHerel/Aoe4OverlayWinUI3/pulls)。
+- 发现 Bug？请提交 [Issue](https://github.com/FramHerel/Aoe4OverlayWinUI3/issues)。
+- 想要新功能？欢迎发起 [Pull Request](https://github.com/FramHerel/Aoe4OverlayWinUI3/pulls)。
  - 开发前请查阅项目的 `.editorconfig` 和代码风格约定。
  
  ## 🌐 本地化

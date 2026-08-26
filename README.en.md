@@ -48,8 +48,14 @@
  │   ├── Services/                       # Aoe4ApiService, FileService
  │   └── Aoe4OverlayWinUI3.Core.csproj
  ├── Aoe4OverlayWinUI3.Core.Tests/       # Unit tests (xUnit)
- │   ├── Models/PlayerModelTests.cs
+ │   ├── Models/
+ │   │   ├── GameMatchModelTests.cs
+ │   │   ├── LastMatchModelTests.cs
+ │   │   ├── PlayerModelTests.cs
+ │   │   └── PlayerSearchResponseModelTests.cs
+ │   ├── Services/Aoe4ApiServiceTests.cs
  │   └── Aoe4OverlayWinUI3.Core.Tests.csproj
+ ├── .github/workflows/build-sideload.yml  # CI: sideload package build
  ├── .editorconfig                       # Code style configuration
  ├── .gitignore
  ├── .vsconfig                           # Visual Studio component recommendations
@@ -74,7 +80,7 @@
  | Dependency | Version |
  |------------|---------|
  | Windows | 10.0.17763.0 or later |
- | .NET SDK | 10.0 (Preview) |
+| .NET SDK | 10.0 |
  | Windows App SDK | 2.0.1 |
  | Visual Studio 2022 | 17.14+ (with "Universal Windows Platform development" workload) |
  
@@ -84,11 +90,20 @@
  
  **Method A: Microsoft Store (Recommended)**
  
- <a href="https://apps.microsoft.com/detail/9np6m86kj0t6?referrer=appbadge&cid=Github&mode=full" target="_blank" rel="noopener noreferrer">
- 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
- </a>
+<a href="https://apps.microsoft.com/detail/9np6m86kj0t6?referrer=appbadge&cid=Github&mode=full" target="_blank" rel="noopener noreferrer">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
 
- ## 🛠️ Tech Stack
+**Method B: GitHub Releases (sideload)**
+
+1. Download the latest `.cer` and `.msixbundle` from the [Releases page](https://github.com/FramHerel/Aoe4OverlayWinUI3/releases).
+2. Double-click the `.cer` and install it into "Trusted Root Certification Authorities" and "Trusted People".
+3. Double-click the `.msixbundle` to install.
+
+> The sideload package is the same version and code as the Store package. Since it's signed with a self-signed certificate, Windows may warn that the publisher can't be verified — this is expected.
+> If Windows prompts that sideloading must be enabled, turn on Developer Mode under Settings → System → For developers and try again.
+
+## 🛠️ Tech Stack
  
  ### Core Frameworks
  - **UI Framework**: WinUI 3 (Windows App SDK 2.0.1)
@@ -115,7 +130,7 @@
  
  ### Deployment
  - **Package Format**: MSIX
- - **Distribution**: Microsoft Store / Sideload （developing）
+- **Distribution**: Microsoft Store / GitHub Releases (sideload)
  
  ## 🔧 Build & Run
  
@@ -138,13 +153,10 @@
  dotnet test Aoe4OverlayWinUI3.Core.Tests
  ```
  
- ### Package as MSIX
- ```bash
- # Generate MSIX installer
- dotnet publish Aoe4OverlayWinUI3\Aoe4OverlayWinUI3.csproj --configuration Release /p:RuntimeIdentifier=win-x64
- ```
- 
- The output MSIX bundle will be placed under `Aoe4OverlayWinUI3\AppPackages\`. Double-click the `.msixbundle` file to install via sideload.
+### Package as MSIX
+
+- **Sideload installer**: Built automatically by CI and published to [GitHub Releases](https://github.com/FramHerel/Aoe4OverlayWinUI3/releases).
+- **Store upload package**: Generate an `.msixupload` with the "Create App Packages" wizard in Visual Studio (select Microsoft Store).
  
  ## 🛡️ Privacy & Security
  
@@ -154,8 +166,8 @@
  
  ## 🤝 Contributions & Feedback
  
- - Found a bug? Please submit an [Issue](https://github.com/FramHerel/Aoe4OverlayWinUI3/issues).
- - Want new features? Feel free to send a [Pull Request](https://github.com/FramHerel/Aoe4OverlayWinUI3/pulls).
+- Found a bug? Please submit an [Issue](https://github.com/FramHerel/Aoe4OverlayWinUI3/issues).
+- Want new features? Feel free to send a [Pull Request](https://github.com/FramHerel/Aoe4OverlayWinUI3/pulls).
  - Please review the project's `.editorconfig` and coding conventions before contributing.
  
  ## 🌐 Localization
