@@ -16,8 +16,7 @@
 
     <!--  TODO: 添加国旗显示  -->
     <!--  TODO: 添加段位显示  -->
-    <!--  TODO: 检查无数据时刷新  -->
-    <!--  TODO: 增加一个清除按钮，清除当前玩家信息和保存的 ProfileId  -->
+    <!--  TODO: 增加头像显示  -->
     <!--  TODO: 更改 Profile ID 显示方式  -->
 
     <Grid x:Name="ContentArea">
