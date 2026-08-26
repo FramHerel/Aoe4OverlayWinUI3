@@ -9,7 +9,6 @@
 #
 # 前置准备（只需要做一次）：
 #   1. 用 Visual Studio 创建测试证书，公用名称填清单里的 Publisher，
-#      即 CN=1CB31EE2-52A3-4B4B-8C3E-4D68A4E326B2，
 #      这样旁加载包与商店包保持同一个包身份。
 #   2. 把 pfx 转成 Base64 文本：
 #        $pfx = Get-Content 'Aoe4OverlayWinUI3\Aoe4OverlayWinUI3_TemporaryKey.pfx' -AsByteStream
@@ -43,7 +42,7 @@ jobs:
   # 整个流程只有一个 job：build。
   # 项目只支持 x64，所以不需要像官方示例那样做 x64/x86 矩阵。
   build:
-    runs-on: windows-latest   # Windows 构建机，WinUI/MSIX 打包必须用 Windows
+    runs-on: windows-latest   # WinUI/MSIX 打包必须用 Windows
 
     # job 级环境变量，后面步骤用 $env:XXX 引用，避免路径写错。
     env:
