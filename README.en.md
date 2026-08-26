@@ -80,7 +80,7 @@
  | Dependency | Version |
  |------------|---------|
  | Windows | 10.0.17763.0 or later |
-| .NET SDK | 10.0 |
+ | .NET SDK | 10.0 |
  | Windows App SDK | 2.0.1 |
  | Visual Studio 2022 | 17.14+ (with "Universal Windows Platform development" workload) |
  
@@ -97,11 +97,20 @@
 **Method B: GitHub Releases (sideload)**
 
 1. Download the latest `.cer` and `.msixbundle` from the [Releases page](https://github.com/FramHerel/Aoe4OverlayWinUI3/releases).
-2. Double-click the `.cer` and install it into "Trusted Root Certification Authorities" and "Trusted People".
+2. Trust the certificate (required on first install, once per machine):
+   - Double-click the `.cer` file, then click "Install Certificate";
+   - Select "Local Machine" and click "Next" (you may be prompted to confirm with administrator credentials);
+   - Choose "Place all certificates in the following store", click "Browse", select "Trusted Root Certification Authorities", then click "OK";
+   - Click "Next" → "Finish" and confirm the security warning;
+   - Repeat the same steps once more, selecting "Trusted People" as the store.
 3. Double-click the `.msixbundle` to install.
 
+> [!IMPORTANT]
 > The sideload package is the same version and code as the Store package. Since it's signed with a self-signed certificate, Windows may warn that the publisher can't be verified — this is expected.
 > If Windows prompts that sideloading must be enabled, turn on Developer Mode under Settings → System → For developers and try again.
+
+> [!WARNING]
+> Sideloading requires installing a self-signed certificate into the system trust store, which carries some security risk. Only do this if you trust the source of the package. If you are unsure, **we recommend installing from the Microsoft Store** — Store versions are certified by Microsoft and require no manual certificate trust.
 
 ## 🛠️ Tech Stack
  
