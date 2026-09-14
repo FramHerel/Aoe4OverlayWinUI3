@@ -216,6 +216,19 @@
   <data name="Settings_Overlay_SettingsExpander_OverlayBackdrop_ComboBox_Acrylic.Content" xml:space="preserve">
     <value>亚克力</value>
   </data>
+  <data name="Settings_Overlay_HotkeyErrorInfoBar.Title" xml:space="preserve">
+    <value>快捷键未保存</value>
+  </data>
+  <!--  以下三条由代码通过 GetLocalized 读取，不能使用 x:Uid 前缀，否则 XAML 会当成属性名解析  -->
+  <data name="Settings_HotkeyErrorInfoBar_InUseMessage" xml:space="preserve">
+    <value>该按键组合已被其他程序占用，无法绑定。已保留上一次可用的快捷键。</value>
+  </data>
+  <data name="Settings_HotkeyErrorInfoBar_ReservedMessage" xml:space="preserve">
+    <value>该按键组合由系统保留，无法绑定。已保留上一次可用的快捷键。</value>
+  </data>
+  <data name="Settings_HotkeyErrorInfoBar_NoKeyMessage" xml:space="preserve">
+    <value>没有录制到有效的按键组合。已保留上一次可用的快捷键。</value>
+  </data>
   <data name="Profile_HyperlinkButton.Content" xml:space="preserve">
     <value>在 Aoe4 World 上查看详细资料</value>
   </data>

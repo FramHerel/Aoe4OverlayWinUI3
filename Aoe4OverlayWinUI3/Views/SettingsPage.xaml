@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:xaml="using:Microsoft.UI.Xaml"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    PreviewKeyDown="OnHotkeyPreviewKeyDown"
+    PreviewKeyUp="OnHotkeyPreviewKeyUp">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <helpers:EnumToDisplayNameConverter x:Key="EnumToDisplayNameConverter" />
@@ -89,8 +91,7 @@
                             <toolkit:SettingsCard x:Uid="Settings_Overlay_SettingsExpander_OverlayHotkey">
                                 <Button
                                     Command="{x:Bind ViewModel.StartListenHotkeyCommand}"
-                                    Content="{x:Bind ViewModel.HotkeyText, Mode=OneWay}"
-                                    KeyDown="OnHotkeyKeyDown" />
+                                    Content="{x:Bind ViewModel.HotkeyText, Mode=OneWay}" />
                             </toolkit:SettingsCard>
                             <toolkit:SettingsCard
                                 x:Name="OverlayEditable"
@@ -107,6 +108,15 @@
                             </toolkit:SettingsCard>
                         </toolkit:SettingsExpander.Items>
                     </toolkit:SettingsExpander>
+                    <!--
+                        热键注册失败提示：注册失败时不会保存配置，并自动恢复上一个可用热键，
+                        这里只提示用户；重新录制或录制成功后会隐藏
+                    -->
+                    <InfoBar
+                        x:Uid="Settings_Overlay_HotkeyErrorInfoBar"
+                        IsOpen="{x:Bind ViewModel.HasHotkeyError, Mode=TwoWay}"
+                        Message="{x:Bind ViewModel.HotkeyErrorMessage, Mode=OneWay}"
+                        Severity="Warning" />
                     <!--  Appearance  -->
                     <TextBlock x:Uid="Settings_Appearance_Header" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                     <toolkit:SettingsCard x:Uid="Settings_Appearance_SettingsCard">

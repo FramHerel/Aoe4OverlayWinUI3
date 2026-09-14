@@ -21,6 +21,14 @@ namespace Aoe4OverlayWinUI3.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient, IRecipient<OverlayStatusChangedMessage>
 {
+    // 热键录制/注册失败的原因，用于选择本地化提示文案
+    public enum HotkeyErrorReason
+    {
+        InUse,
+        Reserved,
+        NoKey,
+    }
+
     // 注入 API 服务
     private readonly IAoe4ApiService _aoe4ApiService;
     // 注入本地设置服务
@@ -36,6 +44,14 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
 
     [ObservableProperty]
     public partial bool IsListeningForHotkey { get; set; } = false;
+
+    // 热键注册失败提示
+    [ObservableProperty]
+    public partial bool HasHotkeyError { get; set; } = false;
+
+    // 热键注册失败提示内容（本地化）
+    [ObservableProperty]
+    public partial string HotkeyErrorMessage { get; set; } = string.Empty;
 
     // 背板设置
     [ObservableProperty]
@@ -263,8 +279,28 @@ public partial class SettingsViewModel : ObservableRecipient, IRecipient<Overlay
     private void StartListenHotkey()
     {
         IsListeningForHotkey = true;
+        ClearHotkeyError();
         HotkeyText = "Waiting press...";
         _overlayService.UnregisterHotkey("ToggleOverlay");
+    }
+
+    // 显示热键提示：注册被占用、系统保留组合、未捕获到有效按键
+    public void ShowHotkeyError(HotkeyErrorReason reason)
+    {
+        HotkeyErrorMessage = reason switch
+        {
+            HotkeyErrorReason.Reserved => "Settings_HotkeyErrorInfoBar_ReservedMessage".GetLocalized(),
+            HotkeyErrorReason.NoKey => "Settings_HotkeyErrorInfoBar_NoKeyMessage".GetLocalized(),
+            _ => "Settings_HotkeyErrorInfoBar_InUseMessage".GetLocalized(),
+        };
+        HasHotkeyError = true;
+    }
+
+    // 清除热键提示
+    public void ClearHotkeyError()
+    {
+        HasHotkeyError = false;
+        HotkeyErrorMessage = string.Empty;
     }
 
 }

@@ -35,6 +35,10 @@ public class OverlayService : IOverlayService
 
     public string CurrentHotkeyText { get; private set; } = "Ctrl + F12";
 
+    // 最后一次注册成功的热键，注册失败时用于恢复
+    private VirtualKey _lastRegisteredKey = VirtualKey.F12;
+    private VirtualKeyModifiers _lastRegisteredModifiers = VirtualKeyModifiers.Control;
+
     private int _currentBackdropIndex = 0;
 
     private readonly ILocalSettingsService _localSettingsService;
@@ -52,14 +56,22 @@ public class OverlayService : IOverlayService
         {
             Debug.WriteLine("[OverlayService] Initializing...");
             // 读取保存的键位，如果没有则使用默认 Ctrl + F12
-            var savedKey = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12;
-            var savedMod = await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control;
-            CurrentHotkeyText = GetHotkeyDisplay((VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+            var savedKey = (VirtualKey)(await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Key") ?? (int)VirtualKey.F12);
+            var savedModifiers = (VirtualKeyModifiers)(await _localSettingsService.ReadSettingAsync<int?>("Hotkey_Modifiers") ?? (int)VirtualKey.Control);
+            CurrentHotkeyText = GetHotkeyDisplay(savedKey, savedModifiers);
 
             _currentBackdropIndex = await _localSettingsService.ReadSettingAsync<int?>("OverlayBackdropIndex") ?? 0;
 
             Debug.WriteLine($"[OverlayService] Registering initial hotkey: {CurrentHotkeyText}");
-            RegisterHotkey("ToggleOverlay", (VirtualKey)savedKey, (VirtualKeyModifiers)savedMod);
+            if (RegisterHotkey("ToggleOverlay", savedKey, savedModifiers))
+            {
+                _lastRegisteredKey = savedKey;
+                _lastRegisteredModifiers = savedModifiers;
+            }
+            else
+            {
+                Debug.WriteLine($"[OverlayService] Saved hotkey is unavailable: {CurrentHotkeyText}");
+            }
             Debug.WriteLine("[OverlayService] Initialization complete.");
         }
         catch (Exception ex)
@@ -215,24 +227,26 @@ public class OverlayService : IOverlayService
         SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpNoMove | SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpFrameChanged);
     }
 
-    // 注册快捷键
-    public void RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers)
+    // 注册快捷键，返回是否注册成功
+    public bool RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers)
     {
         try
         {
             Debug.WriteLine($"[OverlayService] RegisterHotkey: {name}, {key}, {modifiers}");
             HotkeyManager.Current.AddOrReplace(name, key, modifiers, OnHotkeyInvoked);
             Debug.WriteLine($"[OverlayService] Hotkey registered successfully: {name}");
+            return true;
         }
         catch (NHotkey.HotkeyAlreadyRegisteredException)
         {
-            Debug.WriteLine($"Hotkey {key} has been used!");
+            Debug.WriteLine($"Hotkey {key} + {modifiers} is already registered by another window!");
+            return false;
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Hotkey binding failed: {ex.Message}");
+            return false;
         }
-
     }
 
     // 注销快捷键
@@ -354,13 +368,23 @@ public class OverlayService : IOverlayService
 
     }
 
-    // 更新快捷键的方法
-    public void UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers)
+    // 更新快捷键的方法：先注册成功，再保存配置
+    public bool UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers)
     {
-        RegisterHotkey("ToggleOverlay", key, modifiers);
+        if (!RegisterHotkey("ToggleOverlay", key, modifiers))
+        {
+            // 注册失败：不保存、不更新显示，恢复上一个可用热键
+            var restored = RegisterHotkey("ToggleOverlay", _lastRegisteredKey, _lastRegisteredModifiers);
+            Debug.WriteLine($"[OverlayService] UpdateHotkey failed, restore previous hotkey ({_lastRegisteredKey}, {_lastRegisteredModifiers}): {restored}");
+            return false;
+        }
+
+        _lastRegisteredKey = key;
+        _lastRegisteredModifiers = modifiers;
+        CurrentHotkeyText = GetHotkeyDisplay(key, modifiers);
         _ = _localSettingsService.SaveSettingAsync("Hotkey_Key", (int)key);
         _ = _localSettingsService.SaveSettingAsync("Hotkey_Modifiers", (int)modifiers);
-        CurrentHotkeyText = GetHotkeyDisplay(key, modifiers);
+        return true;
     }
 
     //  获取快捷键显示文本的方法
@@ -396,9 +420,9 @@ public class OverlayService : IOverlayService
     }
 
     //  取消快捷键更新，恢复到保存的状态
-    public void CancelHotkeyUpdate()
+    public async Task CancelHotkeyUpdate()
     {
-        InitializeAsync();
+        await InitializeAsync();
     }
 
     [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW", SetLastError = true)]

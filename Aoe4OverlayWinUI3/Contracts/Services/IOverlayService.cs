@@ -13,11 +13,11 @@ public interface IOverlayService
     void SetOverlayEditMode(bool isEditing);
     Task ToggleOverlay(bool enable);
     void UpdateBackdrop(int value);
-    void RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers);
+    bool RegisterHotkey(string name, VirtualKey key, VirtualKeyModifiers modifiers);
     void UnregisterHotkey(string name);
     void ShutDown();
-    void UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers);
+    bool UpdateHotkey(VirtualKey key, VirtualKeyModifiers modifiers);
     string GetHotkeyDisplay(VirtualKey key, VirtualKeyModifiers modifiers);
     Task<string> GetSavedHotkeyTextAsync();
-    void CancelHotkeyUpdate();
+    Task CancelHotkeyUpdate();
 }
