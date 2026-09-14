@@ -243,4 +243,13 @@
   <data name="GamesList_RefreshInfo_Text.Text" xml:space="preserve">
     <value>To avoid excessive requests to the public API, auto refresh is limited to 60s and manual refresh to 10s.</value>
   </data>
+  <data name="GamesList_LoadErrorInfoBar.Title" xml:space="preserve">
+    <value>Failed to load match history</value>
+  </data>
+  <data name="GamesList_LoadErrorInfoBar.Message" xml:space="preserve">
+    <value>The request to Aoe4World failed. Check your network connection and try again. The last loaded list is kept.</value>
+  </data>
+  <data name="GamesList_LoadErrorInfoBar_RetryButton.Content" xml:space="preserve">
+    <value>Retry</value>
+  </data>
 </root>

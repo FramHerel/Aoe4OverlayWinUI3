@@ -44,6 +44,13 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         get; set;
     }
 
+    // 最近一次请求是否失败（用于显示错误提示与重试入口）
+    [ObservableProperty]
+    public partial bool HasLoadError
+    {
+        get; set;
+    }
+
     public GamesListViewModel(IAoe4ApiService aoe4ApiService, ILocalSettingsService localSettingsService)
     {
         _aoe4ApiService = aoe4ApiService;
@@ -65,6 +72,8 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         HasSavedProfile = !string.IsNullOrEmpty(profileId);
         if (string.IsNullOrEmpty(profileId))
         {
+            // 未绑定账户时无内容可加载，清除上一次残留的错误提示
+            HasLoadError = false;
             return;
         }
 
@@ -103,6 +112,19 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         await LoadDataAsync();
     }
 
+    // 错误提示中的重试入口：不受 10 秒限速影响，但避免与进行中的请求重叠
+    [RelayCommand]
+    private async Task Retry()
+    {
+        if (IsLoading)
+        {
+            return;
+        }
+
+        _lastRefreshTime = DateTime.UtcNow;
+        await LoadDataAsync();
+    }
+
     // 定时器回调：每 1 分钟触发一次，受相同 10 秒限速约束
     private void OnAutoRefreshTick(object? sender, object e)
     {
@@ -130,6 +152,8 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         // 如果没有绑定帐户，显示空状态提示，不进入加载流程
         if (string.IsNullOrEmpty(profileId))
         {
+            // 未绑定账户时无内容可加载，清除上一次残留的错误提示
+            HasLoadError = false;
             return;
         }
 
@@ -140,11 +164,12 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
             // TODO: 请求限制暂时固定为 50，后续可以改成可配置的参数
             var matches = (await _aoe4ApiService.GetMatchHistoryAsync(profileId, 50)).ToList();
 
-            // 更新缓存
+            // 请求成功：更新缓存、刷新时间戳并清除错误状态
             _cachedMatches = matches;
             _lastRefreshTime = DateTime.UtcNow;
+            HasLoadError = false;
 
-            // 转换并填充集合
+            // 转换并填充集合（此时空列表代表确实没有对局）
             Games.Clear();
             foreach (var match in matches)
             {
@@ -154,8 +179,9 @@ public partial class GamesListViewModel : ObservableRecipient, INavigationAware
         }
         catch (Exception ex)
         {
-            // TODO: 处理网络错误
+            // 请求失败：保留 _cachedMatches 与 Games 上次结果，只提示错误并提供重试
             System.Diagnostics.Debug.WriteLine($"加载对局失败: {ex.Message}");
+            HasLoadError = true;
         }
         finally
         {

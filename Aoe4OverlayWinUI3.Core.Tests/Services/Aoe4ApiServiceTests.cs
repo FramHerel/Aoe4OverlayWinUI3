@@ -93,12 +93,26 @@ public class Aoe4ApiServiceTests
         Assert.Null(await service.GetPlayerAsync("Alice"));
     }
 
-    // 场景：比赛历史接口失败时，服务应返回空列表而不是抛异常，
-    // 让 GamesList 页面可以正常展示空状态。
+    // 场景：比赛历史接口失败时，服务应抛出异常而不是返回空列表，
+    // 让 GamesList 页面能区分“请求失败”与“确实没有比赛”。
     [Fact]
-    public async Task GetMatchHistoryAsync_ServerError_ReturnsEmptyList()
+    public async Task GetMatchHistoryAsync_ServerError_Throws()
     {
         using var client = CreateClient(_ => new HttpResponseMessage(HttpStatusCode.InternalServerError));
+        var service = new Aoe4ApiService(client);
+
+        await Assert.ThrowsAsync<HttpRequestException>(() => service.GetMatchHistoryAsync("1001", 50));
+    }
+
+    // 场景：接口正常返回但玩家没有对局时，服务应返回空列表且不抛异常。
+    [Fact]
+    public async Task GetMatchHistoryAsync_EmptyGames_ReturnsEmptyList()
+    {
+        using var client = CreateClient(request =>
+        {
+            Assert.Equal($"{BaseUrl}players/1001/games?limit=50", request.RequestUri?.AbsoluteUri);
+            return JsonResponse(new GamesResponse { Games = new List<GameMatch>() });
+        });
         var service = new Aoe4ApiService(client);
 
         var matches = await service.GetMatchHistoryAsync("1001", 50);

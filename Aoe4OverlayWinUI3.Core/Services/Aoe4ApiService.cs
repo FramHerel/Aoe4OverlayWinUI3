@@ -103,23 +103,17 @@ public class Aoe4ApiService:IAoe4ApiService
     }
 
     // 获取玩家比赛历史 GamesList 页
+    // 注意：请求失败（网络异常、非 2xx 状态码、JSON 解析失败）时直接抛出异常，
+    // 由调用方区分“请求失败”与“确实没有比赛”（后者返回空列表）
     public async Task<List<GameMatch>> GetMatchHistoryAsync(string profileId, int limit)
     {
-        try
-        {
-            // 请求玩家比赛历史的 API
-            var url = $"{BaseUrl}players/{profileId}/games?limit={limit}";
-            // 解析 JSON 响应
-            var response = await _httpClient.GetFromJsonAsync<GamesResponse>(url);
+        // 请求玩家比赛历史的 API
+        var url = $"{BaseUrl}players/{profileId}/games?limit={limit}";
+        // 解析 JSON 响应
+        var response = await _httpClient.GetFromJsonAsync<GamesResponse>(url);
 
-            // 返回数据，如果为 null 则返回空列表，防止 ViewModel 报错
-            return response?.Games ?? new List<GameMatch>();
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"API 请求失败: {ex.Message}");
-            return [];
-        }
+        // 返回数据，如果为 null 则返回空列表，防止 ViewModel 报错
+        return response?.Games ?? new List<GameMatch>();
     }
 
     // 获取 LastMatch 的数据，也即 Overlay 上的数据
