@@ -33,7 +33,8 @@ public partial class GameItemViewModel : ObservableObject
     {
         get; private set;
     }
-    public bool IsWin
+    // 对局结果状态：true=胜、false=负、null=未知（结果列据此给文本上色）
+    public bool? IsWin
     {
         get; private set;
     }
@@ -60,9 +61,11 @@ public partial class GameItemViewModel : ObservableObject
     private void Initialize(GameMatch gameMatch, PlayerDetails currentPlayer)
     {
         // 提取并预处理展示数据
-        // 胜负先用 API 原始值判断，再翻译成显示文本
+        // 胜负先用 API 原始值判断（true=胜、false=负、其余为未知），再翻译成显示文本
         var playerResult = currentPlayer?.Result;
-        IsWin = string.Equals(playerResult, "win", StringComparison.OrdinalIgnoreCase);
+        IsWin = string.Equals(playerResult, "win", StringComparison.OrdinalIgnoreCase) ? true
+            : string.Equals(playerResult, "loss", StringComparison.OrdinalIgnoreCase) ? false
+            : null;
         Result = GameContentLocalizer.LocalizeResult(string.IsNullOrWhiteSpace(playerResult) ? "unknown" : playerResult);
 
         var playerCivilization = currentPlayer?.Civilization;

@@ -10,6 +10,7 @@
 
     <Page.Resources>
         <helper:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <helper:GameResultBrushConverter x:Key="GameResultBrushConverter" />
         <helper:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         <!--  自定义导航栏头部模板：标题左侧 + 刷新按钮右侧（在代码隐藏中设置）  -->
         <DataTemplate x:Key="GamesListHeaderTemplate">
@@ -74,7 +75,6 @@
 
     <!--  TODO:将对战列表页更改为 ListView 代替 DataGrid  -->
     <!--  TODO:添加分数变化情况  -->
-    <!--  TODO:添加 WIN/LOST 颜色变化  -->
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
@@ -110,7 +110,21 @@
                     <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundColor" Color="Transparent" />
                 </controls:DataGrid.Resources>
                 <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn x:Uid="GamesList_ResultColumn" Binding="{Binding Result}" />
+                    <!--
+                        结果列：DataGridTextColumn 不能逐行设置文字颜色，改用模板列；
+                        内边距和垂直对齐沿用 DataGridTextColumn 的默认值（12,0,12,0、居中），保证与其余列对齐
+                    -->
+                    <controls:DataGridTemplateColumn x:Uid="GamesList_ResultColumn" ClipboardContentBinding="{Binding Result}">
+                        <controls:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="12,0,12,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{Binding IsWin, Converter={StaticResource GameResultBrushConverter}}"
+                                    Text="{Binding Result}" />
+                            </DataTemplate>
+                        </controls:DataGridTemplateColumn.CellTemplate>
+                    </controls:DataGridTemplateColumn>
                     <controls:DataGridTextColumn x:Uid="GamesList_MapColumn" Binding="{Binding Map}" />
                     <controls:DataGridTextColumn x:Uid="GamesList_CivilizationColumn" Binding="{Binding Civilization}" />
                     <controls:DataGridTextColumn x:Uid="GamesList_DurationColumn" Binding="{Binding Duration}" />
