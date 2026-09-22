@@ -30,6 +30,7 @@
                         <ColumnDefinition Width="26" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <Image
@@ -65,6 +66,15 @@
                         FontWeight="SemiBold"
                         Foreground="Orange"
                         Text="{x:Bind Rating, Mode=OneWay}" />
+
+                    <!--  MMR：Rating 为赛季天梯分，此处额外展示匹配分，用颜色区分  -->
+                    <TextBlock
+                        Grid.Column="4"
+                        Margin="6,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Foreground="#B3FFFFFF"
+                        Text="{x:Bind Mmr, Mode=OneWay}" />
                 </Grid>
             </DataTemplate>
         </Grid.Resources>

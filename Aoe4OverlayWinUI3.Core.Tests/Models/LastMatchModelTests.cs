@@ -10,7 +10,7 @@ public class LastMatchModelTests
     [Fact]
     public void LastMatch_ShouldParseNestedJsonCorrectly()
     {
-        var json = @"{""game_id"":987654321,""map"":""Lipany"",""kind"":""rm_1v1"",""started_at"":""2024-06-01T20:00:00Z"",""server"":""EU"",""teams"":[[{""name"":""Alice"",""profile_id"":1001,""civilization"":""english"",""rating"":1200,""country"":""cn"",""modes"":{""rm_1v1"":{""rating"":1200,""rank"":42,""rank_level"":""gold"",""games_count"":100,""wins_count"":60,""losses_count"":40,""win_rate"":0.6},""rm_2v2"":{""rating"":1100,""rank"":10,""rank_level"":""silver"",""games_count"":50,""wins_count"":25,""losses_count"":25,""win_rate"":0.5}}}],[{""name"":""Bob"",""profile_id"":2001,""civilization"":""holy_roman_empire"",""rating"":1150,""country"":"""",""modes"":{}}]]}";
+        var json = @"{""game_id"":987654321,""map"":""Lipany"",""kind"":""rm_1v1"",""started_at"":""2024-06-01T20:00:00Z"",""server"":""EU"",""teams"":[[{""name"":""Alice"",""profile_id"":1001,""civilization"":""english"",""rating"":1200,""mmr"":1250,""country"":""cn"",""modes"":{""rm_1v1"":{""rating"":1200,""rank"":42,""rank_level"":""gold"",""games_count"":100,""wins_count"":60,""losses_count"":40,""win_rate"":0.6},""rm_2v2"":{""rating"":1100,""rank"":10,""rank_level"":""silver"",""games_count"":50,""wins_count"":25,""losses_count"":25,""win_rate"":0.5}}}],[{""name"":""Bob"",""profile_id"":2001,""civilization"":""holy_roman_empire"",""rating"":1150,""country"":"""",""modes"":{}}]]}";
 
         var match = JsonSerializer.Deserialize<LastMatch>(json);
 
@@ -22,11 +22,15 @@ public class LastMatchModelTests
         Assert.Equal(2, match.Teams.Count);
         Assert.Single(match.Teams[0]);
 
+        // 缺少 mmr 字段时为 null，Overlay 的 MMR 数字相应留空
+        Assert.Null(match.Teams[1][0].Mmr);
+
         var alice = match.Teams[0][0];
         Assert.Equal("Alice", alice.Name);
         Assert.Equal(1001, alice.ProfileId);
         Assert.Equal("english", alice.Civilization);
         Assert.Equal(1200, alice.Rating);
+        Assert.Equal(1250, alice.Mmr);
         Assert.Equal("cn", alice.Country);
         Assert.NotNull(alice.Modes);
         Assert.Equal(2, alice.Modes.Count);

@@ -68,6 +68,12 @@ public class LastMatchPlayer
         get; set;
     }
 
+    [JsonPropertyName("mmr")]
+    public int? Mmr
+    {
+        get; set;
+    }
+
     [JsonPropertyName("country")]
     public string Country
     {
