@@ -73,7 +73,6 @@
     </Page.Resources>
 
     <!--  TODO:将对战列表页更改为 ListView 代替 DataGrid  -->
-    <!--  TODO:添加翻译  -->
     <!--  TODO:添加分数变化情况  -->
     <!--  TODO:添加 WIN/LOST 颜色变化  -->
 

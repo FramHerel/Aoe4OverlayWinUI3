@@ -219,7 +219,6 @@
   <data name="Settings_Overlay_HotkeyErrorInfoBar.Title" xml:space="preserve">
     <value>快捷键未保存</value>
   </data>
-  <!--  以下三条由代码通过 GetLocalized 读取，不能使用 x:Uid 前缀，否则 XAML 会当成属性名解析  -->
   <data name="Settings_HotkeyErrorInfoBar_InUseMessage" xml:space="preserve">
     <value>该按键组合已被其他程序占用，无法绑定。已保留上一次可用的快捷键。</value>
   </data>
@@ -264,5 +263,186 @@
   </data>
   <data name="GamesList_LoadErrorInfoBar_RetryButton.Content" xml:space="preserve">
     <value>重试</value>
+  </data>
+  <data name="GamesList_Result_Win" xml:space="preserve">
+    <value>胜利</value>
+  </data>
+  <data name="GamesList_Result_Loss" xml:space="preserve">
+    <value>战败</value>
+  </data>
+  <data name="GamesList_Result_Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="GamesList_Kind_Rm1v1" xml:space="preserve">
+    <value>1v1 排位</value>
+  </data>
+  <data name="GamesList_Kind_Rm2v2" xml:space="preserve">
+    <value>2v2 排位</value>
+  </data>
+  <data name="GamesList_Kind_Rm3v3" xml:space="preserve">
+    <value>3v3 排位</value>
+  </data>
+  <data name="GamesList_Kind_Rm4v4" xml:space="preserve">
+    <value>4v4 排位</value>
+  </data>
+  <data name="GamesList_Kind_RmSolo" xml:space="preserve">
+    <value>单人排位</value>
+  </data>
+  <data name="GamesList_Kind_RmTeam" xml:space="preserve">
+    <value>团队排位</value>
+  </data>
+  <data name="GamesList_Kind_RmFfa" xml:space="preserve">
+    <value>自由混战</value>
+  </data>
+  <data name="GamesList_Civ_English" xml:space="preserve">
+    <value>英格兰人</value>
+  </data>
+  <data name="GamesList_Civ_Chinese" xml:space="preserve">
+    <value>中国人</value>
+  </data>
+  <data name="GamesList_Civ_DelhiSultanate" xml:space="preserve">
+    <value>德里苏丹国</value>
+  </data>
+  <data name="GamesList_Civ_Mongols" xml:space="preserve">
+    <value>蒙古人</value>
+  </data>
+  <data name="GamesList_Civ_AbbasidDynasty" xml:space="preserve">
+    <value>黑衣大食王朝</value>
+  </data>
+  <data name="GamesList_Civ_French" xml:space="preserve">
+    <value>法兰西人</value>
+  </data>
+  <data name="GamesList_Civ_HolyRomanEmpire" xml:space="preserve">
+    <value>神圣罗马帝国</value>
+  </data>
+  <data name="GamesList_Civ_Rus" xml:space="preserve">
+    <value>罗斯人</value>
+  </data>
+  <data name="GamesList_Civ_Ottomans" xml:space="preserve">
+    <value>奥斯曼人</value>
+  </data>
+  <data name="GamesList_Civ_Malians" xml:space="preserve">
+    <value>马里人</value>
+  </data>
+  <data name="GamesList_Civ_Byzantines" xml:space="preserve">
+    <value>拜占庭人</value>
+  </data>
+  <data name="GamesList_Civ_Japanese" xml:space="preserve">
+    <value>日本人</value>
+  </data>
+  <data name="GamesList_Civ_Ayyubids" xml:space="preserve">
+    <value>阿尤布人</value>
+  </data>
+  <data name="GamesList_Civ_JeanneDArc" xml:space="preserve">
+    <value>圣女贞德</value>
+  </data>
+  <data name="GamesList_Civ_OrderOfTheDragon" xml:space="preserve">
+    <value>龙之骑士团</value>
+  </data>
+  <data name="GamesList_Civ_ZhuXisLegacy" xml:space="preserve">
+    <value>朱子遗训</value>
+  </data>
+  <data name="GamesList_Civ_HouseOfLancaster" xml:space="preserve">
+    <value>兰开斯特王朝</value>
+  </data>
+  <data name="GamesList_Civ_KnightsTemplar" xml:space="preserve">
+    <value>圣殿骑士团</value>
+  </data>
+  <data name="GamesList_Civ_GoldenHorde" xml:space="preserve">
+    <value>金帐汗国</value>
+  </data>
+  <data name="GamesList_Civ_JinDynasty" xml:space="preserve">
+    <value>金朝</value>
+  </data>
+  <data name="GamesList_Civ_MacedonianDynasty" xml:space="preserve">
+    <value>马其顿王朝</value>
+  </data>
+  <data name="GamesList_Civ_SengokuDaimyo" xml:space="preserve">
+    <value>战国大名</value>
+  </data>
+  <data name="GamesList_Civ_TughlaqDynasty" xml:space="preserve">
+    <value>图格鲁克王朝</value>
+  </data>
+  <data name="GamesList_Map_Altai" xml:space="preserve">
+    <value>阿尔泰</value>
+  </data>
+  <data name="GamesList_Map_AncientSpires" xml:space="preserve">
+    <value>古代尖山</value>
+  </data>
+  <data name="GamesList_Map_BlackForest" xml:space="preserve">
+    <value>黑森林</value>
+  </data>
+  <data name="GamesList_Map_BoulderBay" xml:space="preserve">
+    <value>巨石湾</value>
+  </data>
+  <data name="GamesList_Map_Confluence" xml:space="preserve">
+    <value>汇流处</value>
+  </data>
+  <data name="GamesList_Map_DryRiver" xml:space="preserve">
+    <value>旱河</value>
+  </data>
+  <data name="GamesList_Map_FertileCrescent" xml:space="preserve">
+    <value>新月沃地</value>
+  </data>
+  <data name="GamesList_Map_Fimbulwinter" xml:space="preserve">
+    <value>芬布尔之冬</value>
+  </data>
+  <data name="GamesList_Map_FourLakes" xml:space="preserve">
+    <value>四个湖</value>
+  </data>
+  <data name="GamesList_Map_Gorge" xml:space="preserve">
+    <value>峡谷</value>
+  </data>
+  <data name="GamesList_Map_HillAndDale" xml:space="preserve">
+    <value>高山深谷</value>
+  </data>
+  <data name="GamesList_Map_Himeyama" xml:space="preserve">
+    <value>姬山</value>
+  </data>
+  <data name="GamesList_Map_Lipany" xml:space="preserve">
+    <value>利帕尼</value>
+  </data>
+  <data name="GamesList_Map_MongolianHeights" xml:space="preserve">
+    <value>蒙古高原</value>
+  </data>
+  <data name="GamesList_Map_Prairie" xml:space="preserve">
+    <value>草原</value>
+  </data>
+  <data name="GamesList_Map_Wetlands" xml:space="preserve">
+    <value>湿地</value>
+  </data>
+  <data name="GamesList_Map_DryArabia" xml:space="preserve">
+    <value>干燥阿拉伯</value>
+  </data>
+  <data name="GamesList_Map_RelicRiver" xml:space="preserve">
+    <value>遗迹河</value>
+  </data>
+  <data name="GamesList_Map_LandMegaRandom" xml:space="preserve">
+    <value>陆地超级随机</value>
+  </data>
+  <data name="GamesList_Map_SnakeRiver" xml:space="preserve">
+    <value>蛇河</value>
+    <comment>蛇河</comment>
+  </data>
+  <data name="GamesList_Map_Lakeside" xml:space="preserve">
+    <value>湖畔</value>
+  </data>
+  <data name="GamesList_Map_Highwoods" xml:space="preserve">
+    <value>茂密树林</value>
+  </data>
+  <data name="GamesList_Map_OceanGateway" xml:space="preserve">
+    <value>海之门户</value>
+  </data>
+  <data name="GamesList_Map_Craters" xml:space="preserve">
+    <value>陨石坑</value>
+  </data>
+  <data name="GamesList_Map_Carmel" xml:space="preserve">
+    <value>卡梅尔</value>
+  </data>
+  <data name="GamesList_Map_HiddenValley" xml:space="preserve">
+    <value>隐秘山谷</value>
+  </data>
+  <data name="GamesList_Map_Hedgemaze" xml:space="preserve">
+    <value>树林迷宫</value>
   </data>
 </root>

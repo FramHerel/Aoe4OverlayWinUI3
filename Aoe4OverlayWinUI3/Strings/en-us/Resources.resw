@@ -219,7 +219,6 @@
   <data name="Settings_Overlay_HotkeyErrorInfoBar.Title" xml:space="preserve">
     <value>Hotkey not saved</value>
   </data>
-  <!--  以下三条由代码通过 GetLocalized 读取，不能使用 x:Uid 前缀，否则 XAML 会当成属性名解析  -->
   <data name="Settings_HotkeyErrorInfoBar_InUseMessage" xml:space="preserve">
     <value>This key combination is used by another program, so it cannot be bound. The last working hotkey is kept.</value>
   </data>
@@ -264,5 +263,186 @@
   </data>
   <data name="GamesList_LoadErrorInfoBar_RetryButton.Content" xml:space="preserve">
     <value>Retry</value>
+  </data>
+  <data name="GamesList_Result_Win" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="GamesList_Result_Loss" xml:space="preserve">
+    <value>Loss</value>
+  </data>
+  <data name="GamesList_Result_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="GamesList_Kind_Rm1v1" xml:space="preserve">
+    <value>1v1 Ranked</value>
+  </data>
+  <data name="GamesList_Kind_Rm2v2" xml:space="preserve">
+    <value>2v2 Ranked</value>
+  </data>
+  <data name="GamesList_Kind_Rm3v3" xml:space="preserve">
+    <value>3v3 Ranked</value>
+  </data>
+  <data name="GamesList_Kind_Rm4v4" xml:space="preserve">
+    <value>4v4 Ranked</value>
+  </data>
+  <data name="GamesList_Kind_RmSolo" xml:space="preserve">
+    <value>Solo Ranked</value>
+  </data>
+  <data name="GamesList_Kind_RmTeam" xml:space="preserve">
+    <value>Team Ranked</value>
+  </data>
+  <data name="GamesList_Kind_RmFfa" xml:space="preserve">
+    <value>Free For All</value>
+  </data>
+  <data name="GamesList_Civ_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="GamesList_Civ_Chinese" xml:space="preserve">
+    <value>Chinese</value>
+  </data>
+  <data name="GamesList_Civ_DelhiSultanate" xml:space="preserve">
+    <value>Delhi Sultanate</value>
+  </data>
+  <data name="GamesList_Civ_Mongols" xml:space="preserve">
+    <value>Mongols</value>
+  </data>
+  <data name="GamesList_Civ_AbbasidDynasty" xml:space="preserve">
+    <value>Abbasid Dynasty</value>
+  </data>
+  <data name="GamesList_Civ_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="GamesList_Civ_HolyRomanEmpire" xml:space="preserve">
+    <value>Holy Roman Empire</value>
+  </data>
+  <data name="GamesList_Civ_Rus" xml:space="preserve">
+    <value>Rus</value>
+  </data>
+  <data name="GamesList_Civ_Ottomans" xml:space="preserve">
+    <value>Ottomans</value>
+  </data>
+  <data name="GamesList_Civ_Malians" xml:space="preserve">
+    <value>Malians</value>
+  </data>
+  <data name="GamesList_Civ_Byzantines" xml:space="preserve">
+    <value>Byzantines</value>
+  </data>
+  <data name="GamesList_Civ_Japanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="GamesList_Civ_Ayyubids" xml:space="preserve">
+    <value>Ayyubids</value>
+  </data>
+  <data name="GamesList_Civ_JeanneDArc" xml:space="preserve">
+    <value>Jeanne d'Arc</value>
+  </data>
+  <data name="GamesList_Civ_OrderOfTheDragon" xml:space="preserve">
+    <value>Order of the Dragon</value>
+  </data>
+  <data name="GamesList_Civ_ZhuXisLegacy" xml:space="preserve">
+    <value>Zhu Xi's Legacy</value>
+  </data>
+  <data name="GamesList_Civ_HouseOfLancaster" xml:space="preserve">
+    <value>House of Lancaster</value>
+  </data>
+  <data name="GamesList_Civ_KnightsTemplar" xml:space="preserve">
+    <value>Knights Templar</value>
+  </data>
+  <data name="GamesList_Civ_GoldenHorde" xml:space="preserve">
+    <value>Golden Horde</value>
+  </data>
+  <data name="GamesList_Civ_JinDynasty" xml:space="preserve">
+    <value>Jin Dynasty</value>
+  </data>
+  <data name="GamesList_Civ_MacedonianDynasty" xml:space="preserve">
+    <value>Macedonian Dynasty</value>
+  </data>
+  <data name="GamesList_Civ_SengokuDaimyo" xml:space="preserve">
+    <value>Sengoku Daimyo</value>
+  </data>
+  <data name="GamesList_Civ_TughlaqDynasty" xml:space="preserve">
+    <value>Tughlaq Dynasty</value>
+  </data>
+  <data name="GamesList_Map_Altai" xml:space="preserve">
+    <value>Altai</value>
+  </data>
+  <data name="GamesList_Map_AncientSpires" xml:space="preserve">
+    <value>Ancient Spires</value>
+  </data>
+  <data name="GamesList_Map_BlackForest" xml:space="preserve">
+    <value>Black Forest</value>
+  </data>
+  <data name="GamesList_Map_BoulderBay" xml:space="preserve">
+    <value>Boulder Bay</value>
+  </data>
+  <data name="GamesList_Map_Confluence" xml:space="preserve">
+    <value>Confluence</value>
+  </data>
+  <data name="GamesList_Map_DryRiver" xml:space="preserve">
+    <value>Dry River</value>
+  </data>
+  <data name="GamesList_Map_FertileCrescent" xml:space="preserve">
+    <value>Fertile Crescent</value>
+  </data>
+  <data name="GamesList_Map_Fimbulwinter" xml:space="preserve">
+    <value>Fimbulwinter</value>
+  </data>
+  <data name="GamesList_Map_FourLakes" xml:space="preserve">
+    <value>Four Lakes</value>
+  </data>
+  <data name="GamesList_Map_Gorge" xml:space="preserve">
+    <value>Gorge</value>
+  </data>
+  <data name="GamesList_Map_HillAndDale" xml:space="preserve">
+    <value>Hill and Dale</value>
+  </data>
+  <data name="GamesList_Map_Himeyama" xml:space="preserve">
+    <value>Himeyama</value>
+  </data>
+  <data name="GamesList_Map_Lipany" xml:space="preserve">
+    <value>Lipany</value>
+  </data>
+  <data name="GamesList_Map_MongolianHeights" xml:space="preserve">
+    <value>Mongolian Heights</value>
+  </data>
+  <data name="GamesList_Map_Prairie" xml:space="preserve">
+    <value>Prairie</value>
+  </data>
+  <data name="GamesList_Map_Wetlands" xml:space="preserve">
+    <value>Wetlands</value>
+  </data>
+  <data name="GamesList_Map_DryArabia" xml:space="preserve">
+    <value>Dry Arabia</value>
+  </data>
+  <data name="GamesList_Map_RelicRiver" xml:space="preserve">
+    <value>Relic River</value>
+  </data>
+  <data name="GamesList_Map_LandMegaRandom" xml:space="preserve">
+    <value>Land Mega Random</value>
+  </data>
+  <data name="GamesList_Map_SnakeRiver" xml:space="preserve">
+    <value>Snake River</value>
+    <comment>蛇河</comment>
+  </data>
+  <data name="GamesList_Map_Lakeside" xml:space="preserve">
+    <value>Lakeside</value>
+  </data>
+  <data name="GamesList_Map_Highwoods" xml:space="preserve">
+    <value>Highwoods</value>
+  </data>
+  <data name="GamesList_Map_OceanGateway" xml:space="preserve">
+    <value>Ocean Gateway</value>
+  </data>
+  <data name="GamesList_Map_Craters" xml:space="preserve">
+    <value>Craters</value>
+  </data>
+  <data name="GamesList_Map_Carmel" xml:space="preserve">
+    <value>Carmel</value>
+  </data>
+  <data name="GamesList_Map_HiddenValley" xml:space="preserve">
+    <value>Hidden Valley</value>
+  </data>
+  <data name="GamesList_Map_Hedgemaze" xml:space="preserve">
+    <value>Hedgemaze</value>
   </data>
 </root>
