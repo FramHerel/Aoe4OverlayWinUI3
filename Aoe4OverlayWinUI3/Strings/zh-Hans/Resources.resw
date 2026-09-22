@@ -157,7 +157,7 @@
     <value>关于</value>
   </data>
   <data name="Settings_About_SettingsExpander.Description" xml:space="preserve">
-    <value>© 2026 所有权利保留。</value>
+    <value>基于 MIT 许可证发布，© 2026 Fram Herel。</value>
   </data>
   <data name="Settings_Account_Header.Text" xml:space="preserve">
     <value>帐户</value>

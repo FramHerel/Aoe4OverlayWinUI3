@@ -157,7 +157,7 @@
     <value>About this application</value>
   </data>
   <data name="Settings_About_SettingsExpander.Description" xml:space="preserve">
-    <value>© 2026 All rights reserved.</value>
+    <value>Released under the MIT License. © 2026 Fram Herel.</value>
   </data>
   <data name="Settings_Account_Header.Text" xml:space="preserve">
     <value>Account</value>

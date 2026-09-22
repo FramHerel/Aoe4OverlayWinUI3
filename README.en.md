@@ -189,7 +189,7 @@
  
  ## 📄 License
  
- This project is for learning and personal use only.
+ This project is released under the [MIT License](License.md). You are free to use, modify, and distribute it, including for commercial purposes.
  
  API data is provided by [Aoe4World](https://aoe4world.com/). Thanks to the Aoe4World community for maintaining the public data API.
  
