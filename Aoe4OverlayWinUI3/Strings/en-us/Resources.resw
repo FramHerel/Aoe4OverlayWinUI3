@@ -422,7 +422,6 @@
   </data>
   <data name="GamesList_Map_SnakeRiver" xml:space="preserve">
     <value>Snake River</value>
-    <comment>蛇河</comment>
   </data>
   <data name="GamesList_Map_Lakeside" xml:space="preserve">
     <value>Lakeside</value>
@@ -444,5 +443,32 @@
   </data>
   <data name="GamesList_Map_Hedgemaze" xml:space="preserve">
     <value>Hedgemaze</value>
+  </data>
+  <data name="GamesList_Map_Cliffside" xml:space="preserve">
+    <value>Cliffside</value>
+  </data>
+  <data name="GamesList_Map_KingOfTheHill" xml:space="preserve">
+    <value>King Of The Hill</value>
+  </data>
+  <data name="GamesList_Map_DanubeRiver" xml:space="preserve">
+    <value>Danube River</value>
+  </data>
+  <data name="GamesList_Map_Flankwoods" xml:space="preserve">
+    <value>Flankwoods</value>
+  </data>
+  <data name="GamesList_Map_Continental" xml:space="preserve">
+    <value>Continental</value>
+  </data>
+  <data name="GamesList_Map_Atacama" xml:space="preserve">
+    <value>Atacama</value>
+  </data>
+  <data name="GamesList_Map_MountainClearing" xml:space="preserve">
+    <value>Mountain Clearing</value>
+  </data>
+  <data name="GamesList_Map_WestLake" xml:space="preserve">
+    <value>West Lake</value>
+  </data>
+  <data name="GamesList_Map_Hideout" xml:space="preserve">
+    <value>Hideout</value>
   </data>
 </root>

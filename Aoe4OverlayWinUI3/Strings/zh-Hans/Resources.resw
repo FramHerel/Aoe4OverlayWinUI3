@@ -445,4 +445,31 @@
   <data name="GamesList_Map_Hedgemaze" xml:space="preserve">
     <value>树林迷宫</value>
   </data>
+  <data name="GamesList_Map_Cliffside" xml:space="preserve">
+    <value>悬崖边</value>
+  </data>
+  <data name="GamesList_Map_KingOfTheHill" xml:space="preserve">
+    <value>占山为王</value>
+  </data>
+  <data name="GamesList_Map_DanubeRiver" xml:space="preserve">
+    <value>多瑙河</value>
+  </data>
+  <data name="GamesList_Map_Flankwoods" xml:space="preserve">
+    <value>弗兰克伍兹森林</value>
+  </data>
+  <data name="GamesList_Map_Continental" xml:space="preserve">
+    <value>大陆</value>
+  </data>
+  <data name="GamesList_Map_Atacama" xml:space="preserve">
+    <value>阿塔卡马</value>
+  </data>
+  <data name="GamesList_Map_MountainClearing" xml:space="preserve">
+    <value>山中空地</value>
+  </data>
+  <data name="GamesList_Map_WestLake" xml:space="preserve">
+    <value>西湖</value>
+  </data>
+  <data name="GamesList_Map_Hideout" xml:space="preserve">
+    <value>隐秘山谷</value>
+  </data>
 </root>
