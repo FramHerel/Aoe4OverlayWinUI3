@@ -31,6 +31,9 @@ public class OverlayService : IOverlayService
     private readonly SemaphoreSlim _saveLock = new(1, 1);
     private OverlayWindow _overlayWindow;
 
+    // 退出流程可能被重复触发，用该标记保证资源只释放一次
+    private bool _isShutDown;
+
     private System.Timers.Timer? _saveConfigTimer;
 
     public string CurrentHotkeyText { get; private set; } = "Ctrl + F12";
@@ -273,19 +276,51 @@ public class OverlayService : IOverlayService
     // 释放资源的方法
     public void ShutDown()
     {
+        // 保证只执行一次，重复调用直接返回
+        if (_isShutDown)
+        {
+            return;
+        }
+
+        _isShutDown = true;
+
         // 注销所有热键，防止内存泄漏或系统钩子残留
-        UnregisterHotkey("ToggleOverlay");
+        try
+        {
+            UnregisterHotkey("ToggleOverlay");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[OverlayService] Failed to unregister hotkey: {ex.Message}");
+        }
 
         if (_overlayWindow != null)
         {
-            _overlayWindow.AppWindow.Changed -= OnAppWindowChanged; // 注销事件
-            _overlayWindow.Close(); // Close 会触发释放逻辑
+            try
+            {
+                _overlayWindow.AppWindow.Changed -= OnAppWindowChanged; // 注销事件
+                _overlayWindow.Close(); // Close 会触发释放逻辑
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[OverlayService] Failed to close overlay window: {ex.Message}");
+            }
+
             _overlayWindow = null;
         }
 
-        _saveConfigTimer?.Stop();
-        _saveConfigTimer?.Dispose();
+        // 停止并释放保存计时器，避免它在窗口销毁后继续触发保存
+        try
+        {
+            _saveConfigTimer?.Stop();
+            _saveConfigTimer?.Dispose();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[OverlayService] Failed to dispose save timer: {ex.Message}");
+        }
 
+        _saveConfigTimer = null;
     }
 
     // 恢复窗口的方法

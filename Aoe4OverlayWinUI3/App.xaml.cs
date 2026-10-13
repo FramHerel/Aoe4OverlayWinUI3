@@ -126,7 +126,21 @@ public partial class App : Application
         {
             App.MainWindow.Closed += (s, e) =>
             {
-                Application.Current.Exit();
+                // 主窗口关闭即完整退出：先清理 Overlay（关闭窗口、注销热键、停止保存计时器），
+                // 再结束消息循环。Overlay 是同一进程的第二个顶层窗口，如果只调 Exit()，
+                // 它的关闭与清理只能依赖框架退出流程，可能残留窗口或让进程无法退出。
+                try
+                {
+                    App.GetService<IOverlayService>().ShutDown();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to shut down overlay service: {ex}");
+                }
+                finally
+                {
+                    Application.Current.Exit();
+                }
             };
         }
     }
